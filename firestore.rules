@@ -1,0 +1,54 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper to check for authentication
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper to check if a user is accessing their own UID document
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Helper to check project membership
+    function isProjectMember(projectId) {
+      return isAuthenticated() && 
+        request.auth.uid in get(/databases/$(database)/documents/projects/$(projectId)).data.memberIds;
+    }
+
+    // Project Documents
+    match /projects/{projectId} {
+      allow read: if isAuthenticated() && request.auth.uid in resource.data.memberIds;
+      allow create: if isAuthenticated();
+      allow update, delete: if isAuthenticated() && request.auth.uid in resource.data.memberIds;
+      
+      // Subcollections also inherit the same project-level membership check
+      match /{allSubcollections=**} {
+        allow read, write: if isProjectMember(projectId);
+      }
+    }
+
+    // Workspace Settings
+    match /settings/workspace {
+      allow read, write: if isAuthenticated();
+    }
+
+    // Global Collections
+    match /clients/{clientId} {
+      allow read, write: if isAuthenticated(); 
+    }
+
+    match /calendar_events/{eventId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // User profiles
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId);
+    }
+  }
+}

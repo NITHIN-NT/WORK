@@ -50,7 +50,7 @@ export default function ProjectLayout({
                 key={item.name}
                 href={href}
                 className={cn(
-                  "group flex items-center px-5 py-3 text-xs font-black uppercase tracking-widest rounded-xl transition-all duration-300",
+                  "group flex items-center px-5 py-3 text-xs font-black uppercase tracking-widest rounded-sm transition-all duration-300",
                   isActive
                     ? "bg-primary/5 text-primary shadow-sm border border-primary/10"
                     : "text-zinc-400 hover:bg-zinc-50 hover:text-foreground border border-transparent"

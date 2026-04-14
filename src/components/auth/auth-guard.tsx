@@ -3,25 +3,38 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/user";
 import { useRouter, usePathname } from "next/navigation";
+import { WelcomeScreen } from "@/components/ui/welcome-screen";
+import { useAppStore } from "@/store/app";
+import { cn } from "@/lib/utils";
+
+
+
+
 
 interface AuthGuardProps {
   children: React.ReactNode;
 }
 
 export function AuthGuard({ children }: AuthGuardProps) {
-  const { user, isLoading } = useAuthStore();
+  const { user, isLoading, isRevoked } = useAuthStore();
+
+  const { isDataReady } = useAppStore();
   const router = useRouter();
   const pathname = usePathname();
   const [isReady, setIsReady] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
+
+  // Check if we are on a public route
+  const PUBLIC_ROUTES = ['/login', '/register', '/share'];
+  const isPublicRoute = PUBLIC_ROUTES.some(route => pathname.startsWith(route));
+
+  // Access is explicitly denied ONLY if the user has no profile or is in 'Pending' status.
+  // If they are 'Revoked', we actually allow them to see the dashboard background (isAccessDenied = false)
+  // but we overlay the Lockdown UI.
 
   useEffect(() => {
-    // Check if we are on a public route
-    const PUBLIC_ROUTES = ['/login', '/register', '/share'];
-    const isPublicRoute = PUBLIC_ROUTES.some(route => pathname.startsWith(route));
-
     if (!isLoading) {
       if (!user && !isPublicRoute) {
-        // Redundant check with middleware for client-side snappiness
         router.replace(`/login?from=${pathname}`);
       } else if (user && (pathname === '/login' || pathname === '/register')) {
         router.replace("/");
@@ -29,18 +42,44 @@ export function AuthGuard({ children }: AuthGuardProps) {
         queueMicrotask(() => setIsReady(true));
       }
     }
-  }, [user, isLoading, pathname, router]);
+  }, [user, isLoading, pathname, router, isPublicRoute]);
 
-  if (isLoading || !isReady) {
-    return (
-      <div className="flex h-screen w-screen items-center justify-center bg-white">
-        <div className="flex flex-col items-center gap-4">
-          <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent shadow-xl" />
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 animate-pulse">Loading data...</p>
-        </div>
-      </div>
-    );
+  // Handle welcome screen completion
+  const handleWelcomeComplete = () => {
+    setShowWelcome(false);
+  };
+
+  // 1. Loading Phase
+  if (isLoading) {
+    return <WelcomeScreen onAnimationComplete={handleWelcomeComplete} isDataReady={false} />;
   }
 
-  return <>{children}</>;
+  // 2. Auth Success: Show Dashboard shell
+  // Note: Specific access states (Pending, Revoked) are handled inside DashboardLayout
+  // to ensure the sidebar and navigation shell remain visible.
+  return (
+    <>
+      {(showWelcome && !isRevoked) && (
+        <WelcomeScreen 
+          onAnimationComplete={handleWelcomeComplete} 
+          isDataReady={(isDataReady || isPublicRoute)} 
+        />
+      )}
+
+      
+      <div className={cn(
+        isReady ? "contents" : "hidden",
+        isRevoked && "pointer-events-none select-none"
+      )}>
+        {children}
+      </div>
+    </>
+  );
 }
+
+
+
+
+
+
+

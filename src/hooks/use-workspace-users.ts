@@ -1,17 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { db } from "@/lib/firebase";
-import { 
-  collection, 
-  onSnapshot, 
-  updateDoc, 
-  doc, 
-  query,
-  orderBy,
-  deleteDoc,
-  addDoc
-} from "firebase/firestore";
+import { supabase } from "@/lib/supabase";
 import { WorkspaceUser, UserRole } from "@/types/user";
 import { sendInviteEmailAction } from "@/actions/send-invite";
 
@@ -19,31 +9,43 @@ export function useWorkspaceUsers() {
   const [users, setUsers] = useState<WorkspaceUser[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const usersRef = collection(db, "users");
-    const q = query(usersRef, orderBy("name", "asc"));
+  const fetchUsers = useCallback(async () => {
+    const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .order('name', { ascending: true });
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const usersList = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-        lastSeen: doc.data().lastSeen?.toDate?.()?.toLocaleString() || doc.data().lastSeen || 'Never'
-      })) as WorkspaceUser[];
-      
-      setUsers(usersList);
-      setLoading(false);
-    }, (error) => {
-      console.error("Workspace users subscription error:", error);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
+    if (!error && data) {
+      const mappedUsers = (data as any[]).map(u => ({
+        ...u,
+        lastSeen: u.last_seen,
+        avatarUrl: u.avatar_url,
+      }));
+      setUsers(mappedUsers as WorkspaceUser[]);
+    }
+    setLoading(false);
   }, []);
+
+  useEffect(() => {
+    fetchUsers();
+
+    // Real-time updates for the team directory
+    const channel = supabase.channel('users_directory')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'users' }, () => {
+        fetchUsers();
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel) };
+  }, [fetchUsers]);
 
   const updateUserRole = useCallback(async (userId: string, role: UserRole) => {
     try {
-      const userRef = doc(db, "users", userId);
-      await updateDoc(userRef, { role });
+      const { error } = await supabase
+        .from('users')
+        .update({ role })
+        .eq('id', userId);
+      if (error) throw error;
     } catch (error) {
       console.error("Failed to update user role:", error);
     }
@@ -51,8 +53,11 @@ export function useWorkspaceUsers() {
 
   const updateUserStatus = useCallback(async (userId: string, status: string) => {
     try {
-      const userRef = doc(db, "users", userId);
-      await updateDoc(userRef, { status });
+      const { error } = await supabase
+        .from('users')
+        .update({ status })
+        .eq('id', userId);
+      if (error) throw error;
     } catch (error) {
       console.error("Failed to update user status:", error);
     }
@@ -60,8 +65,11 @@ export function useWorkspaceUsers() {
 
   const removeUser = useCallback(async (userId: string) => {
     try {
-      const userRef = doc(db, "users", userId);
-      await deleteDoc(userRef);
+      const { error } = await supabase
+        .from('users')
+        .delete()
+        .eq('id', userId);
+      if (error) throw error;
     } catch (error) {
       console.error("Failed to remove user:", error);
     }
@@ -69,28 +77,33 @@ export function useWorkspaceUsers() {
 
   const inviteUser = useCallback(async (email: string, role: string) => {
     try {
+      // 1. Dispatch the email via Resend
       const emailResult = await sendInviteEmailAction(email, role);
       if (!emailResult.success) {
         throw new Error("Failed to dispatch email");
       }
 
-      const usersRef = collection(db, "users");
-      const newUser = {
-        name: email.split('@')[0],
-        email: email,
-        role: role,
-        status: 'Pending',
-        lastSeen: new Date(),
-      };
+      // 2. Pre-add the user record to Supabase with 'Pending' status
+      const { error } = await supabase
+        .from('users')
+        .insert([
+          {
+            id: `pending_${Math.random().toString(36).substring(7)}`, // Temporary ID until they sign in
+            name: email.split('@')[0],
+            email: email,
+            role: role,
+            status: 'Pending',
+          }
+        ]);
       
-      // Fire-and-forget to prevent Firestore hanging on offline/dev mode
-      addDoc(usersRef, newUser).catch(err => console.error("Firebase write error:", err));
+      if (error) throw error;
       
     } catch (error) {
       console.error("Failed to invite user:", error);
-      throw error; // Rethrow to let UI catch it
+      throw error;
     }
   }, []);
 
   return { users, loading, updateUserRole, updateUserStatus, removeUser, inviteUser };
 }
+

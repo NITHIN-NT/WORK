@@ -22,11 +22,11 @@ export default function ProjectCalendar() {
         </div>
         
         <div className="flex gap-3">
-          <Button variant="outline" className="border-border bg-white text-zinc-600 font-bold px-6 h-11 rounded-xl shadow-sm hover:bg-zinc-50 transition-all">
+          <Button variant="outline" className="border-border bg-white text-zinc-600 font-bold px-6 h-11 rounded-sm shadow-sm hover:bg-zinc-50 transition-all">
             <Filter className="w-4 h-4 mr-2" />
             Filter
           </Button>
-          <Button variant="outline" className="border-border bg-white text-zinc-600 font-bold px-6 h-11 rounded-xl shadow-sm hover:bg-zinc-50 transition-all">
+          <Button variant="outline" className="border-border bg-white text-zinc-600 font-bold px-6 h-11 rounded-sm shadow-sm hover:bg-zinc-50 transition-all">
             <List className="w-4 h-4 mr-2" />
             Agenda View
           </Button>

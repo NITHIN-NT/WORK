@@ -58,9 +58,9 @@ export function TaskBoard({ tasks, initializeTaskCreation, dispatchTaskAudit }: 
               </div>
             </div>
 
-            <div className="flex-1 bg-white/40 rounded-3xl border border-border/60 p-4 space-y-4 overflow-y-auto no-scrollbar">
+            <div className="flex-1 bg-white/40 rounded-sm border border-border/60 p-4 space-y-4 overflow-y-auto no-scrollbar">
               {stageTasks.length === 0 ? (
-                <div className="group h-32 flex flex-col items-center justify-center border border-dashed border-border/50 rounded-2xl hover:border-primary/50 transition-colors">
+                <div className="group h-32 flex flex-col items-center justify-center border border-dashed border-border/50 rounded-sm hover:border-primary/50 transition-colors">
                   <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest opacity-60">Null Vector</p>
                 </div>
               ) : (
@@ -71,7 +71,7 @@ export function TaskBoard({ tasks, initializeTaskCreation, dispatchTaskAudit }: 
               
               <Button 
                 variant="ghost" 
-                className="w-full justify-start text-[11px] font-black uppercase tracking-[0.1em] text-zinc-400 hover:text-primary hover:bg-primary/5 h-11 px-4 mt-2 border border-transparent hover:border-primary/10 rounded-xl"
+                className="w-full justify-start text-[11px] font-black uppercase tracking-[0.1em] text-zinc-400 hover:text-primary hover:bg-primary/5 h-11 px-4 mt-2 border border-transparent hover:border-primary/10 rounded-sm"
                 onClick={() => initializeTaskCreation(status)}
               >
                 <Plus className="h-4 w-4 mr-3" />

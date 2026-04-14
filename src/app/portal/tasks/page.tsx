@@ -34,13 +34,13 @@ export default function PortalTasksPage() {
   if (loading) {
     return (
       <div className="space-y-10 animate-in fade-in duration-150">
-        <Skeleton className="h-12 w-64 rounded-xl" />
+        <Skeleton className="h-12 w-64 rounded-sm" />
         <div className="flex gap-4">
-          <Skeleton className="h-12 flex-1 rounded-xl" />
-          <Skeleton className="h-12 w-32 rounded-xl" />
+          <Skeleton className="h-12 flex-1 rounded-sm" />
+          <Skeleton className="h-12 w-32 rounded-sm" />
         </div>
         <div className="space-y-4">
-          {[1, 2, 3, 4, 5].map(i => <Skeleton key={i} className="h-20 w-full rounded-2xl" />)}
+          {[1, 2, 3, 4, 5].map(i => <Skeleton key={i} className="h-20 w-full rounded-sm" />)}
         </div>
       </div>
     );
@@ -55,14 +55,14 @@ export default function PortalTasksPage() {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row items-center gap-4 bg-white p-4 rounded-2xl border border-border/60">
+      <div className="flex flex-col md:flex-row items-center gap-4 bg-white p-4 rounded-sm border border-border/60">
         <div className="relative flex-1 w-full group">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
           <Input 
             placeholder="Filter by task title..." 
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="pl-12 h-12 bg-zinc-50 border-none rounded-xl text-sm font-bold shadow-none focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all"
+            className="pl-12 h-12 bg-zinc-50 border-none rounded-sm text-sm font-bold shadow-none focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all"
           />
         </div>
         <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto">
@@ -73,7 +73,7 @@ export default function PortalTasksPage() {
               size="sm"
               onClick={() => setStatusFilter(status)}
               className={cn(
-                "h-10 px-4 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                "h-10 px-4 rounded-sm text-[10px] font-black uppercase tracking-widest transition-all",
                 statusFilter === status 
                   ? "bg-zinc-900 text-white shadow-lg" 
                   : "text-zinc-400 hover:text-foreground hover:bg-zinc-100"
@@ -85,7 +85,7 @@ export default function PortalTasksPage() {
         </div>
       </div>
 
-      <Card className="border-border/60 shadow-none rounded-[2.5rem] bg-white overflow-hidden">
+      <Card className="border-border/60 shadow-none rounded-md bg-white overflow-hidden">
         <CardContent className="p-0">
           <div className="divide-y divide-border/40">
             {filteredTasks.length === 0 ? (
@@ -98,7 +98,7 @@ export default function PortalTasksPage() {
                 <div key={task.id} className="p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:bg-zinc-50/50 transition-all group">
                   <div className="flex items-start gap-6">
                     <div className={cn(
-                      "h-14 w-14 rounded-2xl flex items-center justify-center border transition-all flex-shrink-0 shadow-sm",
+                      "h-14 w-14 rounded-sm flex items-center justify-center border transition-all flex-shrink-0 shadow-sm",
                       task.status === 'Completed' ? "bg-emerald-50 border-emerald-100 text-emerald-600" :
                       task.status === 'In Progress' ? "bg-primary/5 border-primary/20 text-primary" :
                       "bg-zinc-50 border-zinc-200 text-zinc-300 group-hover:bg-white group-hover:text-zinc-600"
@@ -142,7 +142,7 @@ export default function PortalTasksPage() {
                       </p>
                     </div>
                     {task.status !== 'Completed' && (
-                      <Button variant="outline" size="sm" className="h-9 px-4 rounded-xl border-zinc-100 shadow-none text-[9px] font-black uppercase tracking-widest hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all">
+                      <Button variant="outline" size="sm" className="h-9 px-4 rounded-sm border-zinc-100 shadow-none text-[9px] font-black uppercase tracking-widest hover:bg-zinc-900 hover:text-white hover:border-zinc-900 transition-all">
                         Request Pulse
                       </Button>
                     )}

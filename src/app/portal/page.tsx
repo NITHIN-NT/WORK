@@ -27,14 +27,14 @@ export default function PortalDashboard() {
     return (
       <div className="space-y-10 animate-in fade-in duration-150">
         <div className="flex justify-between items-center">
-          <Skeleton className="h-12 w-64 rounded-xl" />
+          <Skeleton className="h-12 w-64 rounded-sm" />
         </div>
         <div className="grid gap-6 md:grid-cols-4">
-          {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-36 w-full rounded-2xl" />)}
+          {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-36 w-full rounded-sm" />)}
         </div>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-7 border-t border-border pt-10">
-          <Skeleton className="col-span-4 h-96 rounded-3xl" />
-          <Skeleton className="col-span-3 h-96 rounded-3xl" />
+          <Skeleton className="col-span-4 h-96 rounded-sm" />
+          <Skeleton className="col-span-3 h-96 rounded-sm" />
         </div>
       </div>
     );
@@ -43,14 +43,14 @@ export default function PortalDashboard() {
   if (!clientId) {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center text-center px-4">
-        <div className="h-20 w-20 rounded-3xl bg-amber-50 flex items-center justify-center mb-8 border border-amber-100">
+        <div className="h-20 w-20 rounded-sm bg-amber-50 flex items-center justify-center mb-8 border border-amber-100">
           <FileText className="h-10 w-10 text-amber-500" />
         </div>
         <h1 className="text-3xl font-black text-foreground tracking-tight mb-3">No Entity Association Found</h1>
         <p className="max-w-md text-zinc-500 font-medium leading-relaxed mb-8">
           Your account is not currently associated with an active client entity. Please contact your account manager to activate portal access.
         </p>
-        <Button className="bg-zinc-900 text-white font-black px-8 h-12 rounded-xl">
+        <Button className="bg-zinc-900 text-white font-black px-8 h-12 rounded-sm">
           Contact Support
         </Button>
       </div>
@@ -110,10 +110,10 @@ export default function PortalDashboard() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <Button variant="outline" className="h-11 px-6 rounded-xl font-bold text-xs border-border shadow-none">
+          <Button variant="outline" className="h-11 px-6 rounded-sm font-bold text-xs border-border shadow-none">
             Support Ticket
           </Button>
-          <Button className="h-11 px-6 rounded-xl font-black text-xs bg-primary text-white shadow-lg shadow-primary/20">
+          <Button className="h-11 px-6 rounded-sm font-black text-xs bg-primary text-white shadow-lg shadow-primary/20">
             Request Change
           </Button>
         </div>
@@ -125,7 +125,7 @@ export default function PortalDashboard() {
           <Card 
             key={stat.title} 
             className={cn(
-              "group bg-white border-border/60 shadow-none transition-all duration-300 hover:border-zinc-300 rounded-3xl",
+              "group bg-white border-border/60 shadow-none transition-all duration-300 hover:border-zinc-300 rounded-sm",
               stat.borderColor
             )}
           >
@@ -133,7 +133,7 @@ export default function PortalDashboard() {
               <CardDescription className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400">
                 {stat.title}
               </CardDescription>
-              <div className={cn("p-2.5 rounded-2xl transition-all group-hover:bg-zinc-900 group-hover:text-white", stat.bgColor)}>
+              <div className={cn("p-2.5 rounded-sm transition-all group-hover:bg-zinc-900 group-hover:text-white", stat.bgColor)}>
                 <stat.icon className={cn("w-4 h-4", stat.color, "group-hover:text-white")} />
               </div>
             </CardHeader>
@@ -149,7 +149,7 @@ export default function PortalDashboard() {
       </div>
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="lg:col-span-4 border-border/60 shadow-none rounded-3xl bg-white overflow-hidden">
+        <Card className="lg:col-span-4 border-border/60 shadow-none rounded-sm bg-white overflow-hidden">
           <CardHeader className="flex flex-row items-center justify-between pb-8 bg-zinc-50/50 border-b border-border/40 mb-6">
             <div className="space-y-1">
               <CardTitle className="text-2xl font-black text-foreground tracking-tighter">Your Projects</CardTitle>
@@ -166,15 +166,15 @@ export default function PortalDashboard() {
           <CardContent className="px-6 pb-6">
             <div className="space-y-4">
               {projects.length === 0 ? (
-                <div className="py-20 flex flex-col items-center justify-center border border-dashed border-border rounded-2xl bg-zinc-50/30">
+                <div className="py-20 flex flex-col items-center justify-center border border-dashed border-border rounded-sm bg-zinc-50/30">
                   <p className="text-[10px] font-black text-zinc-300 uppercase tracking-[0.3em]">Project Repository Empty</p>
                 </div>
               ) : (
                 projects.slice(0, 3).map((project) => (
-                  <div key={project.id} className="group p-6 rounded-2xl bg-white hover:bg-zinc-50 transition-all border border-border/60 hover:border-primary/20">
+                  <div key={project.id} className="group p-6 rounded-sm bg-white hover:bg-zinc-50 transition-all border border-border/60 hover:border-primary/20">
                     <div className="flex items-center justify-between mb-6">
                       <div className="flex items-center gap-5">
-                        <div className="h-12 w-12 rounded-2xl bg-zinc-50 flex items-center justify-center border border-border group-hover:bg-white transition-all">
+                        <div className="h-12 w-12 rounded-sm bg-zinc-50 flex items-center justify-center border border-border group-hover:bg-white transition-all">
                           <Briefcase className="h-5 w-5 text-zinc-400 group-hover:text-primary" />
                         </div>
                         <div>
@@ -208,7 +208,7 @@ export default function PortalDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="lg:col-span-3 border-border/60 shadow-none rounded-3xl bg-white h-fit">
+        <Card className="lg:col-span-3 border-border/60 shadow-none rounded-sm bg-white h-fit">
           <CardHeader className="pb-8">
             <CardTitle className="text-2xl font-black text-foreground tracking-tighter">Active Tasks</CardTitle>
             <CardDescription className="text-[9px] font-black text-zinc-400 uppercase tracking-[0.2em]">Items currently in development pipeline.</CardDescription>
@@ -216,12 +216,12 @@ export default function PortalDashboard() {
           <CardContent>
             <div className="space-y-4">
               {tasks.length === 0 ? (
-                <div className="py-20 flex flex-col items-center justify-center border border-dashed border-border rounded-3xl">
+                <div className="py-20 flex flex-col items-center justify-center border border-dashed border-border rounded-sm">
                   <p className="text-[9px] font-black text-zinc-300 uppercase tracking-[0.2em]">Zero Queue</p>
                 </div>
               ) : (
                 tasks.slice(0, 5).map((task) => (
-                  <div key={task.id} className="flex items-center gap-4 p-4 rounded-xl bg-zinc-50 border border-transparent hover:border-border/50 transition-all">
+                  <div key={task.id} className="flex items-center gap-4 p-4 rounded-sm bg-zinc-50 border border-transparent hover:border-border/50 transition-all">
                     <div className={cn(
                       "h-2 w-2 rounded-full",
                       task.status === 'Completed' ? "bg-emerald-500" : 

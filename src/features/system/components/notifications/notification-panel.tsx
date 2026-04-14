@@ -36,7 +36,7 @@ export function NotificationPanel() {
       {isOpen && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-          <div className="absolute right-0 mt-4 w-80 sm:w-96 bg-white border border-border rounded-2xl shadow-xl z-50 overflow-hidden">
+          <div className="absolute right-0 mt-4 w-80 sm:w-96 bg-white border border-border rounded-sm shadow-xl z-50 overflow-hidden">
             <div className="flex items-center justify-between px-6 py-5 border-b border-border/50">
               <h3 className="text-[11px] font-black text-foreground uppercase tracking-[0.2em]">Notifications</h3>
               <button 

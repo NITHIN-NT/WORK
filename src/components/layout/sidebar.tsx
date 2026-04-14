@@ -3,17 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, Folder, Users, Calendar, Settings, FileText, Activity } from "lucide-react";
-
-const mainNav = [
-  { name: "Dashboard", href: "/", icon: LayoutDashboard },
-  { name: "Projects", href: "/projects", icon: Folder },
-  { name: "Calendar", href: "/calendar", icon: Calendar },
-  { name: "Tasks", href: "/tasks", icon: Activity },
-  { name: "Invoices", href: "/invoices", icon: FileText },
-  { name: "Clients", href: "/clients", icon: Users },
-  { name: "Settings", href: "/settings", icon: Settings },
-];
+import { useAuth } from "@/lib/auth";
+import { useAuthStore } from "@/store/user";
+import { LayoutDashboard, Folder, Users, Calendar, Settings, FileText, Activity, Users2, LogOut } from "lucide-react";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -21,9 +13,33 @@ interface SidebarProps {
 }
 
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
+
   const pathname = usePathname();
+  const { profile } = useAuthStore();
+  const { revokeIdentitySession } = useAuth();
+  const isAdmin = profile?.role === 'Administrator';
+
+  // Base navigation for everyone
+  const navItems = [
+    { name: "Dashboard", href: "/", icon: LayoutDashboard },
+    { name: "Clients", href: "/clients", icon: Users },
+    { name: "Projects", href: "/projects", icon: Folder },
+    { name: "Tasks", href: "/tasks", icon: Activity },
+    { name: "Invoices", href: "/invoices", icon: FileText },
+    { name: "Calendar", href: "/calendar", icon: Calendar },
+  ];
+
+  // Add Team & Miscellaneous links for Admins
+  if (isAdmin) {
+    navItems.push({ name: "Team", href: "/team", icon: Users2 });
+    navItems.push({ name: "Miscellaneous", href: "/team/miscellaneous", icon: Settings });
+  }
+
+  // Settings is always at the bottom
+  navItems.push({ name: "Settings", href: "/settings", icon: Settings });
 
   return (
+
     <>
       {/* Mobile Backdrop */}
       <div 
@@ -47,15 +63,17 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           </div>
           <nav className="flex-1 px-4 space-y-2">
             <div className="space-y-1.5">
-              {mainNav.map((item) => {
-                const isActive = pathname === item.href || (pathname.startsWith(item.href) && item.href !== "/");
+              {navItems.map((item) => {
+                const isActive = item.href === "/" 
+                  ? pathname === "/" 
+                  : (item.href === "/team" ? pathname === "/team" : pathname.startsWith(item.href));
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
                     onClick={onClose}
                     className={cn(
-                      "group flex items-center px-4 py-3 text-[11.5px] font-black uppercase tracking-[0.15em] rounded-2xl transition-all duration-300 border",
+                      "group flex items-center px-4 py-3 text-[11.5px] font-black uppercase tracking-[0.15em] rounded-sm transition-all duration-300 border",
                       isActive
                         ? "bg-primary/5 text-primary border-primary/10 shadow-sm"
                         : "text-zinc-500 border-transparent hover:bg-zinc-50 hover:text-foreground hover:border-zinc-100"
@@ -75,10 +93,19 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             </div>
           </nav>
           
-          <div className="px-6 py-8 mt-auto border-t border-border">
-            <div className="bg-zinc-50 rounded-2xl p-4 border border-border">
-              <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-1">Current Plan</p>
-              <p className="text-xs font-black text-foreground">Professional Plan 0.1</p>
+          <div className="px-6 py-8 mt-auto border-t border-border group/footer">
+            <div className="bg-zinc-50 rounded-sm p-4 border border-border flex items-center justify-between group-hover/footer:bg-white transition-all">
+              <div>
+                <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-1">Access Protocol</p>
+                <p className="text-xs font-black text-foreground">{profile?.role || 'Personnel'}</p>
+              </div>
+              <button 
+                onClick={() => revokeIdentitySession()}
+                className="h-8 w-8 rounded-sm flex items-center justify-center text-zinc-400 hover:text-rose-500 hover:bg-rose-500/5 transition-all outline-none"
+                title="Sign Out"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
             </div>
           </div>
         </div>

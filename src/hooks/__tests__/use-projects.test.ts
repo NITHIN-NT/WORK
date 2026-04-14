@@ -22,11 +22,11 @@ describe('useProjects Integration', () => {
 
   it('fetches projects automatically when user is authenticated', async () => {
     // Setup Mock User
-    (useAuthStore as any).mockReturnValue({ user: { uid: 'u1' } });
+    (useAuthStore as unknown as { mockReturnValue: (val: unknown) => void }).mockReturnValue({ user: { uid: 'u1' } });
     
     // Catch the subscription callback payload
-    let capturedCallback: any;
-    (ProjectService.subscribeToProjects as any).mockImplementation((uid: string, cb: any) => {
+    let capturedCallback: (data: unknown) => void;
+    (ProjectService.subscribeToProjects as unknown as { mockImplementation: (fn: unknown) => void }).mockImplementation((_uid: string, cb: (data: unknown) => void) => {
       capturedCallback = cb;
       return vi.fn(); // Mock unsubscribe cleanup function
     });
@@ -48,7 +48,7 @@ describe('useProjects Integration', () => {
   });
 
   it('does not attempt fetching if there is no authenticated user', () => {
-    (useAuthStore as any).mockReturnValue({ user: null });
+    (useAuthStore as unknown as { mockReturnValue: (val: unknown) => void }).mockReturnValue({ user: null });
     
     const { result } = renderHook(() => useProjects());
 

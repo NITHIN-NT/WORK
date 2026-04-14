@@ -67,7 +67,7 @@ export function GlobalSearch() {
     <>
       <button 
         onClick={handleSearchToggle}
-        className="flex items-center gap-4 px-4 py-2 rounded-xl bg-zinc-100 border border-border hover:border-zinc-300 transition-all text-zinc-500 hover:text-foreground w-full max-w-sm group"
+        className="flex items-center gap-4 px-4 py-2 rounded-sm bg-zinc-100 border border-border hover:border-zinc-300 transition-all text-zinc-500 hover:text-foreground w-full max-w-sm group"
       >
         <Search className="h-4 w-4 shrink-0 transition-colors group-hover:text-primary" />
         <span className="text-[11px] font-black uppercase tracking-[0.15em] opacity-60 truncate">
@@ -85,7 +85,7 @@ export function GlobalSearch() {
             onClick={() => setIsOpen(false)} 
           />
           <div 
-            className="relative w-full max-w-2xl bg-white border border-border rounded-3xl shadow-2xl overflow-hidden"
+            className="relative w-full max-w-2xl bg-white border border-border rounded-sm shadow-2xl overflow-hidden"
           >
             <div className="p-6 border-b border-border/50 flex items-center gap-4">
               <Search className="h-6 w-6 text-primary" />
@@ -98,7 +98,7 @@ export function GlobalSearch() {
               />
               <button 
                 onClick={() => setIsOpen(false)} 
-                className="h-10 w-10 flex items-center justify-center bg-zinc-50 border border-border rounded-xl text-zinc-400 hover:text-foreground transition-all"
+                className="h-10 w-10 flex items-center justify-center bg-zinc-50 border border-border rounded-sm text-zinc-400 hover:text-foreground transition-all"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -115,9 +115,9 @@ export function GlobalSearch() {
                     <button
                       key={`${res.type}-${res.id}`}
                       onClick={() => navigateToResult(res)}
-                      className="w-full flex items-center gap-6 px-5 py-4 rounded-2xl hover:bg-zinc-50 transition-all text-left group"
+                      className="w-full flex items-center gap-6 px-5 py-4 rounded-sm hover:bg-zinc-50 transition-all text-left group"
                     >
-                      <div className="h-12 w-12 rounded-xl bg-zinc-100 border border-border flex items-center justify-center group-hover:bg-white group-hover:border-primary/20 transition-all">
+                      <div className="h-12 w-12 rounded-sm bg-zinc-100 border border-border flex items-center justify-center group-hover:bg-white group-hover:border-primary/20 transition-all">
                         {res.type === 'project' && <Briefcase className="h-5 w-5 text-zinc-500" />}
                         {res.type === 'document' && <FileText className="h-5 w-5 text-zinc-500" />}
                       </div>

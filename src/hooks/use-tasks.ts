@@ -8,6 +8,7 @@ import { TaskService } from '@/services/task.service';
 /**
  * Domain-driven hook for orchestration of task states and synchronization.
  */
+
 export function useTasks(projectId: string) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);

@@ -28,10 +28,10 @@ export default function Globals() {
       <div className="space-y-12">
         <div className="flex justify-between items-center">
           <Skeleton className="h-10 w-64" />
-          <Skeleton className="h-12 w-40 rounded-xl" />
+          <Skeleton className="h-12 w-40 rounded-sm" />
         </div>
         <div className="grid gap-8 md:grid-cols-3">
-          {[1, 2, 3].map(i => <Skeleton key={i} className="h-40 rounded-3xl" />)}
+          {[1, 2, 3].map(i => <Skeleton key={i} className="h-40 rounded-sm" />)}
         </div>
       </div>
     );
@@ -41,21 +41,21 @@ export default function Globals() {
     <div className="space-y-12">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
         <div>
-          <h1 className="text-4xl font-bold tracking-tight text-foreground mb-2">s</h1>
+          <h1 className="text-4xl font-bold tracking-tight text-foreground mb-2">Tasks</h1>
           <p className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400">Manage and track your tasks across all projects.</p>
         </div>
         
         <div className="flex gap-4">
-          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-10 h-14 rounded-2xl shadow-none">
+          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-10 h-14 rounded-sm shadow-none">
             <Plus className="w-5 h-5 mr-3" />
             New </Button>
         </div>
       </div>
 
       <div className="grid gap-8 md:grid-cols-3">
-        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-3xl overflow-hidden">
+        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-sm overflow-hidden">
           <CardContent className="p-8 flex items-center gap-6">
-            <div className="h-14 w-14 rounded-2xl bg-zinc-50 border border-border flex items-center justify-center">
+            <div className="h-14 w-14 rounded-sm bg-zinc-50 border border-border flex items-center justify-center">
               <Clock className="w-6 h-6 text-zinc-400" />
             </div>
             <div>
@@ -64,9 +64,9 @@ export default function Globals() {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-3xl overflow-hidden">
+        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-sm overflow-hidden">
           <CardContent className="p-8 flex items-center gap-6">
-            <div className="h-14 w-14 rounded-2xl bg-zinc-50 border border-border flex items-center justify-center">
+            <div className="h-14 w-14 rounded-sm bg-zinc-50 border border-border flex items-center justify-center">
               <AlertTriangle className="w-6 h-6 text-rose-500" />
             </div>
             <div>
@@ -75,9 +75,9 @@ export default function Globals() {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-3xl overflow-hidden">
+        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-sm overflow-hidden">
           <CardContent className="p-8 flex items-center gap-6">
-            <div className="h-14 w-14 rounded-2xl bg-zinc-50 border border-border flex items-center justify-center">
+            <div className="h-14 w-14 rounded-sm bg-zinc-50 border border-border flex items-center justify-center">
               <CheckSquare className="w-6 h-6 text-emerald-600" />
             </div>
             <div>
@@ -89,22 +89,22 @@ export default function Globals() {
       </div>
 
       <div className="space-y-8">
-        <div className="flex flex-col sm:flex-row gap-6 bg-white p-6 rounded-3xl border border-border/60">
+        <div className="flex flex-col sm:flex-row gap-6 bg-white p-6 rounded-sm border border-border/60">
           <div className="relative flex-1 group">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
             <Input 
               placeholder="Search tasks..." 
-              className="pl-12 h-12 bg-zinc-50/50 border-border rounded-xl text-sm font-bold shadow-none focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all"
+              className="pl-12 h-12 bg-zinc-50/50 border-border rounded-sm text-sm font-bold shadow-none focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all"
             />
           </div>
-          <Button variant="outline" className="border-border bg-white text-zinc-500 font-bold px-8 h-12 rounded-xl hover:bg-zinc-50 shadow-none">
+          <Button variant="outline" className="border-border bg-white text-zinc-500 font-bold px-8 h-12 rounded-sm hover:bg-zinc-50 shadow-none">
             <Filter className="w-4 h-4 mr-3" />
             Filter
           </Button>
         </div>
 
         {tasks.length === 0 ? (
-          <div className="py-24 flex flex-col items-center justify-center border border-dashed border-border rounded-3xl bg-white/50">
+          <div className="py-24 flex flex-col items-center justify-center border border-dashed border-border rounded-sm bg-white/50">
             <CheckSquare className="h-12 w-12 text-zinc-200 mb-6" />
             <p className="text-[11px] font-black text-zinc-400 uppercase tracking-[0.2em]">No tasks found</p>
           </div>
@@ -112,9 +112,9 @@ export default function Globals() {
           <div className="space-y-4">
             {tasks.map((task) => (
               <Link href={`/projects/${task.projectId}/tasks`} key={task.id} className="block group">
-                <div className="flex items-center justify-between p-6 bg-white border border-border/60 rounded-2xl hover:border-primary/30 transition-all shadow-none">
+                <div className="flex items-center justify-between p-6 bg-white border border-border/60 rounded-sm hover:border-primary/30 transition-all shadow-none">
                   <div className="flex items-center gap-6">
-                    <div className="h-12 w-12 rounded-xl bg-zinc-50 border border-border flex items-center justify-center group-hover:bg-white transition-colors">
+                    <div className="h-12 w-12 rounded-sm bg-zinc-50 border border-border flex items-center justify-center group-hover:bg-white transition-colors">
                       <CheckSquare className={cn("w-5 h-5", task.status === 'Completed' ? "text-emerald-500" : "text-zinc-400")} />
                     </div>
                     <div>
@@ -133,7 +133,7 @@ export default function Globals() {
                       <p className="text-[9px] font-black text-zinc-300 uppercase tracking-[0.2em] leading-none mb-1.5 text-right">Status</p>
                       <p className="text-[11px] font-black text-foreground uppercase tracking-wider">{task.status}</p>
                     </div>
-                    <div className="h-10 w-10 rounded-xl bg-zinc-50 border border-border flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-all">
+                    <div className="h-10 w-10 rounded-sm bg-zinc-50 border border-border flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-all">
                       <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-white transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </div>
                   </div>

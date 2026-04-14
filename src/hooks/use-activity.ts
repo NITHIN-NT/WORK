@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { db } from "@/lib/firebase";
-import { collection, query, orderBy, onSnapshot, limit } from "firebase/firestore";
+import { supabase } from "@/lib/supabase";
 import { ActivityLog } from "@/types/activity";
 
 export function useActivity(projectId: string) {
@@ -10,23 +9,36 @@ export function useActivity(projectId: string) {
   useEffect(() => {
     if (!projectId) return;
 
-    const activityRef = collection(db, "projects", projectId, "activity");
-    const q = query(activityRef, orderBy("timestamp", "desc"), limit(50));
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const logs = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-        // Convert Firestore timestamp to ISO string for the UI
-        timestamp: doc.data().timestamp?.toDate().toISOString() || new Date().toISOString()
-      })) as ActivityLog[];
+    const fetchActivities = async () => {
+      const { data, error } = await supabase
+        .from('activities')
+        .select('*')
+        .eq('project_id', projectId)
+        .order('created_at', { ascending: false })
+        .limit(50);
       
-      setActivities(logs);
+      if (!error && data) {
+        setActivities(data as unknown as ActivityLog[]);
+      }
       setLoading(false);
-    });
+    };
 
-    return () => unsubscribe();
+    fetchActivities();
+
+    const channel = supabase.channel(`activity_${projectId}`)
+      .on('postgres_changes', { 
+        event: 'INSERT', 
+        schema: 'public', 
+        table: 'activities',
+        filter: `project_id=eq.${projectId}`
+      }, () => {
+        fetchActivities();
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel) };
   }, [projectId]);
 
   return { activities, loading };
 }
+

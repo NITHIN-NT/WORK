@@ -1,11 +1,4 @@
-import { db } from "@/lib/firebase";
-import { 
-  collection, 
-  onSnapshot, 
-  query, 
-  where, 
-  orderBy 
-} from "firebase/firestore";
+import { supabase } from "@/lib/supabase";
 import { Project } from "@/types/project";
 import { Invoice } from "@/types/invoice";
 import { Task } from "@/types/task";
@@ -14,55 +7,65 @@ export const PortalService = {
   /**
    * Subscribe to projects belonging to a specific client
    */
-  subscribeToClientProjects(clientId: string, callback: (projects: Project[]) => void) {
-    const projectsRef = collection(db, "projects");
-    const q = query(
-      projectsRef, 
-      where("clientId", "==", clientId),
-      orderBy("createdAt", "desc")
-    );
+  subscribeToClientProjects(clientName: string, callback: (projects: Project[]) => void) {
+    const fetch = async () => {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .eq('client', clientName)
+        .order('created_at', { ascending: false });
 
-    return onSnapshot(q, (snapshot) => {
-      const projects = snapshot.docs.map(doc => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          ...data,
-          createdAt: data.createdAt?.toDate?.()?.toISOString() || data.createdAt || new Date().toISOString(),
-          updatedAt: data.updatedAt?.toDate?.()?.toISOString() || data.updatedAt || new Date().toISOString(),
-        } as Project;
-      });
-      callback(projects);
-    }, (error) => {
-      console.error("[PortalService] Projects subscription error:", error);
-    });
+      if (!error && data) {
+        callback(data as unknown as Project[]);
+      }
+    };
+
+    fetch();
+
+    const channel = supabase.channel(`portal_projects_${clientName}`)
+      .on('postgres_changes', { 
+        event: '*', 
+        schema: 'public', 
+        table: 'projects',
+        filter: `client=eq.${clientName}`
+      }, () => {
+        fetch();
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel) };
   },
 
   /**
    * Subscribe to invoices for a specific client
    */
-  subscribeToClientInvoices(clientId: string, callback: (invoices: Invoice[]) => void) {
-    const invoicesRef = collection(db, "invoices");
-    const q = query(
-      invoicesRef, 
-      where("clientId", "==", clientId),
-      orderBy("date", "desc")
-    );
+  subscribeToClientInvoices(clientName: string, callback: (invoices: Invoice[]) => void) {
+    const fetch = async () => {
+      const { data, error } = await supabase
+        .from('invoices')
+        .select(`
+          *,
+          projects!inner (
+            client
+          )
+        `)
+        .eq('projects.client', clientName)
+        .order('issue_date', { ascending: false });
 
-    return onSnapshot(q, (snapshot) => {
-      const invoices = snapshot.docs.map(doc => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          ...data,
-          createdAt: data.createdAt?.toDate?.()?.toISOString() || data.createdAt || new Date().toISOString(),
-          updatedAt: data.updatedAt?.toDate?.()?.toISOString() || data.updatedAt || new Date().toISOString(),
-        } as Invoice;
-      });
-      callback(invoices);
-    }, (error) => {
-      console.error("[PortalService] Invoices subscription error:", error);
-    });
+      if (!error && data) {
+        callback(data as unknown as Invoice[]);
+      }
+    };
+
+    fetch();
+
+    const channel = supabase.channel(`portal_invoices_${clientName}`)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'invoices' }, () => {
+        fetch();
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel) };
   },
 
   /**
@@ -74,29 +77,35 @@ export const PortalService = {
       return () => {};
     }
 
-    const tasksRef = collection(db, "tasks");
-    // Note: Firestore 'in' operator is limited to 10-30 items depending on configuration.
-    // For a client portal, they likely won't have more than 10-30 active projects.
-    const q = query(
-      tasksRef, 
-      where("projectId", "in", projectIds),
-      orderBy("createdAt", "desc")
-    );
+    const fetch = async () => {
+      const { data, error } = await supabase
+        .from('tasks')
+        .select('*')
+        .in('project_id', projectIds)
+        .order('created_at', { ascending: false });
 
-    return onSnapshot(q, (snapshot) => {
-      const tasks = snapshot.docs.map(doc => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          ...data,
-          createdAt: data.createdAt?.toDate?.()?.toISOString() || data.createdAt || new Date().toISOString(),
-          updatedAt: data.updatedAt?.toDate?.()?.toISOString() || data.updatedAt || new Date().toISOString(),
-        } as Task;
-      });
-      callback(tasks);
-    }, (error) => {
-      // If 'in' query fails due to too many IDs, we'd need to chunk the requests.
-      console.error("[PortalService] Tasks subscription error:", error);
-    });
+      if (!error && data) {
+        callback(data as unknown as Task[]);
+      }
+    };
+
+    fetch();
+
+    const channelId = `portal_tasks_${Math.random().toString(36).substring(7)}`;
+    const channel = supabase.channel(channelId)
+      .on('postgres_changes', { 
+        event: '*', 
+        schema: 'public', 
+        table: 'tasks'
+      }, () => {
+        fetch();
+      })
+      .subscribe();
+
+    return () => { 
+      supabase.removeChannel(channel);
+    };
+
   }
 };
+

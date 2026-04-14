@@ -14,7 +14,7 @@ export default function ProjectDashboard() {
         <div className="space-y-1">
           <div className="flex items-center gap-3 mb-1">
             <h1 className="text-3xl font-black tracking-tight text-foreground">Acme Corp E-commerce</h1>
-            <span className="px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-widest bg-primary/10 text-primary border border-primary/20">
+            <span className="px-3 py-1 rounded-sm text-[10px] font-black uppercase tracking-widest bg-primary/10 text-primary border border-primary/20">
               In Progress
             </span>
           </div>
@@ -23,7 +23,7 @@ export default function ProjectDashboard() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-card border-border shadow-sm rounded-3xl overflow-hidden group hover:border-primary/20 transition-all">
+        <Card className="bg-card border-border shadow-sm rounded-sm overflow-hidden group hover:border-primary/20 transition-all">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
             <CardTitle className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Task Completion</CardTitle>
             <CheckSquare className="w-4 h-4 text-primary" />
@@ -40,7 +40,7 @@ export default function ProjectDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-card border-border shadow-sm rounded-3xl overflow-hidden group hover:border-secondary/20 transition-all">
+        <Card className="bg-card border-border shadow-sm rounded-sm overflow-hidden group hover:border-secondary/20 transition-all">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
             <CardTitle className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Time Tracking</CardTitle>
             <Clock className="w-4 h-4 text-secondary" />
@@ -51,7 +51,7 @@ export default function ProjectDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-card border-border shadow-sm rounded-3xl overflow-hidden group hover:border-purple-500/20 transition-all">
+        <Card className="bg-card border-border shadow-sm rounded-sm overflow-hidden group hover:border-purple-500/20 transition-all">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
             <CardTitle className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Open Requirements</CardTitle>
             <FileText className="w-4 h-4 text-purple-500" />
@@ -62,7 +62,7 @@ export default function ProjectDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="bg-card border-border shadow-sm rounded-3xl overflow-hidden group hover:border-emerald-500/20 transition-all">
+        <Card className="bg-card border-border shadow-sm rounded-sm overflow-hidden group hover:border-emerald-500/20 transition-all">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
             <CardTitle className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Recent Activity</CardTitle>
             <Activity className="w-4 h-4 text-emerald-500" />

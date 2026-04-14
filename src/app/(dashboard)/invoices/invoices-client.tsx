@@ -34,14 +34,14 @@ export default function GlobalInvoices() {
         <div className="flex justify-between items-center">
           <Skeleton className="h-10 w-64" />
           <div className="flex gap-4">
-            <Skeleton className="h-12 w-32 rounded-xl" />
-            <Skeleton className="h-12 w-32 rounded-xl" />
+            <Skeleton className="h-12 w-32 rounded-sm" />
+            <Skeleton className="h-12 w-32 rounded-sm" />
           </div>
         </div>
         <div className="grid gap-8 md:grid-cols-4">
-          {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-32 rounded-3xl" />)}
+          {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-32 rounded-sm" />)}
         </div>
-        <Skeleton className="h-96 w-full rounded-3xl" />
+        <Skeleton className="h-96 w-full rounded-sm" />
       </div>
     );
   }
@@ -55,18 +55,18 @@ export default function GlobalInvoices() {
         </div>
         
         <div className="flex gap-4">
-          <Button variant="outline" onClick={handleExportInvoices} className="border-border bg-white text-zinc-500 font-bold px-8 h-12 rounded-xl hover:bg-zinc-50 transition-all shadow-none">
+          <Button variant="outline" onClick={handleExportInvoices} className="border-border bg-white text-zinc-500 font-bold px-8 h-12 rounded-sm hover:bg-zinc-50 transition-all shadow-none">
             <Download className="w-4 h-4 mr-3" />
             Export Invoices
           </Button>
-          <Button onClick={handlePaymentsConnect} className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-10 h-12 rounded-xl shadow-none">
+          <Button onClick={handlePaymentsConnect} className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-10 h-12 rounded-sm shadow-none">
              Payments
           </Button>
         </div>
       </div>
 
       <div className="grid gap-8 md:grid-cols-4">
-        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-3xl overflow-hidden">
+        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-sm overflow-hidden">
           <CardContent className="p-8">
             <div className="flex justify-between items-start mb-4">
               <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em]">Total Revenue</p>
@@ -75,7 +75,7 @@ export default function GlobalInvoices() {
             <p className="text-2xl font-bold text-foreground tabular-nums">₹{totalRevenue.toLocaleString()}</p>
           </CardContent>
         </Card>
-        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-3xl overflow-hidden">
+        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-sm overflow-hidden">
           <CardContent className="p-8">
             <div className="flex justify-between items-start mb-4">
               <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em]">Pending Payments</p>
@@ -84,7 +84,7 @@ export default function GlobalInvoices() {
             <p className="text-2xl font-bold text-foreground tabular-nums">₹{activeReceivables.toLocaleString()}</p>
           </CardContent>
         </Card>
-        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-3xl overflow-hidden">
+        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-sm overflow-hidden">
           <CardContent className="p-8">
             <div className="flex justify-between items-start mb-4">
               <p className="text-[10px] font-black text-rose-500 uppercase tracking-[0.2em]">Overdue</p>
@@ -93,7 +93,7 @@ export default function GlobalInvoices() {
             <p className="text-2xl font-bold text-rose-500 tabular-nums">₹{overdueArrears.toLocaleString()}</p>
           </CardContent>
         </Card>
-        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-3xl overflow-hidden">
+        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-sm overflow-hidden">
           <CardContent className="p-8">
             <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] mb-4">Total Value</p>
             <p className="text-2xl font-bold text-foreground tabular-nums">
@@ -104,17 +104,17 @@ export default function GlobalInvoices() {
       </div>
 
       <div className="space-y-8">
-        <div className="flex flex-col md:flex-row gap-6 bg-white p-6 rounded-3xl border border-border/60">
+        <div className="flex flex-col md:flex-row gap-6 bg-white p-6 rounded-sm border border-border/60">
           <div className="relative flex-1 max-w-md group">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
             <Input 
               placeholder="Search invoices..." 
-              className="pl-12 h-12 bg-zinc-50/50 border-border rounded-xl text-sm font-bold shadow-none focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all"
+              className="pl-12 h-12 bg-zinc-50/50 border-border rounded-sm text-sm font-bold shadow-none focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all"
             />
           </div>
         </div>
 
-        <Card className="bg-white border-border/60 shadow-none rounded-3xl overflow-hidden">
+        <Card className="bg-white border-border/60 shadow-none rounded-sm overflow-hidden">
           <CardContent className="p-0">
             <div className="overflow-x-auto">
               <table className="w-full text-left">
@@ -132,7 +132,7 @@ export default function GlobalInvoices() {
                     <tr key={inv.id} className="group hover:bg-zinc-50/50 transition-colors cursor-pointer">
                       <td className="px-8 py-6">
                         <div className="flex items-center gap-4">
-                          <div className="h-10 w-10 rounded-xl bg-zinc-50 border border-border flex items-center justify-center group-hover:bg-white transition-colors">
+                          <div className="h-10 w-10 rounded-sm bg-zinc-50 border border-border flex items-center justify-center group-hover:bg-white transition-colors">
                             <Receipt className="h-5 w-5 text-zinc-400 transition-colors" />
                           </div>
                           <div>

@@ -94,20 +94,20 @@ export default function SettingsClient() {
   };
 
   const toggleMilestoneAlerts = () => {
-    const newState = !settings.milestoneAlerts;
-    updateSettings({ milestoneAlerts: newState });
+    const newState = !settings.milestone_alerts;
+    updateSettings({ milestone_alerts: newState });
     toast(`Milestone alerts ${newState ? 'enabled' : 'disabled'}`, "success");
   };
 
   const toggleFinancialAlerts = () => {
-    const newState = !settings.financialAlerts;
-    updateSettings({ financialAlerts: newState });
+    const newState = !settings.financial_alerts;
+    updateSettings({ financial_alerts: newState });
     toast(`Financial alerts ${newState ? 'enabled' : 'disabled'}`, "success");
   };
 
   const toggleMFA = () => {
-    const newState = !settings.mfaEnabled;
-    updateSettings({ mfaEnabled: newState });
+    const newState = !settings.mfa_enabled;
+    updateSettings({ mfa_enabled: newState });
     toast(`Multi-Factor Authentication ${newState ? 'initialized' : 'disabled'}`, "success");
   };
 
@@ -409,8 +409,8 @@ export default function SettingsClient() {
 
                 <div className="space-y-6">
                   {[
-                    { id: 'milestone', label: 'Project Milestones', desc: 'Get notified when projects reach their goals.', active: settings.milestoneAlerts, toggle: toggleMilestoneAlerts },
-                    { id: 'financial', label: 'Financial Alerts', desc: 'Get notified about invoices and payments.', active: settings.financialAlerts, toggle: toggleFinancialAlerts },
+                    { id: 'milestone', label: 'Project Milestones', desc: 'Get notified when projects reach their goals.', active: settings.milestone_alerts, toggle: toggleMilestoneAlerts },
+                    { id: 'financial', label: 'Financial Alerts', desc: 'Get notified about invoices and payments.', active: settings.financial_alerts, toggle: toggleFinancialAlerts },
                   ].map((notif) => (
                     <div key={notif.id} className="flex items-center justify-between p-6 rounded-2xl border border-border/40 hover:bg-zinc-50 transition-colors">
                       <div className="space-y-1">
@@ -456,12 +456,12 @@ export default function SettingsClient() {
                       onClick={toggleMFA}
                       className={cn(
                         "font-black h-12 px-10 rounded-xl shadow-none transition-all active:scale-95",
-                        settings.mfaEnabled 
+                        settings.mfa_enabled 
                           ? "bg-rose-500 hover:bg-rose-600 text-white" 
                           : "bg-white hover:bg-zinc-100 text-zinc-900"
                       )}
                     >
-                      {settings.mfaEnabled ? 'Disable 2FA' : 'Enable 2FA'}
+                      {settings.mfa_enabled ? 'Disable 2FA' : 'Enable 2FA'}
                     </Button>
                   </div>
                 </div>

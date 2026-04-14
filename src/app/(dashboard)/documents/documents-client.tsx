@@ -24,11 +24,11 @@ export default function GlobalDocuments() {
         </div>
         
         <div className="flex gap-3">
-          <Button variant="outline" className="border-border bg-white text-zinc-600 font-bold hover:bg-zinc-50 h-11 px-6 rounded-xl transition-all">
+          <Button variant="outline" className="border-border bg-white text-zinc-600 font-bold hover:bg-zinc-50 h-11 px-6 rounded-sm transition-all">
             <FolderOpen className="w-4 h-4 mr-2" />
             Archive
           </Button>
-          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-8 h-11 rounded-xl shadow-lg shadow-primary/20 transition-all hover:scale-[1.02]">
+          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-8 h-11 rounded-sm shadow-lg shadow-primary/20 transition-all hover:scale-[1.02]">
             <Plus className="w-4 h-4 mr-2" />
             New Document
           </Button>
@@ -36,9 +36,9 @@ export default function GlobalDocuments() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
-        <Card className="bg-card border-border shadow-sm group hover:border-primary/20 transition-all rounded-3xl overflow-hidden">
+        <Card className="bg-card border-border shadow-sm group hover:border-primary/20 transition-all rounded-sm overflow-hidden">
           <CardContent className="p-6 flex items-center gap-5">
-            <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+            <div className="h-12 w-12 rounded-sm bg-primary/10 flex items-center justify-center">
               <FileText className="w-6 h-6 text-primary" />
             </div>
             <div>
@@ -47,9 +47,9 @@ export default function GlobalDocuments() {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-card border-border shadow-sm group hover:border-emerald-500/20 transition-all rounded-3xl overflow-hidden">
+        <Card className="bg-card border-border shadow-sm group hover:border-emerald-500/20 transition-all rounded-sm overflow-hidden">
           <CardContent className="p-6 flex items-center gap-5">
-            <div className="h-12 w-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center">
+            <div className="h-12 w-12 rounded-sm bg-emerald-500/10 flex items-center justify-center">
               <Globe className="w-6 h-6 text-emerald-500" />
             </div>
             <div>
@@ -58,9 +58,9 @@ export default function GlobalDocuments() {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-card border-border shadow-sm group hover:border-secondary/20 transition-all rounded-3xl overflow-hidden">
+        <Card className="bg-card border-border shadow-sm group hover:border-secondary/20 transition-all rounded-sm overflow-hidden">
           <CardContent className="p-6 flex items-center gap-5">
-            <div className="h-12 w-12 rounded-2xl bg-secondary/10 flex items-center justify-center">
+            <div className="h-12 w-12 rounded-sm bg-secondary/10 flex items-center justify-center">
               <Download className="w-6 h-6 text-secondary" />
             </div>
             <div>
@@ -76,10 +76,10 @@ export default function GlobalDocuments() {
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
           <Input 
             placeholder="Search documents..." 
-            className="pl-11 bg-white border-border h-11 rounded-xl text-sm font-bold shadow-xs focus:ring-2 focus:ring-primary/10 transition-all"
+            className="pl-11 bg-white border-border h-11 rounded-sm text-sm font-bold shadow-xs focus:ring-2 focus:ring-primary/10 transition-all"
           />
         </div>
-        <Button variant="outline" className="border-border bg-white text-zinc-600 font-bold h-11 px-6 rounded-xl hover:bg-zinc-50">
+        <Button variant="outline" className="border-border bg-white text-zinc-600 font-bold h-11 px-6 rounded-sm hover:bg-zinc-50">
           <Filter className="w-4 h-4 mr-2" />
           Categories
         </Button>
@@ -88,9 +88,9 @@ export default function GlobalDocuments() {
       <div className="grid gap-3">
         {GLOBAL_DOCS.map((doc) => (
           <Link href={`/projects/${doc.projectId}/documents`} key={doc.id}>
-            <div className="group flex items-center justify-between p-5 bg-card border border-border rounded-2xl hover:bg-zinc-50/50 hover:border-primary/20 hover:shadow-md transition-all">
+            <div className="group flex items-center justify-between p-5 bg-card border border-border rounded-sm hover:bg-zinc-50/50 hover:border-primary/20 hover:shadow-md transition-all">
               <div className="flex items-center gap-5">
-                <div className="h-12 w-12 rounded-xl bg-zinc-50 border border-border flex items-center justify-center group-hover:bg-white transition-all">
+                <div className="h-12 w-12 rounded-sm bg-zinc-50 border border-border flex items-center justify-center group-hover:bg-white transition-all">
                   <FileText className={cn("w-5 h-5 transition-colors", doc.shared ? "text-primary" : "text-zinc-400")} />
                 </div>
                 <div>
@@ -108,7 +108,7 @@ export default function GlobalDocuments() {
                   <p className="text-xs font-black text-foreground mt-2">{doc.updatedAt}</p>
                 </div>
                 {doc.shared && (
-                  <div className="h-9 w-9 rounded-xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 shadow-sm shadow-emerald-500/5">
+                  <div className="h-9 w-9 rounded-sm bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 shadow-sm shadow-emerald-500/5">
                     <Globe className="w-4 h-4 text-emerald-500" />
                   </div>
                 )}

@@ -33,7 +33,7 @@ export default function ProjectNotes() {
         </div>
         
         <div className="flex gap-3">
-          <Button variant="outline" className="border-border bg-white text-zinc-600 font-bold hover:bg-zinc-50 px-6 h-11 rounded-xl shadow-sm transition-all" onClick={handleSave}>
+          <Button variant="outline" className="border-border bg-white text-zinc-600 font-bold hover:bg-zinc-50 px-6 h-11 rounded-sm shadow-sm transition-all" onClick={handleSave}>
             <Save className="w-4 h-4 mr-2" />
             Save Changes
           </Button>
@@ -51,7 +51,7 @@ export default function ProjectNotes() {
             {({ loading }) => (
               <Button 
                 disabled={loading}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-8 h-11 rounded-xl shadow-lg shadow-primary/20 transition-all hover:scale-[1.02]"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-8 h-11 rounded-sm shadow-lg shadow-primary/20 transition-all hover:scale-[1.02]"
               >
                 <Download className="w-4 h-4 mr-2" />
                 {loading ? 'Preparing...' : 'Export PDF'}
@@ -61,11 +61,11 @@ export default function ProjectNotes() {
         </div>
       </div>
 
-      <div className="bg-zinc-100/50 p-1.5 rounded-2xl flex gap-1.5 w-fit border border-border shadow-sm">
+      <div className="bg-zinc-100/50 p-1.5 rounded-sm flex gap-1.5 w-fit border border-border shadow-sm">
         <button
           onClick={() => setActiveTab('requirements')}
           className={cn(
-            "flex items-center gap-2 px-8 py-2.5 rounded-xl text-sm font-black uppercase tracking-widest transition-all",
+            "flex items-center gap-2 px-8 py-2.5 rounded-sm text-sm font-black uppercase tracking-widest transition-all",
             activeTab === 'requirements' 
               ? "bg-white text-foreground shadow-md border border-border" 
               : "text-zinc-500 hover:text-foreground hover:bg-white/50"
@@ -77,7 +77,7 @@ export default function ProjectNotes() {
         <button
           onClick={() => setActiveTab('internal')}
           className={cn(
-            "flex items-center gap-2 px-8 py-2.5 rounded-xl text-sm font-black uppercase tracking-widest transition-all",
+            "flex items-center gap-2 px-8 py-2.5 rounded-sm text-sm font-black uppercase tracking-widest transition-all",
             activeTab === 'internal' 
               ? "bg-white text-foreground shadow-md border border-border" 
               : "text-zinc-500 hover:text-foreground hover:bg-white/50"
@@ -115,7 +115,7 @@ export default function ProjectNotes() {
           <span className="text-[10px] uppercase font-black text-zinc-400 tracking-widest">Status</span>
           <span className="text-sm font-black text-primary mt-1">Draft - In Review</span>
         </div>
-        <Button variant="ghost" size="sm" className="ml-auto text-zinc-500 hover:text-foreground hover:bg-zinc-100 font-bold px-4 h-10 rounded-xl transition-all">
+        <Button variant="ghost" size="sm" className="ml-auto text-zinc-500 hover:text-foreground hover:bg-zinc-100 font-bold px-4 h-10 rounded-sm transition-all">
           <History className="w-4 h-4 mr-2" />
           Version History
         </Button>

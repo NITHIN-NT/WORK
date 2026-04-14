@@ -40,10 +40,10 @@ export default function ProjectsPage() {
       <div className="space-y-12">
         <div className="flex justify-between items-center">
           <Skeleton className="h-10 w-64" />
-          <Skeleton className="h-12 w-40 rounded-xl" />
+          <Skeleton className="h-12 w-40 rounded-sm" />
         </div>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {[1, 2, 3].map(i => <Skeleton key={i} className="h-56 w-full rounded-3xl" />)}
+          {[1, 2, 3].map(i => <Skeleton key={i} className="h-56 w-full rounded-sm" />)}
         </div>
       </div>
     );
@@ -58,27 +58,27 @@ export default function ProjectsPage() {
         </div>
         <Button 
           onClick={() => setIsModalOpen(true)}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-10 h-14 rounded-2xl shadow-none"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-10 h-14 rounded-sm shadow-none"
         >
           <Plus className="h-5 w-5 mr-3" />
           New Project
         </Button>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-6 bg-white p-6 rounded-3xl border border-border/60">
+      <div className="flex flex-col sm:flex-row gap-6 bg-white p-6 rounded-sm border border-border/60">
         <div className="relative flex-1 max-w-md group">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
           <Input
             placeholder="Search projects..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="pl-12 h-12 bg-zinc-50/50 border-border rounded-xl text-sm font-bold shadow-none focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all"
+            className="pl-12 h-12 bg-zinc-50/50 border-border rounded-sm text-sm font-bold shadow-none focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all"
           />
         </div>
       </div>
 
       {filteredProjects.length === 0 ? (
-        <div className="py-24 flex flex-col items-center justify-center border border-dashed border-border rounded-3xl bg-white/50">
+        <div className="py-24 flex flex-col items-center justify-center border border-dashed border-border rounded-sm bg-white/50">
           <FolderKanban className="h-12 w-12 text-zinc-200 mb-6" />
           <p className="text-[11px] font-black text-zinc-400 uppercase tracking-[0.2em]">
             {query ? "No projects match your search" : "No projects yet"}
@@ -88,7 +88,7 @@ export default function ProjectsPage() {
         <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
           {filteredProjects.map((project) => (
             <Link href={`/projects/${project.id}`} key={project.id}>
-              <Card className="group h-full bg-white border-border/60 hover:border-primary/30 transition-all cursor-pointer shadow-none hover:shadow-sm relative overflow-hidden rounded-3xl">
+              <Card className="group h-full bg-white border-border/60 hover:border-primary/30 transition-all cursor-pointer shadow-none hover:shadow-sm relative overflow-hidden rounded-sm">
                 <CardHeader className="flex flex-row items-start justify-between space-y-0 p-8 pb-4">
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 mb-2">

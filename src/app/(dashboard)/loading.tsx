@@ -13,15 +13,15 @@ export default function DashboardLoading() {
 
       <div className="grid gap-4 md:grid-cols-3">
         {[1, 2, 3].map((i) => (
-          <Skeleton key={i} className="h-32 rounded-2xl border border-border" />
+          <Skeleton key={i} className="h-32 rounded-sm border border-border" />
         ))}
       </div>
 
       <div className="grid gap-6">
-        <Skeleton className="h-[400px] rounded-2xl border border-border" />
+        <Skeleton className="h-[400px] rounded-sm border border-border" />
         <div className="grid gap-6 md:grid-cols-2">
-          <Skeleton className="h-[500px] rounded-2xl border border-border" />
-          <Skeleton className="h-[500px] rounded-2xl border border-border" />
+          <Skeleton className="h-[500px] rounded-sm border border-border" />
+          <Skeleton className="h-[500px] rounded-sm border border-border" />
         </div>
       </div>
     </div>

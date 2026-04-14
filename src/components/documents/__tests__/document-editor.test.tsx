@@ -8,8 +8,13 @@ vi.mock('@/store/user', () => ({
 }));
 
 // Mock NoteEditor since Tiptap requires full DOM rendering context
+interface NoteEditorProps {
+  content: string;
+  onChange: (content: string) => void;
+}
+
 vi.mock('@/components/notes/note-editor', () => ({
-  NoteEditor: ({ content, onChange }: any) => (
+  NoteEditor: ({ content, onChange }: NoteEditorProps) => (
     <textarea data-testid="mock-tiptap" value={content} onChange={(e) => onChange(e.target.value)} />
   )
 }));
@@ -17,7 +22,7 @@ vi.mock('@/components/notes/note-editor', () => ({
 describe('DocumentEditor Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    (useAuthStore as any).mockReturnValue({ user: { uid: 'u1' } });
+    (useAuthStore as unknown as { mockReturnValue: (val: unknown) => void }).mockReturnValue({ user: { uid: 'u1' } });
   });
 
   it('renders correctly with given defaults', () => {

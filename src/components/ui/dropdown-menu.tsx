@@ -97,7 +97,7 @@ export function DropdownMenu({
             transform: align === 'right' ? 'translateX(-100%)' : 'none'
           }}
           className={cn(
-            "fixed z-[200] mt-2 w-48 rounded-2xl bg-white/80 backdrop-blur-xl border border-border shadow-[0_20px_40px_-12px_rgba(0,0,0,0.12)] p-2",
+            "fixed z-[200] mt-2 w-48 rounded-sm bg-white/80 backdrop-blur-xl border border-border shadow-[0_20px_40px_-12px_rgba(0,0,0,0.12)] p-2",
             "style={{ WebkitBackdropFilter: 'blur(16px)' }}"
           )}
           onClick={(e) => {
@@ -135,7 +135,7 @@ export function DropdownMenuItem({
         onClick?.();
       }}
       className={cn(
-        "w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold transition-all uppercase tracking-widest",
+        "w-full flex items-center gap-2 px-3 py-2.5 rounded-sm text-xs font-bold transition-all uppercase tracking-widest",
         variant === "default" 
           ? "text-zinc-600 hover:bg-primary/5 hover:text-primary" 
           : "text-rose-500 hover:bg-rose-500/5 hover:text-rose-600",

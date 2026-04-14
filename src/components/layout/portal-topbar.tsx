@@ -5,6 +5,7 @@ import { LogOut, Menu, } from "lucide-react";
 import Image from "next/image";
 import { NotificationPanel } from "@/features/system/components/notifications/notification-panel";
 import { Button } from "@/components/ui/button";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 
 interface PortalTopbarProps {
   onMenuClick: () => void;
@@ -28,6 +29,10 @@ export function PortalTopbar({ onMenuClick }: PortalTopbarProps) {
           >
             <Menu className="h-5 w-5" />
           </Button>
+          <div className="hidden lg:flex items-center gap-4 min-w-0">
+            <Breadcrumbs />
+            <div className="h-4 w-[1px] bg-border mx-2" />
+          </div>
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em] bg-primary/5 px-3 py-1 rounded-full border border-primary/10">
               Verified Access
@@ -63,7 +68,7 @@ export function PortalTopbar({ onMenuClick }: PortalTopbarProps) {
               variant="ghost" 
               size="icon" 
               onClick={revokeIdentitySession}
-              className="text-zinc-400 hover:text-rose-500 hover:bg-rose-500/5 transition-all h-9 w-9 rounded-xl ml-2"
+              className="text-zinc-400 hover:text-rose-500 hover:bg-rose-500/5 transition-all h-9 w-9 rounded-sm ml-2"
               title="End Session"
             >
               <LogOut className="h-4 w-4" />

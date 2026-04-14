@@ -55,7 +55,7 @@ export default function ProjectEmails() {
         </div>
         
         <Button 
-          className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-8 h-12 rounded-2xl shadow-xl shadow-primary/20 transition-all hover:scale-[1.02]"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-8 h-12 rounded-sm shadow-xl shadow-primary/20 transition-all hover:scale-[1.02]"
           onClick={() => setShowComposer(true)}
         >
           <Send className="w-4 h-4 mr-2" />
@@ -63,15 +63,15 @@ export default function ProjectEmails() {
         </Button>
       </div>
 
-      <div className="flex flex-col sm:flex-row items-center gap-4 bg-card p-5 rounded-3xl border border-border shadow-sm">
+      <div className="flex flex-col sm:flex-row items-center gap-4 bg-card p-5 rounded-sm border border-border shadow-sm">
         <div className="relative flex-1 w-full max-w-sm group">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
           <Input 
             placeholder="Search communications..." 
-            className="pl-11 bg-zinc-50 border-border h-11 rounded-xl text-sm font-bold shadow-xs transition-all"
+            className="pl-11 bg-zinc-50 border-border h-11 rounded-sm text-sm font-bold shadow-xs transition-all"
           />
         </div>
-        <Button variant="outline" size="sm" className="w-full sm:w-auto border-border bg-white text-zinc-600 font-bold px-6 h-11 rounded-xl hover:bg-zinc-50">
+        <Button variant="outline" size="sm" className="w-full sm:w-auto border-border bg-white text-zinc-600 font-bold px-6 h-11 rounded-sm hover:bg-zinc-50">
           <Filter className="w-4 h-4 mr-2" />
           Status Filter
         </Button>
@@ -79,10 +79,10 @@ export default function ProjectEmails() {
 
       <div className="space-y-4">
         {MOCK_EMAILS.map((email) => (
-          <Card key={email.id} className="bg-card border-border hover:border-primary/20 hover:shadow-lg transition-all group rounded-2xl overflow-hidden">
+          <Card key={email.id} className="bg-card border-border hover:border-primary/20 hover:shadow-lg transition-all group rounded-sm overflow-hidden">
             <CardContent className="p-5 sm:p-8">
               <div className="flex flex-col sm:flex-row sm:items-center gap-6">
-                <div className="h-14 w-14 rounded-2xl bg-zinc-50 border border-border flex items-center justify-center shrink-0 group-hover:bg-primary/5 group-hover:border-primary/20 transition-all">
+                <div className="h-14 w-14 rounded-sm bg-zinc-50 border border-border flex items-center justify-center shrink-0 group-hover:bg-primary/5 group-hover:border-primary/20 transition-all">
                   <Mail className="h-6 w-6 text-zinc-400 group-hover:text-primary transition-colors duration-150" />
                 </div>
                 
@@ -105,7 +105,7 @@ export default function ProjectEmails() {
                 </div>
 
                 <div className="flex items-center gap-4 shrink-0 border-t sm:border-t-0 pt-6 sm:pt-0 border-border/50">
-                  <div className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-zinc-50 border border-border">
+                  <div className="flex items-center gap-2 px-4 py-1.5 rounded-sm bg-zinc-50 border border-border">
                     {statusIcons[email.status as keyof typeof statusIcons]}
                     <span className={cn(
                       "text-[10px] font-black uppercase tracking-widest",
@@ -114,13 +114,13 @@ export default function ProjectEmails() {
                       {email.status}
                     </span>
                   </div>
-                  <Button variant="ghost" size="icon" className="h-10 w-10 text-zinc-400 hover:text-primary hover:bg-primary/5 rounded-xl transition-all">
+                  <Button variant="ghost" size="icon" className="h-10 w-10 text-zinc-400 hover:text-primary hover:bg-primary/5 rounded-sm transition-all">
                     <ExternalLink className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
               {email.status === 'Failed' && (
-                <div className="mt-6 px-5 py-3 bg-rose-500/5 border border-rose-500/10 rounded-xl text-[10px] font-black uppercase tracking-widest text-rose-500/80 flex items-center gap-3">
+                <div className="mt-6 px-5 py-3 bg-rose-500/5 border border-rose-500/10 rounded-sm text-[10px] font-black uppercase tracking-widest text-rose-500/80 flex items-center gap-3">
                   <div className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
                   Transmission Fault: {email.error}
                 </div>

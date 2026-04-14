@@ -27,13 +27,13 @@ export default function PortalProjectDetailPage() {
     return (
       <div className="space-y-10 animate-in fade-in duration-150">
         <Skeleton className="h-10 w-24 rounded-lg" />
-        <Skeleton className="h-20 w-full rounded-2xl" />
+        <Skeleton className="h-20 w-full rounded-sm" />
         <div className="grid gap-8 md:grid-cols-3">
-          <Skeleton className="h-32 rounded-3xl" />
-          <Skeleton className="h-32 rounded-3xl" />
-          <Skeleton className="h-32 rounded-3xl" />
+          <Skeleton className="h-32 rounded-sm" />
+          <Skeleton className="h-32 rounded-sm" />
+          <Skeleton className="h-32 rounded-sm" />
         </div>
-        <Skeleton className="h-96 rounded-3xl" />
+        <Skeleton className="h-96 rounded-sm" />
       </div>
     );
   }
@@ -42,7 +42,7 @@ export default function PortalProjectDetailPage() {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center text-center">
         <h2 className="text-2xl font-black text-foreground mb-4">Workspace not found or access restricted.</h2>
-        <Button onClick={() => router.push("/portal/projects")} variant="outline" className="h-11 rounded-xl px-6">
+        <Button onClick={() => router.push("/portal/projects")} variant="outline" className="h-11 rounded-sm px-6">
           Return to Workspaces
         </Button>
       </div>
@@ -56,7 +56,7 @@ export default function PortalProjectDetailPage() {
           variant="ghost" 
           size="icon" 
           onClick={() => router.push("/portal/projects")}
-          className="h-10 w-10 text-zinc-400 hover:text-foreground hover:bg-white border border-transparent hover:border-border transition-all rounded-xl"
+          className="h-10 w-10 text-zinc-400 hover:text-foreground hover:bg-white border border-transparent hover:border-border transition-all rounded-sm"
         >
           <ChevronLeft className="h-5 w-5" />
         </Button>
@@ -67,7 +67,7 @@ export default function PortalProjectDetailPage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-4">
-        <Card className="md:col-span-4 bg-white border-border/60 shadow-none rounded-3xl overflow-hidden">
+        <Card className="md:col-span-4 bg-white border-border/60 shadow-none rounded-sm overflow-hidden">
           <div className="p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-12">
             <div className="flex-1 space-y-6">
               <div className="flex items-center gap-3">
@@ -124,7 +124,7 @@ export default function PortalProjectDetailPage() {
       </div>
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="lg:col-span-2 border-border/60 shadow-none rounded-3xl bg-white overflow-hidden">
+        <Card className="lg:col-span-2 border-border/60 shadow-none rounded-sm bg-white overflow-hidden">
           <CardHeader className="flex flex-row items-center justify-between pb-8 bg-zinc-50/50 border-b border-border/40">
             <div className="space-y-1">
               <CardTitle className="text-2xl font-black text-foreground tracking-tighter">Tasks & Deliverables</CardTitle>
@@ -143,7 +143,7 @@ export default function PortalProjectDetailPage() {
                   <div key={task.id} className="p-6 flex items-center justify-between hover:bg-zinc-50/50 transition-colors group">
                     <div className="flex items-center gap-5">
                       <div className={cn(
-                        "h-10 w-10 rounded-xl flex items-center justify-center border transition-all",
+                        "h-10 w-10 rounded-sm flex items-center justify-center border transition-all",
                         task.status === 'Completed' ? "bg-emerald-50 border-emerald-100 text-emerald-600" :
                         task.status === 'In Progress' ? "bg-primary/5 border-primary/20 text-primary uppercase" :
                         "bg-zinc-50 border-zinc-200 text-zinc-400"
@@ -179,17 +179,17 @@ export default function PortalProjectDetailPage() {
         </Card>
 
         <div className="space-y-6">
-          <Card className="border-border/60 shadow-none rounded-3xl bg-white overflow-hidden">
+          <Card className="border-border/60 shadow-none rounded-sm bg-white overflow-hidden">
             <CardHeader className="pb-4">
               <CardTitle className="text-xl font-black text-foreground tracking-tighter uppercase tracking-[0.1em]">Resources</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                <Button variant="outline" className="w-full justify-between h-14 rounded-2xl border-zinc-100 shadow-none hover:bg-zinc-50 hover:border-zinc-200 transition-all font-bold text-[13px]">
+                <Button variant="outline" className="w-full justify-between h-14 rounded-sm border-zinc-100 shadow-none hover:bg-zinc-50 hover:border-zinc-200 transition-all font-bold text-[13px]">
                   Project Brief
                   <FileText className="h-4 w-4 text-zinc-400" />
                 </Button>
-                <Button variant="outline" className="w-full justify-between h-14 rounded-2xl border-zinc-100 shadow-none hover:bg-zinc-50 hover:border-zinc-200 transition-all font-bold text-[13px]">
+                <Button variant="outline" className="w-full justify-between h-14 rounded-sm border-zinc-100 shadow-none hover:bg-zinc-50 hover:border-zinc-200 transition-all font-bold text-[13px]">
                   Brand Assets
                   <FileText className="h-4 w-4 text-zinc-400" />
                 </Button>
@@ -197,9 +197,9 @@ export default function PortalProjectDetailPage() {
             </CardContent>
           </Card>
 
-          <Card className="border-border/60 shadow-none rounded-3xl bg-zinc-900 border-zinc-800 text-white overflow-hidden p-8">
+          <Card className="border-border/60 shadow-none rounded-sm bg-zinc-900 border-zinc-800 text-white overflow-hidden p-8">
             <div className="space-y-6">
-              <div className="h-12 w-12 rounded-2xl bg-white/10 flex items-center justify-center">
+              <div className="h-12 w-12 rounded-sm bg-white/10 flex items-center justify-center">
                 <MessageSquare className="h-6 w-6 text-primary" />
               </div>
               <div>
@@ -208,7 +208,7 @@ export default function PortalProjectDetailPage() {
                   Direct communication with your dedicated account controller for this workspace.
                 </p>
               </div>
-              <Button className="w-full bg-white text-zinc-900 hover:bg-zinc-100 font-black h-12 rounded-xl text-xs uppercase tracking-widest">
+              <Button className="w-full bg-white text-zinc-900 hover:bg-zinc-100 font-black h-12 rounded-sm text-xs uppercase tracking-widest">
                 Initiate Dialogue
               </Button>
             </div>

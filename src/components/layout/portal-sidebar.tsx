@@ -57,7 +57,7 @@ export function PortalSidebar({ isOpen, onClose }: PortalSidebarProps) {
                     href={item.href}
                     onClick={onClose}
                     className={cn(
-                      "group flex items-center px-4 py-3 text-[11.5px] font-black uppercase tracking-[0.15em] rounded-2xl transition-all duration-300 border",
+                      "group flex items-center px-4 py-3 text-[11.5px] font-black uppercase tracking-[0.15em] rounded-sm transition-all duration-300 border",
                       isActive
                         ? "bg-primary/5 text-primary border-primary/10 shadow-sm"
                         : "text-zinc-500 border-transparent hover:bg-zinc-50 hover:text-foreground hover:border-zinc-100"

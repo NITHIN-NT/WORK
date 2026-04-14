@@ -35,12 +35,12 @@ export default function PortalInvoicesPage() {
   if (loading) {
     return (
       <div className="space-y-10 animate-in fade-in duration-150">
-        <Skeleton className="h-12 w-64 rounded-xl" />
+        <Skeleton className="h-12 w-64 rounded-sm" />
         <div className="grid gap-6 md:grid-cols-3">
-          {[1, 2, 3].map(i => <Skeleton key={i} className="h-32 w-full rounded-2xl" />)}
+          {[1, 2, 3].map(i => <Skeleton key={i} className="h-32 w-full rounded-sm" />)}
         </div>
         <div className="space-y-4 pt-10">
-          {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-24 w-full rounded-2xl" />)}
+          {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-24 w-full rounded-sm" />)}
         </div>
       </div>
     );
@@ -56,7 +56,7 @@ export default function PortalInvoicesPage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
-        <Card className="bg-zinc-900 border-zinc-800 shadow-none rounded-3xl p-8 text-white relative overflow-hidden">
+        <Card className="bg-zinc-900 border-zinc-800 shadow-none rounded-sm p-8 text-white relative overflow-hidden">
           <div className="relative z-10">
             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Aggregate Settlement</p>
             <p className="text-4xl font-black tracking-tight mb-2">₹{totalPaid.toLocaleString()}</p>
@@ -68,7 +68,7 @@ export default function PortalInvoicesPage() {
           <TrendingDown className="absolute bottom-[-20px] right-[-20px] h-40 w-40 text-white/[0.03] rotate-12" />
         </Card>
         
-        <Card className="bg-white border-border/60 shadow-none rounded-3xl p-8">
+        <Card className="bg-white border-border/60 shadow-none rounded-sm p-8">
           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Pending Reconciliation</p>
           <p className="text-4xl font-black tracking-tight text-foreground mb-2">₹{totalPending.toLocaleString()}</p>
           <p className={cn(
@@ -80,25 +80,25 @@ export default function PortalInvoicesPage() {
           </p>
         </Card>
 
-        <Card className="bg-white border-border/60 shadow-none rounded-3xl p-8 border-dashed flex flex-col items-center justify-center text-center group cursor-pointer hover:border-primary/20 transition-all">
+        <Card className="bg-white border-border/60 shadow-none rounded-sm p-8 border-dashed flex flex-col items-center justify-center text-center group cursor-pointer hover:border-primary/20 transition-all">
           <Building2 className="h-8 w-8 text-zinc-200 mb-4 group-hover:text-primary transition-all" />
           <p className="text-xs font-black text-zinc-400 uppercase tracking-widest">Update Billing Entity</p>
         </Card>
       </div>
 
-      <div className="flex flex-col md:flex-row items-center gap-4 bg-white p-4 rounded-2xl border border-border/60">
+      <div className="flex flex-col md:flex-row items-center gap-4 bg-white p-4 rounded-sm border border-border/60">
         <div className="relative flex-1 w-full group">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
           <Input 
             placeholder="Search invoice number or project..." 
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="pl-12 h-12 bg-zinc-50 border-none rounded-xl text-sm font-bold shadow-none focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all"
+            className="pl-12 h-12 bg-zinc-50 border-none rounded-sm text-sm font-bold shadow-none focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all"
           />
         </div>
       </div>
 
-      <Card className="border-border/60 shadow-none rounded-[2.5rem] bg-white overflow-hidden">
+      <Card className="border-border/60 shadow-none rounded-md bg-white overflow-hidden">
         <CardContent className="p-0">
           <div className="divide-y divide-border/40">
             {filteredInvoices.length === 0 ? (
@@ -111,7 +111,7 @@ export default function PortalInvoicesPage() {
                 <div key={invoice.id} className="p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-8 hover:bg-zinc-50/50 transition-all group">
                   <div className="flex items-start gap-6">
                     <div className={cn(
-                      "h-14 w-14 rounded-2xl flex items-center justify-center border transition-all flex-shrink-0 shadow-sm",
+                      "h-14 w-14 rounded-sm flex items-center justify-center border transition-all flex-shrink-0 shadow-sm",
                       invoice.status === 'Paid' ? "bg-emerald-50 border-emerald-100 text-emerald-600" : "bg-amber-50 border-amber-100 text-amber-600"
                     )}>
                       <FileText className="h-7 w-7" />
@@ -146,11 +146,11 @@ export default function PortalInvoicesPage() {
                     </div>
                     <div className="flex items-center gap-3">
                       {invoice.status === 'Overdue' && (
-                        <Button className="h-10 px-6 rounded-xl bg-zinc-900 shadow-none text-white font-black text-xs uppercase tracking-widest">
+                        <Button className="h-10 px-6 rounded-sm bg-zinc-900 shadow-none text-white font-black text-xs uppercase tracking-widest">
                           Settle Now
                         </Button>
                       )}
-                      <Button variant="ghost" size="icon" className="h-10 w-10 text-zinc-400 hover:text-primary border border-transparent hover:bg-white hover:border-border transition-all rounded-xl shadow-none">
+                      <Button variant="ghost" size="icon" className="h-10 w-10 text-zinc-400 hover:text-primary border border-transparent hover:bg-white hover:border-border transition-all rounded-sm shadow-none">
                         <Download className="h-4 w-4" />
                       </Button>
                     </div>

@@ -26,7 +26,7 @@ export default function LoginPage() {
       <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-zinc-100 blur-[160px] pointer-events-none" />
       <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-zinc-50 blur-[160px] pointer-events-none" />
 
-      <Card className="w-full max-w-sm mx-4 relative z-10 border-border/50 shadow-none bg-white rounded-[3rem] overflow-hidden border">
+      <Card className="w-full max-w-sm mx-4 relative z-10 border-border/50 shadow-none bg-white rounded-sm overflow-hidden border">
         <CardHeader className="space-y-6 pt-16 pb-12">
           <div className="space-y-3">
             <CardTitle className="text-5xl text-center font-black tracking-tighter text-foreground uppercase">WORK</CardTitle>
@@ -39,7 +39,7 @@ export default function LoginPage() {
           <Button
             onClick={handleLogin}
             disabled={isLoading}
-            className="w-full bg-zinc-900 hover:bg-black text-white font-black h-16 rounded-2xl transition-all active:scale-[0.98] flex items-center justify-center gap-4 text-sm shadow-none"
+            className="w-full bg-zinc-900 hover:bg-black text-white font-black h-16 rounded-sm transition-all active:scale-[0.98] flex items-center justify-center gap-4 text-sm shadow-none"
           >
             {isLoading ? (
               <div className="h-5 w-5 rounded-full border-2 border-white/20 border-r-white animate-spin" />

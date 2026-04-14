@@ -29,13 +29,13 @@ export default function PortalProjectsPage() {
   if (loading) {
     return (
       <div className="space-y-10 animate-in fade-in duration-150">
-        <Skeleton className="h-12 w-64 rounded-xl" />
+        <Skeleton className="h-12 w-64 rounded-sm" />
         <div className="flex gap-4">
-          <Skeleton className="h-12 flex-1 rounded-xl" />
-          <Skeleton className="h-12 w-32 rounded-xl" />
+          <Skeleton className="h-12 flex-1 rounded-sm" />
+          <Skeleton className="h-12 w-32 rounded-sm" />
         </div>
         <div className="grid gap-6 md:grid-cols-2">
-          {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-48 w-full rounded-2xl" />)}
+          {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-48 w-full rounded-sm" />)}
         </div>
       </div>
     );
@@ -48,7 +48,7 @@ export default function PortalProjectsPage() {
           <h1 className="text-4xl font-black text-foreground tracking-tighter">My Workspaces</h1>
           <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.25em]">Active and archived project repositories.</p>
         </div>
-        <div className="flex items-center gap-2 bg-white p-1 rounded-xl border border-border/60 shadow-sm">
+        <div className="flex items-center gap-2 bg-white p-1 rounded-sm border border-border/60 shadow-sm">
           <Button 
             variant="ghost" 
             size="sm" 
@@ -68,20 +68,20 @@ export default function PortalProjectsPage() {
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row items-center gap-4 bg-white p-4 rounded-2xl border border-border/60">
+      <div className="flex flex-col sm:flex-row items-center gap-4 bg-white p-4 rounded-sm border border-border/60">
         <div className="relative flex-1 w-full group">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
           <Input 
             placeholder="Search within workspaces..." 
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="pl-12 h-12 bg-zinc-50 border-none rounded-xl text-sm font-bold shadow-none focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all"
+            className="pl-12 h-12 bg-zinc-50 border-none rounded-sm text-sm font-bold shadow-none focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all"
           />
         </div>
       </div>
 
       {filteredProjects.length === 0 ? (
-        <div className="py-24 flex flex-col items-center justify-center border border-dashed border-border rounded-[2.5rem] bg-zinc-50/50">
+        <div className="py-24 flex flex-col items-center justify-center border border-dashed border-border rounded-md bg-zinc-50/50">
           <Briefcase className="h-12 w-12 text-zinc-200 mb-6" />
           <p className="text-[11px] font-black text-zinc-400 uppercase tracking-[0.2em]">Repository Index Empty</p>
         </div>
@@ -93,12 +93,12 @@ export default function PortalProjectsPage() {
           {filteredProjects.map((project) => (
             <Card 
               key={project.id}
-              className="group bg-white border-border/60 hover:border-primary/20 transition-all rounded-3xl overflow-hidden shadow-none"
+              className="group bg-white border-border/60 hover:border-primary/20 transition-all rounded-sm overflow-hidden shadow-none"
             >
               <div className="p-8">
                 <div className="flex items-start justify-between mb-8">
                   <div className="flex items-center gap-5">
-                    <div className="h-14 w-14 rounded-2xl bg-zinc-50 flex items-center justify-center border border-border group-hover:bg-primary/5 group-hover:border-primary/20 transition-all">
+                    <div className="h-14 w-14 rounded-sm bg-zinc-50 flex items-center justify-center border border-border group-hover:bg-primary/5 group-hover:border-primary/20 transition-all">
                       <Briefcase className="h-7 w-7 text-zinc-300 group-hover:text-primary transition-all" />
                     </div>
                     <div>

@@ -19,33 +19,43 @@ import { cn } from "@/lib/utils";
 
 import { useGlobalActivity } from "@/hooks/use-global-activity";
 import { ActivityTimeline } from "@/components/activity/activity-timeline";
+import { useAppStore } from "@/store/app";
+import { useEffect } from "react";
 
 export default function DashboardPage() {
   const { projects, loading: projectsLoading } = useProjects();
   const { invoices, loading: invoicesLoading } = useInvoices();
   const { tasks, loading: tasksLoading } = useTasks("global");
   const { activities, loading: activityLoading } = useGlobalActivity();
+  const { setDataReady } = useAppStore();
+
+  const isLoading = projectsLoading || invoicesLoading || tasksLoading || activityLoading;
+
+  useEffect(() => {
+    if (!isLoading) {
+      setDataReady(true);
+    }
+  }, [isLoading, setDataReady]);
 
   const totalRevenue = invoices.reduce((s, i) => s + (i.status === 'Paid' ? i.total : 0), 0);
   const activeProjectsCount = projects.filter(p => p.status === 'In Progress').length;
   const pendingTasksCount = tasks.filter(t => t.status !== 'Completed').length;
   const unpaidBalance = invoices.reduce((s, i) => s + (i.status !== 'Paid' ? i.total : 0), 0);
 
-  const isLoading = projectsLoading || invoicesLoading || tasksLoading || activityLoading;
-
   if (isLoading) {
+
     return (
       <div className="space-y-10 animate-in fade-in duration-150">
         <div className="flex justify-between items-center">
-          <Skeleton className="h-12 w-64 rounded-xl" />
-          <Skeleton className="h-10 w-32 rounded-xl" />
+          <Skeleton className="h-12 w-64 rounded-sm" />
+          <Skeleton className="h-10 w-32 rounded-sm" />
         </div>
         <div className="grid gap-6 md:grid-cols-4">
-          {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-36 w-full rounded-2xl" />)}
+          {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-36 w-full rounded-sm" />)}
         </div>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-7">
-          <Skeleton className="col-span-4 h-96 rounded-3xl" />
-          <Skeleton className="col-span-3 h-96 rounded-3xl" />
+          <Skeleton className="col-span-4 h-96 rounded-sm" />
+          <Skeleton className="col-span-3 h-96 rounded-sm" />
         </div>
       </div>
     );
@@ -111,7 +121,7 @@ export default function DashboardPage() {
           <Card 
             key={stat.title} 
             className={cn(
-              "group bg-zinc-50/50 border-border/40 shadow-none transition-all duration-300 hover:bg-white hover:border-zinc-300 rounded-3xl",
+              "group bg-zinc-50/50 border-border/40 shadow-none transition-all duration-300 hover:bg-white hover:border-zinc-300 rounded-sm",
               stat.borderColor
             )}
           >
@@ -119,7 +129,7 @@ export default function DashboardPage() {
               <CardDescription className="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-400">
                 {stat.title}
               </CardDescription>
-              <div className={cn("p-2.5 rounded-2xl transition-all group-hover:bg-zinc-900 group-hover:text-white", stat.bgColor)}>
+              <div className={cn("p-2.5 rounded-sm transition-all group-hover:bg-zinc-900 group-hover:text-white", stat.bgColor)}>
                 <stat.icon className={cn("w-4 h-4", stat.color, "group-hover:text-white")} />
               </div>
             </CardHeader>
@@ -135,7 +145,7 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="lg:col-span-4 border-border/40 shadow-none rounded-3xl bg-white">
+        <Card className="lg:col-span-4 border-border/40 shadow-none rounded-sm bg-white">
           <CardHeader className="flex flex-row items-center justify-between pb-8">
             <div className="space-y-1">
               <CardTitle className="text-2xl font-black text-foreground tracking-tighter">Recent Projects</CardTitle>
@@ -152,15 +162,15 @@ export default function DashboardPage() {
           <CardContent>
             <div className="space-y-4">
               {projects.length === 0 ? (
-                <div className="py-20 flex flex-col items-center justify-center border border-dashed border-border rounded-3xl bg-zinc-50/50">
+                <div className="py-20 flex flex-col items-center justify-center border border-dashed border-border rounded-sm bg-zinc-50/50">
                   <p className="text-[10px] font-black text-zinc-300 uppercase tracking-[0.3em]">No projects yet</p>
                 </div>
               ) : (
                 projects.slice(0, 4).map((project) => (
                   <Link href={`/projects/${project.id}`} key={project.id}>
-                    <div className="flex items-center justify-between px-6 py-5 rounded-2xl bg-zinc-50/50 hover:bg-zinc-100 transition-all border border-border/20 cursor-pointer group">
+                    <div className="flex items-center justify-between px-6 py-5 rounded-sm bg-zinc-50/50 hover:bg-zinc-100 transition-all border border-border/20 cursor-pointer group">
                       <div className="flex items-center gap-5">
-                        <div className="h-12 w-12 rounded-2xl bg-white flex items-center justify-center border border-border/50 shadow-sm group-hover:bg-zinc-900 group-hover:border-zinc-900 transition-all">
+                        <div className="h-12 w-12 rounded-sm bg-white flex items-center justify-center border border-border/50 shadow-sm group-hover:bg-zinc-900 group-hover:border-zinc-900 transition-all">
                           <Briefcase className="h-5 w-5 text-zinc-400 group-hover:text-white transition-all" />
                         </div>
                         <div>
@@ -179,7 +189,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="lg:col-span-3 border-border/40 shadow-none rounded-3xl bg-white">
+        <Card className="lg:col-span-3 border-border/40 shadow-none rounded-sm bg-white">
           <CardHeader className="pb-8">
             <CardTitle className="text-2xl font-black text-foreground tracking-tighter">Activity Log</CardTitle>
             <CardDescription className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em]">Recent updates from your projects and tasks.</CardDescription>

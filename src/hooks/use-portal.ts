@@ -6,11 +6,11 @@ import { PortalService } from "@/services/portal.service";
 import { Project } from "@/types/project";
 import { Invoice } from "@/types/invoice";
 import { Task } from "@/types/task";
-import { db } from "@/lib/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { supabase } from "@/lib/supabase";
 
 export function usePortal() {
   const { user } = useAuthStore();
+
   const [clientId, setClientId] = useState<string | null>(null);
   const [role, setRole] = useState<string | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
@@ -26,11 +26,15 @@ export function usePortal() {
 
     async function fetchUserProfile() {
       try {
-        const userDoc = await getDoc(doc(db, "users", user!.uid));
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          setClientId(userData.companyId || null);
-          setRole(userData.role || null);
+        const { data: profile, error } = await supabase
+          .from('users')
+          .select('role, companyId')
+          .eq('id', user!.uid)
+          .single();
+          
+        if (!error && profile) {
+          setClientId(profile.companyId || null);
+          setRole(profile.role || null);
         }
       } catch (error) {
         console.error("[usePortal] Profile fetch error:", error);
@@ -39,6 +43,7 @@ export function usePortal() {
 
     fetchUserProfile();
   }, [user]);
+
 
   useEffect(() => {
     if (!clientId) return;

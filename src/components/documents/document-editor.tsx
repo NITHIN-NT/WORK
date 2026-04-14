@@ -51,9 +51,9 @@ export function DocumentEditor({ initialDocument, onSave, onBack }: DocumentEdit
 
   return (
     <div className="space-y-8 animate-in fade-in duration-200">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 bg-white p-6 rounded-3xl border border-border shadow-none sticky top-0 z-10 transition-all">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 bg-white p-6 rounded-sm border border-border shadow-none sticky top-0 z-10 transition-all">
         <div className="flex items-center gap-6">
-          <Button variant="ghost" size="icon" onClick={onBack} className="text-zinc-300 hover:text-foreground hover:bg-zinc-50 rounded-xl transition-all">
+          <Button variant="ghost" size="icon" onClick={onBack} className="text-zinc-300 hover:text-foreground hover:bg-zinc-50 rounded-sm transition-all">
             <ChevronLeft className="h-6 w-6" />
           </Button>
           <div className="space-y-1">
@@ -80,11 +80,11 @@ export function DocumentEditor({ initialDocument, onSave, onBack }: DocumentEdit
         </div>
 
         <div className="flex items-center gap-4">
-          <Button variant="outline" className="border-border bg-white text-zinc-500 font-bold hover:bg-zinc-50 rounded-xl h-12 px-6" onClick={() => setIsPublic(!isPublic)}>
+          <Button variant="outline" className="border-border bg-white text-zinc-500 font-bold hover:bg-zinc-50 rounded-sm h-12 px-6" onClick={() => setIsPublic(!isPublic)}>
             {isPublic ? <Globe className="h-4 w-4 mr-3 text-primary" /> : <Lock className="h-4 w-4 mr-3 text-zinc-300" />}
             {isPublic ? "Public Protocol" : "Restricted Node"}
           </Button>
-          <Button className="bg-primary hover:bg-primary/90 text-white font-black h-12 px-8 rounded-xl shadow-none transition-all" onClick={synchronizeChanges}>
+          <Button className="bg-primary hover:bg-primary/90 text-white font-black h-12 px-8 rounded-sm shadow-none transition-all" onClick={synchronizeChanges}>
             <Save className="h-4 w-4 mr-3" />
             Synchronize
           </Button>
@@ -93,25 +93,25 @@ export function DocumentEditor({ initialDocument, onSave, onBack }: DocumentEdit
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         <div className="lg:col-span-3">
-          <div className="bg-white rounded-[2rem] border border-border shadow-none overflow-hidden min-h-[600px] transition-all">
+          <div className="bg-white rounded-sm border border-border shadow-none overflow-hidden min-h-[600px] transition-all">
             <NoteEditor content={content} onChange={setContent} />
           </div>
         </div>
 
         <div className="space-y-8">
-          <div className="bg-zinc-50/50 p-8 rounded-3xl border border-border h-fit">
+          <div className="bg-zinc-50/50 p-8 rounded-sm border border-border h-fit">
             <h4 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-6 px-1">Control Operations</h4>
             <div className="space-y-3">
-              <Button variant="outline" className="w-full justify-start border-border bg-white text-zinc-600 hover:text-foreground hover:border-primary transition-all font-bold h-12 rounded-xl px-5">
+              <Button variant="outline" className="w-full justify-start border-border bg-white text-zinc-600 hover:text-foreground hover:border-primary transition-all font-bold h-12 rounded-sm px-5">
                 <FileText className="h-4 w-4 mr-4 text-zinc-400" />
                 Export Ledger (PDF)
               </Button>
-              <Button variant="outline" className="w-full justify-start border-border bg-white text-zinc-600 hover:text-foreground hover:border-primary transition-all font-bold h-12 rounded-xl px-5">
+              <Button variant="outline" className="w-full justify-start border-border bg-white text-zinc-600 hover:text-foreground hover:border-primary transition-all font-bold h-12 rounded-sm px-5">
                 <Share2 className="h-4 w-4 mr-4 text-zinc-400" />
                 Relay Link
               </Button>
               <div className="pt-4 mt-4 border-t border-border">
-                <Button variant="ghost" className="w-full justify-start text-rose-500 hover:text-white hover:bg-rose-500 font-bold h-12 rounded-xl px-5 transition-all">
+                <Button variant="ghost" className="w-full justify-start text-rose-500 hover:text-white hover:bg-rose-500 font-bold h-12 rounded-sm px-5 transition-all">
                   <Trash2 className="h-4 w-4 mr-4" />
                   Purge Record
                 </Button>
@@ -119,7 +119,7 @@ export function DocumentEditor({ initialDocument, onSave, onBack }: DocumentEdit
             </div>
           </div>
 
-          <div className="bg-white p-8 rounded-3xl border border-border h-fit">
+          <div className="bg-white p-8 rounded-sm border border-border h-fit">
             <h4 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-8 flex items-center justify-between px-1">
               Forensic Log
               <History className="h-4 w-4" />

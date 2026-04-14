@@ -59,7 +59,7 @@ export default function ProjectDocuments() {
         
         {view === 'list' && (
           <Button 
-            className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-8 h-12 rounded-2xl shadow-xl shadow-primary/20 transition-all hover:scale-[1.02]"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-8 h-12 rounded-sm shadow-xl shadow-primary/20 transition-all hover:scale-[1.02]"
             onClick={handleCreate}
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -70,17 +70,17 @@ export default function ProjectDocuments() {
 
       {view === 'list' ? (
         <div className="space-y-8">
-          <div className="flex flex-col sm:flex-row items-center gap-4 bg-card p-5 rounded-3xl border border-border shadow-sm">
+          <div className="flex flex-col sm:flex-row items-center gap-4 bg-card p-5 rounded-sm border border-border shadow-sm">
             <div className="relative flex-1 w-full max-w-sm group">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
               <Input 
                 placeholder="Search documents..." 
-                className="pl-11 bg-zinc-50 border-border h-11 rounded-xl text-sm font-bold shadow-xs transition-all"
+                className="pl-11 bg-zinc-50 border-border h-11 rounded-sm text-sm font-bold shadow-xs transition-all"
               />
             </div>
             <div className="flex gap-2 w-full sm:w-auto overflow-x-auto no-scrollbar pb-1 sm:pb-0">
               {['All', 'Proposals', 'Technical', 'Legal'].map(f => (
-                <Button key={f} variant="outline" size="sm" className="border-border bg-white text-zinc-500 font-bold px-4 h-9 rounded-xl hover:bg-zinc-50 hover:text-foreground">
+                <Button key={f} variant="outline" size="sm" className="border-border bg-white text-zinc-500 font-bold px-4 h-9 rounded-sm hover:bg-zinc-50 hover:text-foreground">
                   {f}
                 </Button>
               ))}
@@ -92,19 +92,19 @@ export default function ProjectDocuments() {
               <Card 
                 key={doc.id} 
                 onClick={() => handleEdit(doc)}
-                className="bg-card border-border hover:border-primary/20 hover:shadow-xl transition-all cursor-pointer group rounded-[2rem] overflow-hidden"
+                className="bg-card border-border hover:border-primary/20 hover:shadow-xl transition-all cursor-pointer group rounded-sm overflow-hidden"
               >
                 <CardContent className="p-8">
                   <div className="flex items-start justify-between mb-6">
-                    <div className="h-14 w-14 rounded-2xl bg-zinc-100 border border-border flex items-center justify-center group-hover:bg-primary/5 group-hover:border-primary/20 transition-all">
+                    <div className="h-14 w-14 rounded-sm bg-zinc-100 border border-border flex items-center justify-center group-hover:bg-primary/5 group-hover:border-primary/20 transition-all">
                       <FileText className="h-6 w-6 text-zinc-400 group-hover:text-primary transition-transform duration-150" />
                     </div>
                     {doc.isPublic ? (
-                      <div className="flex items-center gap-2 px-3 py-1 rounded-xl bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 text-[10px] font-black uppercase tracking-widest shadow-sm shadow-emerald-500/5">
+                      <div className="flex items-center gap-2 px-3 py-1 rounded-sm bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 text-[10px] font-black uppercase tracking-widest shadow-sm shadow-emerald-500/5">
                         <Globe className="w-3.5 h-3.5" /> Shared
                       </div>
                     ) : (
-                      <div className="text-[10px] font-black text-zinc-400 uppercase tracking-widest bg-zinc-100/50 px-3 py-1 rounded-xl border border-border">
+                      <div className="text-[10px] font-black text-zinc-400 uppercase tracking-widest bg-zinc-100/50 px-3 py-1 rounded-sm border border-border">
                         Internal
                       </div>
                     )}

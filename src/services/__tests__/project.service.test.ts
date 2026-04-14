@@ -35,7 +35,7 @@ describe('ProjectService', () => {
       const singleMock = vi.fn().mockResolvedValue({ data: mockInsertedData, error: null });
       const insertMock = vi.fn().mockReturnValue({ select: selectMock, single: singleMock });
       
-      (supabase.from as any).mockReturnValue({ insert: insertMock });
+      (supabase.from as unknown as { mockReturnValue: (val: unknown) => void }).mockReturnValue({ insert: insertMock });
 
       const result = await ProjectService.createProject(userId, mockProjectData, mockUser);
 
@@ -56,9 +56,9 @@ describe('ProjectService', () => {
       const singleMock = vi.fn().mockResolvedValue({ data: null, error: mockError });
       const insertMock = vi.fn().mockReturnValue({ select: selectMock, single: singleMock });
       
-      (supabase.from as any).mockReturnValue({ insert: insertMock });
+      (supabase.from as unknown as { mockReturnValue: (val: unknown) => void }).mockReturnValue({ insert: insertMock });
 
-      await expect(ProjectService.createProject('u1', { name: 'test' } as any, null)).rejects.toThrow('Insert failed');
+      await expect(ProjectService.createProject('u1', { name: 'test' } as { name: string; client?: string; deadline?: string; description?: string; priority?: "Low" | "Medium" | "High"; status?: "Discovery" | "In Progress" | "Completed" | "On Hold" }, null)).rejects.toThrow('Insert failed');
     });
   });
 });

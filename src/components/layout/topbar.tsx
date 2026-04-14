@@ -1,16 +1,14 @@
-import { useAuth } from "@/lib/auth";
-import { LogOut, Menu } from "lucide-react";
-import Image from "next/image";
+import { Menu } from "lucide-react";
 import { GlobalSearch } from "@/features/system/components/search/global-search";
 import { NotificationPanel } from "@/features/system/components/notifications/notification-panel";
 import { Button } from "@/components/ui/button";
+import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 
 interface TopbarProps {
   onMenuClick: () => void;
 }
 
 export function Topbar({ onMenuClick }: TopbarProps) {
-  const { user, revokeIdentitySession } = useAuth();
 
   return (
     <header 
@@ -27,6 +25,10 @@ export function Topbar({ onMenuClick }: TopbarProps) {
           >
             <Menu className="h-5 w-5" />
           </Button>
+          <div className="hidden lg:flex items-center gap-4 min-w-0">
+            <Breadcrumbs />
+            <div className="h-4 w-[1px] bg-border mx-2" />
+          </div>
           <div className="flex-1 max-w-sm min-w-0">
             <GlobalSearch />
           </div>
@@ -35,36 +37,6 @@ export function Topbar({ onMenuClick }: TopbarProps) {
         <div className="flex items-center gap-1 sm:gap-2">
           <NotificationPanel />
           
-          <div className="flex items-center gap-3 pl-2 sm:pl-4 border-l border-border/50 ml-1 sm:ml-2">
-            <div className="text-right hidden sm:block leading-tight pr-2">
-              <p className="text-[12.5px] font-black text-foreground leading-none">{user?.displayName || "Project Manager"}</p>
-              <p className="text-[10.5px] font-bold text-zinc-500 uppercase tracking-widest mt-1">Administrator</p>
-            </div>
-            
-            {user?.photoURL ? (
-              <Image 
-                src={user.photoURL} 
-                alt="Avatar" 
-                width={36} 
-                height={36} 
-                priority
-                className="h-8 w-8 sm:h-9 sm:w-9 rounded-full ring-1 ring-border" 
-              />
-            ) : (
-              <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs sm:text-sm font-black ring-1 ring-primary/20">
-                {user?.email?.charAt(0).toUpperCase() || "P"}
-              </div>
-            )}
- 
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={revokeIdentitySession}
-              className="text-zinc-400 hover:text-rose-500 hover:bg-rose-500/5 transition-all h-9 w-9 rounded-xl"
-            >
-              <LogOut className="h-4 w-4" />
-            </Button>
-          </div>
         </div>
       </div>
     </header>

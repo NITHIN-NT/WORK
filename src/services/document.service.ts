@@ -1,15 +1,4 @@
-import { db } from "@/lib/firebase";
-import { 
-  collection, 
-  onSnapshot, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc, 
-  doc, 
-  serverTimestamp,
-  query,
-  orderBy
-} from "firebase/firestore";
+import { supabase } from "@/lib/supabase";
 import { ProjectDocument } from "@/types/document";
 import { SystemService } from "./system.service";
 
@@ -18,67 +7,90 @@ export const DocumentService = {
    * Subscribe to documents for a specific project
    */
   subscribeToDocuments(projectId: string, callback: (docs: ProjectDocument[]) => void) {
-    const docsRef = collection(db, "projects", projectId, "documents");
-    const q = query(docsRef, orderBy("updatedAt", "desc"));
+    const fetchDocs = async () => {
+      const { data, error } = await supabase
+        .from('documents')
+        .select('*')
+        .eq('project_id', projectId)
+        .order('updated_at', { ascending: false });
+      
+      if (!error && data) {
+        callback(data as unknown as ProjectDocument[]);
+      }
+    };
 
-    return onSnapshot(q, (snapshot) => {
-      const documents = snapshot.docs.map(doc => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          projectId,
-          ...data,
-          createdAt: data.createdAt?.toDate?.()?.toISOString() || data.createdAt || new Date().toISOString(),
-          updatedAt: data.updatedAt?.toDate?.()?.toISOString() || data.updatedAt || new Date().toISOString(),
-        };
-      }) as ProjectDocument[];
-      callback(documents);
-    }, (error) => {
-      console.error(`[DocumentService] Subscription error for ${projectId}:`, error);
-    });
+    fetchDocs();
+
+    const channel = supabase.channel(`documents_${projectId}`)
+      .on('postgres_changes', { 
+        event: '*', 
+        schema: 'public', 
+        table: 'documents',
+        filter: `project_id=eq.${projectId}`
+      }, () => {
+        fetchDocs();
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel) };
   },
 
   /**
    * Initialize a new document within a project workspace
    */
   async createDocument(projectId: string, docData: Omit<ProjectDocument, 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'projectId'>, user: Record<string, unknown>) {
-    const docsRef = collection(db, "projects", projectId, "documents");
-    const docRef = await addDoc(docsRef, {
-      ...docData,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-      createdBy: user?.displayName || 'System',
-    });
+    const { data, error } = await supabase
+      .from('documents')
+      .insert([
+        {
+          ...docData,
+          project_id: projectId,
+          created_by: (user.displayName as string) || 'System',
+        }
+      ])
+      .select()
+      .single();
+
+    if (error) throw error;
 
     await SystemService.dispatchActivityLedger({
       projectId,
       type: 'document_created',
       title: 'Document Initialized',
       description: `New protocol record "${docData.title}" was drafted in the workspace.`,
-      userId: (user.uid as string),
+      userId: (user.uid as string) || (user.id as string),
       userName: (user.displayName as string) || 'User',
-      metadata: { documentId: docRef.id }
+      metadata: { documentId: data.id }
     });
 
-    return { id: docRef.id, ...docData, projectId };
+    return data as unknown as ProjectDocument;
   },
 
   /**
    * Update an existing document record
    */
   async synchronizeDocument(projectId: string, documentId: string, updates: Partial<ProjectDocument>) {
-    const docRef = doc(db, "projects", projectId, "documents", documentId);
-    await updateDoc(docRef, {
-      ...updates,
-      updatedAt: serverTimestamp(),
-    });
+    const { error } = await supabase
+      .from('documents')
+      .update({
+        ...updates,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', documentId);
+    
+    if (error) throw error;
   },
 
   /**
    * Purge a document record from the ledger
    */
   async purgeDocument(projectId: string, documentId: string) {
-    const docRef = doc(db, "projects", projectId, "documents", documentId);
-    await deleteDoc(docRef);
+    const { error } = await supabase
+      .from('documents')
+      .delete()
+      .eq('id', documentId);
+      
+    if (error) throw error;
   }
 };
+

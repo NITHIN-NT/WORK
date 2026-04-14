@@ -32,8 +32,8 @@ export class ErrorBoundary extends React.Component<Props, State> {
         <div className="min-h-screen flex items-center justify-center bg-[#FAFAFA] p-6 animate-in fade-in duration-150">
           <div className="max-w-xl w-full space-y-8 text-center">
             <div className="relative mx-auto w-32 h-32">
-              <div className="absolute inset-0 bg-red-500/10 rounded-[2.5rem] animate-ping" />
-              <div className="relative flex items-center justify-center w-full h-full bg-white border-2 border-red-500/20 rounded-[2.5rem] shadow-xl">
+              <div className="absolute inset-0 bg-red-500/10 rounded-md animate-ping" />
+              <div className="relative flex items-center justify-center w-full h-full bg-white border-2 border-red-500/20 rounded-md shadow-xl">
                 <AlertCircle className="w-12 h-12 text-red-500" />
               </div>
             </div>
@@ -45,7 +45,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
               </p>
             </div>
 
-            <div className="p-8 bg-white border border-border shadow-sm rounded-3xl text-left overflow-x-auto">
+            <div className="p-8 bg-white border border-border shadow-sm rounded-sm text-left overflow-x-auto">
                <p className="text-[10px] font-black text-red-500 uppercase tracking-widest mb-2 flex items-center gap-2">
                  <AlertCircle className="w-3.5 h-3.5" /> Exception Trace
                </p>
@@ -57,7 +57,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button 
                 onClick={() => window.location.reload()}
-                className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground font-black px-12 h-14 rounded-2xl shadow-xl shadow-primary/20 transition-all hover:scale-105"
+                className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground font-black px-12 h-14 rounded-sm shadow-xl shadow-primary/20 transition-all hover:scale-105"
               >
                 <RotateCcw className="w-4 h-4 mr-3" />
                 Retry Relay
@@ -65,7 +65,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
               <Button 
                 variant="outline"
                 onClick={() => window.location.href = '/'}
-                className="w-full sm:w-auto h-14 px-8 border-border bg-white text-zinc-400 font-black uppercase tracking-widest text-[10px] rounded-2xl hover:text-foreground transition-all"
+                className="w-full sm:w-auto h-14 px-8 border-border bg-white text-zinc-400 font-black uppercase tracking-widest text-[10px] rounded-sm hover:text-foreground transition-all"
               >
                 <Home className="w-4 h-4 mr-3" />
                 Back to Dashboard

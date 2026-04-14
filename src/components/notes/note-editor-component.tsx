@@ -126,7 +126,7 @@ export function NoteEditor({ content, onChange, editable = true }: NoteEditorPro
 
   return (
     <div 
-      className="rounded-xl border border-border overflow-hidden bg-card transition-all focus-within:border-primary/50 shadow-sm"
+      className="rounded-sm border border-border overflow-hidden bg-card transition-all focus-within:border-primary/50 shadow-sm"
       style={{ WebkitBackdropFilter: 'blur(40px)' }}
     >
       {editable && <MenuBar editor={editor} />}

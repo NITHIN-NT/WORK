@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Mail, Shield } from "lucide-react";
 import { useToast } from "@/components/ui/toast";
-import { UserRole } from "@/types/user";
+import { useOptions } from "@/hooks/use-options";
 
 interface InviteUserModalProps {
   isOpen: boolean;
@@ -16,14 +16,28 @@ interface InviteUserModalProps {
 
 export function InviteUserModal({ isOpen, onClose, onInvite }: InviteUserModalProps) {
   const { toast } = useToast();
+  const { getByCategory, loading: loadingOptions } = useOptions();
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("Team Member");
+  const [role, setRole] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const roles = getByCategory('user_role');
+
+  // Set default role once options are loaded
+  useEffect(() => {
+    if (roles.length > 0 && !role) {
+      setRole(roles[0].value);
+    }
+  }, [roles, role]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !email.includes("@")) {
       toast("Please enter a valid email address.", "error");
+      return;
+    }
+    if (!role) {
+      toast("Please select a role protocol.", "error");
       return;
     }
 
@@ -32,7 +46,6 @@ export function InviteUserModal({ isOpen, onClose, onInvite }: InviteUserModalPr
       await onInvite(email, role);
       onClose();
       setEmail("");
-      setRole("Team Member");
     } catch {
       toast("Failed to invite user.", "error");
     } finally {
@@ -65,14 +78,18 @@ export function InviteUserModal({ isOpen, onClose, onInvite }: InviteUserModalPr
             <div className="relative">
               <Shield className="w-3.5 h-3.5 text-zinc-300 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
               <select 
-                className="w-full bg-zinc-50 border border-border focus:bg-white text-foreground h-12 rounded-xl pl-11 pr-4 text-sm font-bold outline-none transition-all shadow-none appearance-none cursor-pointer"
+                className="w-full bg-zinc-50 border border-border focus:bg-white text-foreground h-12 rounded-xl pl-11 pr-4 text-sm font-bold outline-none transition-all shadow-none appearance-none cursor-pointer disabled:opacity-50"
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                disabled={isSubmitting}
+                disabled={isSubmitting || loadingOptions}
               >
-                {Object.values(UserRole).map(r => (
-                  <option key={r} value={r}>{r}</option>
-                ))}
+                {loadingOptions ? (
+                  <option>Loading protocols...</option>
+                ) : (
+                  roles.map(r => (
+                    <option key={r.id} value={r.value}>{r.label}</option>
+                  ))
+                )}
               </select>
             </div>
           </div>
@@ -90,7 +107,7 @@ export function InviteUserModal({ isOpen, onClose, onInvite }: InviteUserModalPr
           </Button>
           <Button 
             type="submit" 
-            disabled={isSubmitting}
+            disabled={isSubmitting || loadingOptions}
             className="flex-1 bg-primary hover:bg-primary/90 text-white font-black h-14 rounded-2xl shadow-none transition-all"
           >
             {isSubmitting ? "Inviting..." : "Send Invitation"}

@@ -1,16 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { db } from "@/lib/firebase";
-import { 
-  collection, 
-  query, 
-  onSnapshot, 
-  addDoc, 
-  serverTimestamp,
-  orderBy,
-  Timestamp
-} from "firebase/firestore";
+import { supabase } from "@/lib/supabase";
 
 export interface CalendarEvent {
   id: string;
@@ -24,37 +15,44 @@ export function useCalendarEvents() {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const eventsRef = collection(db, "calendar_events");
-    const q = query(eventsRef, orderBy("date", "asc"));
+  const fetchEvents = useCallback(async () => {
+    const { data, error } = await supabase
+      .from('calendar_events')
+      .select('*')
+      .order('date', { ascending: true });
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const eventsList = snapshot.docs.map(docSnap => {
-        const data = docSnap.data();
-        return {
-          id: docSnap.id,
-          ...data,
-          date: data.date instanceof Timestamp ? data.date.toDate() : new Date(data.date),
-        };
-      }) as CalendarEvent[];
-      
-      setEvents(eventsList);
-      setLoading(false);
-    }, (error) => {
-      console.error("Calendar events subscription error:", error);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
+    if (!error && data) {
+      setEvents(data.map(e => ({
+        ...e,
+        date: new Date(e.date)
+      })));
+    }
+    setLoading(false);
   }, []);
+
+  useEffect(() => {
+    fetchEvents();
+
+    const channel = supabase.channel('calendar_sync')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'calendar_events' }, () => {
+        fetchEvents();
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel) };
+  }, [fetchEvents]);
 
   const addEvent = useCallback(async (eventData: { title: string; date: Date; type: string; project: string }) => {
     try {
-      const eventsRef = collection(db, "calendar_events");
-      await addDoc(eventsRef, {
-        ...eventData,
-        createdAt: serverTimestamp(),
-      });
+      const { error } = await supabase
+        .from('calendar_events')
+        .insert([
+          {
+            ...eventData,
+            date: eventData.date.toISOString(),
+          }
+        ]);
+      if (error) throw error;
     } catch (error) {
       console.error("Failed to add calendar event:", error);
       throw error;
@@ -63,3 +61,4 @@ export function useCalendarEvents() {
 
   return { events, loading, addEvent };
 }
+

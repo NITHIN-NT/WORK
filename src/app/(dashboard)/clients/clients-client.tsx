@@ -50,10 +50,10 @@ export default function ClientsClient() {
       <div className="space-y-12">
         <div className="flex justify-between items-center">
           <Skeleton className="h-10 w-64" />
-          <Skeleton className="h-12 w-40 rounded-xl" />
+          <Skeleton className="h-12 w-40 rounded-sm" />
         </div>
         <div className="grid gap-8 md:grid-cols-3">
-          {[1, 2, 3].map(i => <Skeleton key={i} className="h-32 rounded-3xl" />)}
+          {[1, 2, 3].map(i => <Skeleton key={i} className="h-32 rounded-sm" />)}
         </div>
       </div>
     );
@@ -68,7 +68,7 @@ export default function ClientsClient() {
         </div>
         <Button 
           onClick={() => setIsModalOpen(true)}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-10 h-14 rounded-2xl shadow-none"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-10 h-14 rounded-sm shadow-none"
         >
           <Plus className="w-5 h-5 mr-3" />
           New Client
@@ -76,13 +76,13 @@ export default function ClientsClient() {
       </div>
 
       <div className="grid gap-8 md:grid-cols-3">
-        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-3xl overflow-hidden">
+        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-sm overflow-hidden">
           <CardHeader className="p-8">
             <CardDescription className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Active Clients</CardDescription>
             <CardTitle className="text-3xl font-bold text-foreground tabular-nums">{clients.length}</CardTitle>
           </CardHeader>
         </Card>
-        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-3xl overflow-hidden">
+        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-sm overflow-hidden">
           <CardHeader className="p-8">
             <CardDescription className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Total Value</CardDescription>
             <CardTitle className="text-3xl font-bold text-foreground tabular-nums">
@@ -90,7 +90,7 @@ export default function ClientsClient() {
             </CardTitle>
           </CardHeader>
         </Card>
-        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-3xl overflow-hidden">
+        <Card className="bg-white border-border/60 shadow-none hover:border-primary/20 transition-all rounded-sm overflow-hidden">
           <CardHeader className="p-8">
             <CardDescription className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Outstanding Balance</CardDescription>
             <CardTitle className="text-3xl font-bold text-foreground tabular-nums">
@@ -100,33 +100,33 @@ export default function ClientsClient() {
         </Card>
       </div>
 
-      <div className="flex flex-col sm:flex-row items-center gap-6 bg-white p-6 rounded-3xl border border-border/60">
+      <div className="flex flex-col sm:flex-row items-center gap-6 bg-white p-6 rounded-sm border border-border/60">
         <div className="relative flex-1 w-full group">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
           <Input 
             placeholder="Search clients..." 
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="pl-12 h-12 bg-zinc-50/50 border-border rounded-xl text-sm font-bold shadow-none focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all"
+            className="pl-12 h-12 bg-zinc-50/50 border-border rounded-sm text-sm font-bold shadow-none focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all"
           />
         </div>
       </div>
 
       <div className="space-y-4">
         {filteredClients.length === 0 ? (
-          <div className="py-24 flex flex-col items-center justify-center border border-dashed border-border rounded-3xl bg-white/50">
+          <div className="py-24 flex flex-col items-center justify-center border border-dashed border-border rounded-sm bg-white/50">
             <Users className="h-12 w-12 text-zinc-200 mb-6" />
             <p className="text-[11px] font-black text-zinc-400 uppercase tracking-[0.2em]">No clients found</p>
           </div>
         ) : filteredClients.map((client) => (
           <Card 
             key={client.id}
-            className="bg-white border-border/60 hover:border-primary/30 transition-all group shadow-none rounded-2xl overflow-hidden"
+            className="bg-white border-border/60 hover:border-primary/30 transition-all group shadow-none rounded-sm overflow-hidden"
           >
             <div className="p-8">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
                 <div className="flex items-center gap-6">
-                  <div className="h-16 w-16 rounded-2xl bg-zinc-50 flex items-center justify-center border border-border group-hover:bg-white transition-colors">
+                  <div className="h-16 w-16 rounded-sm bg-zinc-50 flex items-center justify-center border border-border group-hover:bg-white transition-colors">
                     <Building2 className="w-8 h-8 text-zinc-300 group-hover:text-primary transition-colors" />
                   </div>
                   <div>

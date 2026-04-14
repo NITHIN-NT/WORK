@@ -57,12 +57,12 @@ export default function GlobalCalendar() {
         </div>
         
         <div className="flex gap-3">
-          <div className="bg-zinc-100/50 p-1.5 rounded-2xl border border-border flex gap-1.5 shadow-xs">
+          <div className="bg-zinc-100/50 p-1.5 rounded-sm border border-border flex gap-1.5 shadow-xs">
             <Button 
               variant={view === 'calendar' ? 'secondary' : 'ghost'} 
               size="sm" 
               className={cn(
-                "h-9 px-4 gap-2 rounded-xl transition-all font-bold",
+                "h-9 px-4 gap-2 rounded-sm transition-all font-bold",
                 view === 'calendar' ? "bg-white shadow-sm text-foreground" : "text-zinc-500 hover:text-foreground"
               )}
               onClick={() => setView('calendar')}
@@ -74,7 +74,7 @@ export default function GlobalCalendar() {
               variant={view === 'agenda' ? 'secondary' : 'ghost'} 
               size="sm" 
               className={cn(
-                "h-9 px-4 gap-2 rounded-xl transition-all font-bold",
+                "h-9 px-4 gap-2 rounded-sm transition-all font-bold",
                 view === 'agenda' ? "bg-white shadow-sm text-foreground" : "text-zinc-500 hover:text-foreground"
               )}
               onClick={() => setView('agenda')}
@@ -85,7 +85,7 @@ export default function GlobalCalendar() {
           </div>
           <Button 
             onClick={() => openCreateModal()}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-8 h-[52px] rounded-2xl shadow-xl shadow-primary/20 transition-all hover:scale-[1.02]"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-8 h-[52px] rounded-sm shadow-xl shadow-primary/20 transition-all hover:scale-[1.02]"
           >
             <Plus className="w-4 h-4 mr-2" />
             Create Event
@@ -93,7 +93,7 @@ export default function GlobalCalendar() {
         </div>
       </div>
 
-      <div className="flex items-center gap-4 bg-card p-5 rounded-2xl border border-border shadow-sm">
+      <div className="flex items-center gap-4 bg-card p-5 rounded-sm border border-border shadow-sm">
         <div className="flex-1 flex gap-3 overflow-x-auto no-scrollbar">
           {["All Projects", ...projects.map(p => p.name)].map((proj) => (
             <Button 
@@ -102,7 +102,7 @@ export default function GlobalCalendar() {
               size="sm" 
               onClick={() => setActiveFilter(proj)}
               className={cn(
-                "shrink-0 border-border font-bold px-5 h-9 rounded-xl transition-all",
+                "shrink-0 border-border font-bold px-5 h-9 rounded-sm transition-all",
                 activeFilter === proj ? "bg-primary text-primary-foreground border-primary" : "bg-white text-zinc-600 hover:bg-zinc-50 hover:text-foreground"
               )}
             >
@@ -110,7 +110,7 @@ export default function GlobalCalendar() {
             </Button>
           ))}
         </div>
-        <Button variant="ghost" size="sm" className="text-zinc-500 hover:text-foreground font-bold px-4 h-9 rounded-xl transition-all">
+        <Button variant="ghost" size="sm" className="text-zinc-500 hover:text-foreground font-bold px-4 h-9 rounded-sm transition-all">
           <Filter className="w-4 h-4 mr-2" />
           More Filters
         </Button>
@@ -122,7 +122,7 @@ export default function GlobalCalendar() {
           onAddEvent={(date) => openCreateModal(date)} 
         />
       ) : (
-        <div className="bg-card border border-border rounded-3xl overflow-hidden shadow-sm">
+        <div className="bg-card border border-border rounded-sm overflow-hidden shadow-sm">
           <div className="p-6 border-b border-border bg-zinc-50/50">
             <h3 className="text-xl font-black text-foreground tracking-tight">Upcoming Agenda</h3>
           </div>
@@ -137,7 +137,7 @@ export default function GlobalCalendar() {
                 .map(event => (
                   <div key={event.id} className="p-6 flex items-center justify-between hover:bg-zinc-50/50 transition-all">
                     <div className="flex items-center gap-6">
-                      <div className="flex flex-col items-center justify-center h-14 w-14 rounded-2xl bg-zinc-100 border border-border">
+                      <div className="flex flex-col items-center justify-center h-14 w-14 rounded-sm bg-zinc-100 border border-border">
                         <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest leading-none mb-1">
                           {event.date.toLocaleString('default', { month: 'short' })}
                         </span>
@@ -157,7 +157,7 @@ export default function GlobalCalendar() {
                         </p>
                       </div>
                     </div>
-                    <Button variant="ghost" size="sm" className="text-zinc-400 hover:text-foreground font-bold rounded-xl h-10 px-6">
+                    <Button variant="ghost" size="sm" className="text-zinc-400 hover:text-foreground font-bold rounded-sm h-10 px-6">
                       View Details
                     </Button>
                   </div>

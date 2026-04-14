@@ -38,7 +38,7 @@ export default function SharedDocumentViewer() {
     return (
       <div className="h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
-          <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center animate-pulse">
+          <div className="h-12 w-12 rounded-sm bg-primary/10 flex items-center justify-center animate-pulse">
             <FileText className="h-6 w-6 text-primary" />
           </div>
           <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest animate-pulse">Synchronizing document context...</p>
@@ -70,12 +70,12 @@ export default function SharedDocumentViewer() {
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-border shadow-sm">
         <div className="max-w-4xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <div className="h-10 w-10 rounded-sm bg-primary/10 flex items-center justify-center">
               <FileText className="h-5 w-5 text-primary" />
             </div>
             <span className="text-sm font-black text-foreground tracking-tight uppercase">Workspace Portal</span>
           </div>
-          <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-6 h-10 rounded-xl shadow-lg shadow-primary/20 transition-all hover:scale-[1.02]">
+          <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-6 h-10 rounded-sm shadow-lg shadow-primary/20 transition-all hover:scale-[1.02]">
             <Download className="h-4 w-4 mr-2" />
             Secure Export
           </Button>
@@ -106,7 +106,7 @@ export default function SharedDocumentViewer() {
           </div>
 
           <article 
-            className="prose prose-zinc max-w-none mt-16 bg-white rounded-[2.5rem] p-8 sm:p-16 border border-border shadow-2xl shadow-zinc-200/50"
+            className="prose prose-zinc max-w-none mt-16 bg-white rounded-md p-8 sm:p-16 border border-border shadow-2xl shadow-zinc-200/50"
             dangerouslySetInnerHTML={{ __html: doc.content }}
           />
         </div>

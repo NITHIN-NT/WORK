@@ -43,7 +43,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             )}
           >
             <div className={cn(
-              "h-10 w-10 rounded-xl flex items-center justify-center border transition-transform group-hover:scale-110",
+              "h-10 w-10 rounded-sm flex items-center justify-center border transition-transform group-hover:scale-110",
               t.type === 'success' ? "bg-emerald-50 border-emerald-100 text-emerald-500 shadow-sm" :
               t.type === 'error' ? "bg-rose-50 border-rose-100 text-rose-500 shadow-sm" :
               "bg-primary/5 border-primary/10 text-primary shadow-sm"

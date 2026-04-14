@@ -36,13 +36,13 @@ export function EmailComposer({ onSend, onClose, defaultRecipient, defaultSubjec
 
   return (
     <div 
-      className="flex flex-col h-full bg-white/98 backdrop-blur-3xl border border-border rounded-3xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-8 duration-150"
+      className="flex flex-col h-full bg-white/98 backdrop-blur-3xl border border-border rounded-sm shadow-2xl overflow-hidden animate-in slide-in-from-bottom-8 duration-150"
       style={{ WebkitBackdropFilter: 'blur(60px)' }}
     >
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 bg-zinc-50 border-b border-border">
         <div className="flex items-center gap-2">
-          <div className="h-9 w-9 rounded-xl bg-primary/10 flex items-center justify-center">
+          <div className="h-9 w-9 rounded-sm bg-primary/10 flex items-center justify-center">
             <Mail className="h-4 w-4 text-primary" />
           </div>
           <div>
@@ -94,7 +94,7 @@ export function EmailComposer({ onSend, onClose, defaultRecipient, defaultSubjec
       {/* Footer / Actions */}
       <div className="p-6 border-t border-border flex items-center justify-between bg-zinc-50/50">
         <div className="flex items-center gap-3">
-          <Button variant="outline" size="icon" className="h-11 w-11 border-border bg-white text-zinc-400 hover:text-primary hover:border-primary/20 transition-all rounded-xl shadow-sm">
+          <Button variant="outline" size="icon" className="h-11 w-11 border-border bg-white text-zinc-400 hover:text-primary hover:border-primary/20 transition-all rounded-sm shadow-sm">
             <Paperclip className="h-4 w-4" />
           </Button>
           <span className="text-[10px] items-center text-zinc-400 font-black uppercase tracking-widest bg-white border border-border px-3 py-1.5 rounded-lg shadow-xs">
@@ -109,7 +109,7 @@ export function EmailComposer({ onSend, onClose, defaultRecipient, defaultSubjec
           <Button 
             onClick={handleSend}
             disabled={!to || isSending}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-8 shadow-xl shadow-primary/20 h-11 rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-8 shadow-xl shadow-primary/20 h-11 rounded-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
             {isSending ? (
               <span className="flex items-center gap-2">

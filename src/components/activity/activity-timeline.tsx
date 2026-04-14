@@ -56,7 +56,7 @@ export function ActivityTimeline({ activities, className }: ActivityTimelineProp
   return (
     <div className={cn("space-y-8", className)}>
       {activities.length === 0 ? (
-        <div className="py-16 flex flex-col items-center justify-center border border-dashed border-border rounded-2xl bg-white/50">
+        <div className="py-16 flex flex-col items-center justify-center border border-dashed border-border rounded-sm bg-white/50">
           <Activity className="h-10 w-10 text-zinc-200 mb-4" />
           <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em]">No activity yet</p>
           <p className="text-[10px] font-bold text-zinc-300 uppercase tracking-tight mt-1 items-center flex gap-1 text-center max-w-[200px]">

@@ -1,8 +1,18 @@
-export enum UserRole {
-  OWNER = 'Owner',
-  MEMBER = 'Team Member',
-  CLIENT = 'Client stakeholder',
-  GUEST = 'Guest viewer'
+export const UserRole = {
+  ADMIN: 'Administrator',
+  MEMBER: 'Member',
+  CLIENT: 'Client',
+} as const;
+
+export type UserRole = typeof UserRole[keyof typeof UserRole];
+
+export interface UserProfile {
+  uid: string;
+  email: string | null;
+  name: string | null;
+  role: UserRole;
+  photoURL?: string | null;
+  status?: string;
 }
 
 export interface WorkspaceUser {

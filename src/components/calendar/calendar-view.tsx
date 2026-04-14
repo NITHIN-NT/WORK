@@ -50,14 +50,14 @@ export function CalendarView({ events = [], onAddEvent }: CalendarViewProps) {
 
   return (
     <div 
-      className="bg-card backdrop-blur-xl border border-border rounded-3xl overflow-hidden shadow-sm transition-all"
+      className="bg-card backdrop-blur-xl border border-border rounded-sm overflow-hidden shadow-sm transition-all"
       style={{ WebkitBackdropFilter: 'blur(24px)' }}
     >
       {/* Calendar Header */}
       <div className="flex items-center justify-between px-6 py-5 border-b border-border bg-zinc-50/50">
         <div>
           <h3 className="text-xl font-black text-foreground tracking-tight flex items-center gap-3">
-            <span className="h-8 w-8 rounded-xl bg-primary/10 flex items-center justify-center">
+            <span className="h-8 w-8 rounded-sm bg-primary/10 flex items-center justify-center">
               <CalendarIcon className="h-4 w-4 text-primary" />
             </span>
             {format(currentMonth, 'MMMM yyyy')}
@@ -70,7 +70,7 @@ export function CalendarView({ events = [], onAddEvent }: CalendarViewProps) {
           <Button variant="ghost" size="icon" onClick={nextMonth} className="text-zinc-400 hover:text-foreground hover:bg-zinc-100 rounded-lg h-9 w-9">
             <ChevronRight className="h-5 w-5" />
           </Button>
-          <Button variant="outline" size="sm" className="ml-2 border-border bg-white text-zinc-600 font-bold hover:bg-zinc-50 h-9 rounded-xl px-4" onClick={() => setCurrentMonth(new Date())}>
+          <Button variant="outline" size="sm" className="ml-2 border-border bg-white text-zinc-600 font-bold hover:bg-zinc-50 h-9 rounded-sm px-4" onClick={() => setCurrentMonth(new Date())}>
             Today
           </Button>
         </div>

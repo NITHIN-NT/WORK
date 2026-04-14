@@ -72,7 +72,7 @@ export function CreateClientModal({ isOpen, onClose, onSuccess }: CreateClientMo
             <Input 
               required
               placeholder="e.g. Acme Corp" 
-              className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-xl shadow-none font-bold transition-all"
+              className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-sm shadow-none font-bold transition-all"
               value={formData.company}
               onChange={(e) => setFormData(prev => ({ ...prev, company: e.target.value }))}
             />
@@ -84,7 +84,7 @@ export function CreateClientModal({ isOpen, onClose, onSuccess }: CreateClientMo
             <Input 
               required
               placeholder="e.g. Sarah Mitchell" 
-              className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-xl shadow-none font-bold transition-all"
+              className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-sm shadow-none font-bold transition-all"
               value={formData.name}
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
             />
@@ -99,7 +99,7 @@ export function CreateClientModal({ isOpen, onClose, onSuccess }: CreateClientMo
             required
             type="email"
             placeholder="contact@entity.com" 
-            className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-xl shadow-none font-bold transition-all"
+            className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-sm shadow-none font-bold transition-all"
             value={formData.email}
             onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
           />
@@ -112,7 +112,7 @@ export function CreateClientModal({ isOpen, onClose, onSuccess }: CreateClientMo
             </label>
             <Input 
               placeholder="+1 (555) 000-0000" 
-              className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-xl shadow-none font-bold transition-all"
+              className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-sm shadow-none font-bold transition-all"
               value={formData.phone}
               onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
             />
@@ -122,7 +122,7 @@ export function CreateClientModal({ isOpen, onClose, onSuccess }: CreateClientMo
               <ShieldCheck className="w-3.5 h-3.5 text-zinc-300" /> Status
             </label>
             <select 
-              className="w-full bg-zinc-50 border border-border focus:bg-white text-foreground h-12 rounded-xl px-4 text-sm font-bold outline-none transition-all shadow-none appearance-none cursor-pointer"
+              className="w-full bg-zinc-50 border border-border focus:bg-white text-foreground h-12 rounded-sm px-4 text-sm font-bold outline-none transition-all shadow-none appearance-none cursor-pointer"
               value={formData.status}
               onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value as 'Active' | 'Inactive' | 'Lead' }))}
             >
@@ -138,13 +138,13 @@ export function CreateClientModal({ isOpen, onClose, onSuccess }: CreateClientMo
             type="button" 
             variant="ghost" 
             onClick={onClose}
-            className="flex-1 text-zinc-400 font-bold hover:text-foreground h-14 rounded-2xl transition-all"
+            className="flex-1 text-zinc-400 font-bold hover:text-foreground h-14 rounded-sm transition-all"
           >
             Cancel
           </Button>
           <Button 
             type="submit" 
-            className="flex-1 bg-primary hover:bg-primary/90 text-white font-black h-14 rounded-2xl shadow-none transition-all"
+            className="flex-1 bg-primary hover:bg-primary/90 text-white font-black h-14 rounded-sm shadow-none transition-all"
           >
             Save Client
           </Button>

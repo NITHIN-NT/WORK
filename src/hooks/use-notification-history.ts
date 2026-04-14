@@ -1,17 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { db } from "@/lib/firebase";
-import { 
-  collection, 
-  onSnapshot, 
-  updateDoc, 
-  doc, 
-  query, 
-  where, 
-  orderBy, 
-  writeBatch 
-} from "firebase/firestore";
+import { supabase } from "@/lib/supabase";
 import { useAuthStore } from "@/store/user";
 
 export interface NotificationItem {
@@ -21,7 +11,7 @@ export interface NotificationItem {
   type: 'info' | 'success' | 'warning' | 'error';
   timestamp: string;
   read: boolean;
-  userId: string;
+  user_id: string;
 }
 
 export function useNotificationHistory() {
@@ -29,44 +19,54 @@ export function useNotificationHistory() {
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const fetchNotifications = useCallback(async () => {
+    if (!user) return;
+    
+    const { data, error } = await supabase
+      .from('notifications')
+      .select('*')
+      .eq('user_id', user.uid)
+      .order('created_at', { ascending: false });
+
+    if (!error && data) {
+      setNotifications(data.map(n => ({
+        ...n,
+        timestamp: n.created_at
+      })) as unknown as NotificationItem[]);
+    }
+    setLoading(false);
+  }, [user]);
+
   useEffect(() => {
     if (!user) {
-      queueMicrotask(() => {
-        setNotifications([]);
-        setLoading(false);
-      });
+      setNotifications([]);
+      setLoading(false);
       return;
     }
 
-    const notificationsRef = collection(db, "notifications");
-    // Only fetch notifications for the current user
-    const q = query(
-      notificationsRef, 
-      where("userId", "==", user.uid),
-      orderBy("timestamp", "desc")
-    );
+    fetchNotifications();
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const notifs = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-        timestamp: doc.data().timestamp?.toDate?.()?.toISOString() || doc.data().timestamp || new Date().toISOString()
-      })) as NotificationItem[];
-      
-      setNotifications(notifs);
-      setLoading(false);
-    }, (error) => {
-      console.error("Notifications fetch error:", error);
-      setLoading(false);
-    });
+    const channel = supabase.channel(`notifications_${user.uid}`)
+      .on('postgres_changes', { 
+        event: '*', 
+        schema: 'public', 
+        table: 'notifications',
+        filter: `user_id=eq.${user.uid}`
+      }, () => {
+        fetchNotifications();
+      })
+      .subscribe();
 
-    return () => unsubscribe();
-  }, [user]);
+    return () => { supabase.removeChannel(channel) };
+  }, [user, fetchNotifications]);
 
   const markAsRead = useCallback(async (id: string) => {
     try {
-      const notifRef = doc(db, "notifications", id);
-      await updateDoc(notifRef, { read: true });
+      const { error } = await supabase
+        .from('notifications')
+        .update({ read: true })
+        .eq('id', id);
+      if (error) throw error;
     } catch (error) {
       console.error("Failed to mark notification as read:", error);
     }
@@ -76,14 +76,13 @@ export function useNotificationHistory() {
     if (!user || notifications.length === 0) return;
 
     try {
-      const batch = writeBatch(db);
-      notifications.forEach(n => {
-        if (!n.read) {
-          const ref = doc(db, "notifications", n.id);
-          batch.update(ref, { read: true });
-        }
-      });
-      await batch.commit();
+      const { error } = await supabase
+        .from('notifications')
+        .update({ read: true })
+        .eq('user_id', user.uid)
+        .eq('read', false);
+      
+      if (error) throw error;
     } catch (error) {
       console.error("Failed to mark all as read:", error);
     }
@@ -91,3 +90,4 @@ export function useNotificationHistory() {
 
   return { notifications, loading, markAsRead, markAllAsRead };
 }
+

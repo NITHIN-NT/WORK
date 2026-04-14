@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,7 @@ import { ListTodo, AlignLeft, BarChart2, Clock, Tag } from "lucide-react";
 
 import { useToast } from "@/components/ui/toast";
 import { isInputPopulated } from "@/lib/validation";
+import { useOptions } from "@/hooks/use-options";
 
 interface TaskUpsertModalProps {
   isOpen: boolean;
@@ -20,14 +21,28 @@ interface TaskUpsertModalProps {
 
 export function TaskUpsertModal({ isOpen, onClose, onSuccess, projectId, initialData }: TaskUpsertModalProps) {
   const { toast } = useToast();
+  const { getByCategory, loading: loadingOptions } = useOptions();
   const [formData, setFormData] = useState({
     title: initialData?.title || "",
     description: initialData?.description || "",
-    status: initialData?.status || "Todo" as TaskStatus,
-    priority: initialData?.priority || "Medium" as TaskPriority,
+    status: initialData?.status || "" as TaskStatus,
+    priority: initialData?.priority || "" as TaskPriority,
     deadline: initialData?.deadline || "",
     tags: initialData?.tags || [] as string[],
   });
+
+  const statuses = getByCategory('task_status');
+  const priorities = getByCategory('task_priority');
+
+  // Set default status/priority once options are loaded for NEW tasks
+  useEffect(() => {
+    if (!initialData?.id && statuses.length > 0 && !formData.status) {
+      setFormData(prev => ({ ...prev, status: statuses[0].value as TaskStatus }));
+    }
+    if (!initialData?.id && priorities.length > 0 && !formData.priority) {
+      setFormData(prev => ({ ...prev, priority: (priorities.find(p => p.value === 'Medium')?.value || priorities[0].value) as TaskPriority }));
+    }
+  }, [statuses, priorities, formData.status, formData.priority, initialData?.id]);
 
   const handleTaskSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,7 +67,7 @@ export function TaskUpsertModal({ isOpen, onClose, onSuccess, projectId, initial
             <Input 
               required
               placeholder="e.g. Design Review" 
-              className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-xl shadow-none font-bold transition-all"
+              className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-sm shadow-none font-bold transition-all"
               value={formData.title}
               onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
             />
@@ -63,7 +78,7 @@ export function TaskUpsertModal({ isOpen, onClose, onSuccess, projectId, initial
               <AlignLeft className="w-3.5 h-3.5 text-zinc-300" /> Description
             </label>
             <textarea 
-              className="w-full bg-zinc-50 border border-border focus:bg-white text-foreground min-h-[120px] rounded-xl p-4 text-sm font-bold outline-none transition-all shadow-none placeholder:text-zinc-300"
+              className="w-full bg-zinc-50 border border-border focus:bg-white text-foreground min-h-[120px] rounded-sm p-4 text-sm font-bold outline-none transition-all shadow-none placeholder:text-zinc-300"
               placeholder="Summarize the work to be done..."
               value={formData.description}
               onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
@@ -76,14 +91,18 @@ export function TaskUpsertModal({ isOpen, onClose, onSuccess, projectId, initial
                 <BarChart2 className="w-3.5 h-3.5 text-zinc-300" /> Priority
               </label>
               <select 
-                className="w-full bg-zinc-50 border border-border focus:bg-white text-foreground h-12 rounded-xl px-4 text-sm font-bold outline-none transition-all shadow-none appearance-none cursor-pointer"
+                className="w-full bg-zinc-50 border border-border focus:bg-white text-foreground h-12 rounded-sm px-4 text-sm font-bold outline-none transition-all shadow-none appearance-none cursor-pointer disabled:opacity-50"
                 value={formData.priority}
                 onChange={(e) => setFormData(prev => ({ ...prev, priority: e.target.value as TaskPriority }))}
+                disabled={loadingOptions}
               >
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-                <option value="Urgent">Urgent</option>
+                {loadingOptions ? (
+                  <option>Syncing...</option>
+                ) : (
+                  priorities.map(p => (
+                    <option key={p.id} value={p.value}>{p.label}</option>
+                  ))
+                )}
               </select>
             </div>
             <div className="space-y-3">
@@ -92,11 +111,31 @@ export function TaskUpsertModal({ isOpen, onClose, onSuccess, projectId, initial
               </label>
               <Input 
                 type="date"
-                className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-xl shadow-none font-bold transition-all"
+                className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-sm shadow-none font-bold transition-all"
                 value={formData.deadline}
                 onChange={(e) => setFormData(prev => ({ ...prev, deadline: e.target.value }))}
               />
             </div>
+          </div>
+
+          <div className="space-y-3">
+             <label className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.25em] flex items-center gap-2 pl-1">
+                <BarChart2 className="w-3.5 h-3.5 text-zinc-300" /> Status
+              </label>
+              <select 
+                className="w-full bg-zinc-50 border border-border focus:bg-white text-foreground h-12 rounded-sm px-4 text-sm font-bold outline-none transition-all shadow-none appearance-none cursor-pointer disabled:opacity-50"
+                value={formData.status}
+                onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value as TaskStatus }))}
+                disabled={loadingOptions}
+              >
+                {loadingOptions ? (
+                  <option>Syncing...</option>
+                ) : (
+                  statuses.map(s => (
+                    <option key={s.id} value={s.value}>{s.label}</option>
+                  ))
+                )}
+              </select>
           </div>
 
           <div className="space-y-3">
@@ -105,7 +144,7 @@ export function TaskUpsertModal({ isOpen, onClose, onSuccess, projectId, initial
             </label>
             <Input 
               placeholder="e.g. design, development" 
-              className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-xl shadow-none font-bold transition-all"
+              className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-sm shadow-none font-bold transition-all"
               onChange={(e) => setFormData(prev => ({ ...prev, tags: e.target.value.split(',').map(t => t.trim()).filter(t => t) }))}
             />
           </div>
@@ -116,13 +155,13 @@ export function TaskUpsertModal({ isOpen, onClose, onSuccess, projectId, initial
             type="button" 
             variant="ghost" 
             onClick={onClose}
-            className="flex-1 text-zinc-400 font-bold hover:text-foreground h-14 rounded-2xl transition-all"
+            className="flex-1 text-zinc-400 font-bold hover:text-foreground h-14 rounded-sm transition-all"
           >
             Cancel
           </Button>
           <Button 
             type="submit" 
-            className="flex-1 bg-primary hover:bg-primary/90 text-white font-black h-14 rounded-2xl shadow-none transition-all"
+            className="flex-1 bg-primary hover:bg-primary/90 text-white font-black h-14 rounded-sm shadow-none transition-all"
           >
             {initialData?.id ? "Save Changes" : "Create Task"}
           </Button>

@@ -1,7 +1,5 @@
 import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
 import { getAuth, Auth } from "firebase/auth";
-import { getFirestore, Firestore } from "firebase/firestore";
-import { getStorage, FirebaseStorage } from "firebase/storage";
 import { getMessaging, Messaging } from "firebase/messaging";
 
 const firebaseConfig = {
@@ -15,29 +13,21 @@ const firebaseConfig = {
 };
 
 // Next.js SSR build prevention
-const isSSR = typeof window === 'undefined';
 let app: FirebaseApp | undefined;
 let auth: Auth | undefined;
-let db: Firestore | undefined;
-let storage: FirebaseStorage | undefined;
 let messaging: Messaging | undefined;
 
 try {
   app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
   auth = getAuth(app);
-  db = getFirestore(app);
-  storage = getStorage(app);
-  
-  if (!isSSR) {
+  if (typeof window !== 'undefined') {
     messaging = getMessaging(app);
   }
 } catch (error) {
   console.error("Firebase initialization failed:", error);
 }
 
-const dbExport = db as Firestore;
 const authExport = auth as Auth;
-const storageExport = storage as FirebaseStorage;
-const messagingExport = messaging as Messaging;
 
-export { app, authExport as auth, dbExport as db, storageExport as storage, messagingExport as messaging };
+export { app, authExport as auth, messaging };
+

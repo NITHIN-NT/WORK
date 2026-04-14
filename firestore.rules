@@ -8,41 +8,73 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    // Helpers to check roles and association
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isClient() {
+      return isAuthenticated() && getUserData().role == 'Client stakeholder';
+    }
+
+    function getClientCompanyId() {
+      return getUserData().companyId;
+    }
+
     // Helper to check if a user is accessing their own UID document
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
     }
 
-    // Helper to check project membership
-    function isProjectMember(projectId) {
-      return isAuthenticated() && 
-        request.auth.uid in get(/databases/$(database)/documents/projects/$(projectId)).data.memberIds;
-    }
-
     // Project Documents
     match /projects/{projectId} {
-      allow read: if isAuthenticated() && request.auth.uid in resource.data.memberIds;
+      allow read: if isAuthenticated() && (
+        request.auth.uid in resource.data.memberIds || 
+        (isClient() && resource.data.clientId == getClientCompanyId())
+      );
       allow create: if isAuthenticated();
-      allow update, delete: if isAuthenticated() && request.auth.uid in resource.data.memberIds;
+      allow update: if isAuthenticated() && (
+        request.auth.uid in resource.data.memberIds ||
+        (isClient() && resource.data.clientId == getClientCompanyId())
+      );
+      allow delete: if isAuthenticated() && request.auth.uid in resource.data.memberIds;
       
-      // Subcollections also inherit the same project-level membership check
+      // Subcollections
       match /{allSubcollections=**} {
-        allow read, write: if isProjectMember(projectId);
+        allow read: if isAuthenticated() && (
+          request.auth.uid in get(/databases/$(database)/documents/projects/$(projectId)).data.memberIds ||
+          (isClient() && get(/databases/$(database)/documents/projects/$(projectId)).data.clientId == getClientCompanyId())
+        );
+        allow write: if isAuthenticated() && request.auth.uid in get(/databases/$(database)/documents/projects/$(projectId)).data.memberIds;
       }
     }
 
-    // Workspace Settings
-    match /settings/workspace {
-      allow read, write: if isAuthenticated();
+    // Invoices
+    match /invoices/{invoiceId} {
+      allow read: if isAuthenticated() && (
+        !isClient() || resource.data.clientId == getClientCompanyId()
+      );
+      allow write: if isAuthenticated() && !isClient();
+    }
+
+    // Tasks 
+    match /tasks/{taskId} {
+      allow read: if isAuthenticated() && (
+        !isClient() || get(/databases/$(database)/documents/projects/$(resource.data.projectId)).data.clientId == getClientCompanyId()
+      );
+      allow write: if isAuthenticated() && !isClient();
     }
 
     // Global Collections
     match /clients/{clientId} {
-      allow read, write: if isAuthenticated(); 
+      allow read: if isAuthenticated() && (
+        !isClient() || clientId == getClientCompanyId()
+      );
+      allow write: if isAuthenticated() && !isClient();
     }
 
     match /calendar_events/{eventId} {
-      allow read, write: if isAuthenticated();
+      allow read, write: if isAuthenticated() && !isClient();
     }
 
     // User profiles

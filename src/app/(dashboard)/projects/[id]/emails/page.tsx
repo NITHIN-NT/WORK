@@ -45,7 +45,7 @@ export default function ProjectEmails() {
   const [showComposer, setShowComposer] = useState(false);
 
   return (
-    <div className="relative min-h-[calc(100vh-120px)] space-y-8 animate-in fade-in duration-700">
+    <div className="relative min-h-[calc(100vh-120px)] space-y-8 animate-in fade-in duration-200">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-3xl font-black text-foreground tracking-tight flex items-center gap-2">
@@ -83,7 +83,7 @@ export default function ProjectEmails() {
             <CardContent className="p-5 sm:p-8">
               <div className="flex flex-col sm:flex-row sm:items-center gap-6">
                 <div className="h-14 w-14 rounded-2xl bg-zinc-50 border border-border flex items-center justify-center shrink-0 group-hover:bg-primary/5 group-hover:border-primary/20 transition-all">
-                  <Mail className="h-6 w-6 text-zinc-400 group-hover:text-primary transition-colors duration-500" />
+                  <Mail className="h-6 w-6 text-zinc-400 group-hover:text-primary transition-colors duration-150" />
                 </div>
                 
                 <div className="flex-1 min-w-0 space-y-2">

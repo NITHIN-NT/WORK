@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { InvoiceBuilder } from "@/components/invoices/invoice-builder";
+import { InvoiceBuilder } from "@/features/financials/components/invoice-builder";
 import { Button } from "@/components/ui/button";
 import { Plus, Receipt } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -27,7 +27,7 @@ export default function ProjectInvoices() {
   const [view, setView] = useState<'list' | 'create'>('list');
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700">
+    <div className="space-y-8 animate-in fade-in duration-200">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-3xl font-black text-foreground tracking-tight">Finances & Invoices</h2>
@@ -128,7 +128,7 @@ export default function ProjectInvoices() {
           </Card>
         </div>
       ) : (
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-150">
           <InvoiceBuilder 
             projectId={params.id as string}
             onSave={(data) => {

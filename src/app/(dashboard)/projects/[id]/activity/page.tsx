@@ -16,7 +16,7 @@ export default function ProjectActivity() {
 
   if (loading) {
     return (
-      <div className="space-y-8 animate-in fade-in duration-500">
+      <div className="space-y-8 animate-in fade-in duration-150">
         <div className="space-y-3">
           <Skeleton className="h-10 w-64 bg-zinc-100" />
           <Skeleton className="h-4 w-48 bg-zinc-50" />
@@ -37,7 +37,7 @@ export default function ProjectActivity() {
   }
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700">
+    <div className="space-y-8 animate-in fade-in duration-200">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-3xl font-black text-foreground tracking-tight">Activity History</h2>

@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import InvoicesClient from "./invoices-client";
 
 export const metadata: Metadata = {
-  title: "Invoices & Billing | Project Workspace OS",
-  description: "Centralized financial ledger to track, manage, and generate project invoices across all client workspaces.",
+  title: "Invoices | WORK",
+  description: "Financial tracking and invoice lifecycle management.",
 };
 
 export default function InvoicesPage() {

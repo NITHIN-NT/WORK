@@ -24,7 +24,7 @@ interface ActivityTimelineProps {
   className?: string;
 }
 
-const activityIcons: Record<ActivityType, LucideIcon> = {
+const activityIconMap: Record<ActivityType, LucideIcon> = {
   task_created: PlusCircle,
   task_updated: Clock,
   task_completed: CheckCircle2,
@@ -38,64 +38,68 @@ const activityIcons: Record<ActivityType, LucideIcon> = {
   requirement_updated: AlertCircle,
 };
 
-const activityColors: Record<ActivityType, string> = {
-  task_created: "text-secondary bg-secondary/10 border-secondary/20",
-  task_updated: "text-zinc-400 bg-zinc-400/10 border-zinc-400/20",
-  task_completed: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20",
-  note_updated: "text-purple-500 bg-purple-500/10 border-purple-500/20",
-  invoice_generated: "text-amber-500 bg-amber-500/10 border-amber-500/20",
-  invoice_sent: "text-sky-500 bg-sky-500/10 border-sky-500/20",
-  document_uploaded: "text-indigo-500 bg-indigo-500/10 border-indigo-500/20",
-  document_created: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20",
-  financial_update: "text-amber-500 bg-amber-500/10 border-amber-500/20",
-  project_created: "text-primary bg-primary/10 border-primary/20",
-  requirement_updated: "text-rose-500 bg-rose-500/10 border-rose-500/20",
+const activityColorMap: Record<ActivityType, string> = {
+  task_created: "text-zinc-500",
+  task_updated: "text-zinc-400",
+  task_completed: "text-emerald-600",
+  note_updated: "text-zinc-500",
+  invoice_generated: "text-zinc-600",
+  invoice_sent: "text-primary",
+  document_uploaded: "text-zinc-500",
+  document_created: "text-zinc-500",
+  financial_update: "text-zinc-600",
+  project_created: "text-foreground",
+  requirement_updated: "text-rose-600",
 };
 
 export function ActivityTimeline({ activities, className }: ActivityTimelineProps) {
   return (
-    <div className={cn("space-y-6", className)}>
+    <div className={cn("space-y-8", className)}>
       {activities.length === 0 ? (
-        <div className="py-12 flex flex-col items-center justify-center border-2 border-dashed border-border rounded-3xl bg-zinc-50/50">
-          <p className="text-sm font-black text-zinc-400 uppercase tracking-widest text-[10px]">No activity recorded</p>
+        <div className="py-16 flex flex-col items-center justify-center border border-dashed border-border rounded-2xl bg-white/50">
+          <Activity className="h-10 w-10 text-zinc-200 mb-4" />
+          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em]">No activity yet</p>
+          <p className="text-[10px] font-bold text-zinc-300 uppercase tracking-tight mt-1 items-center flex gap-1 text-center max-w-[200px]">
+            Updates will appear here as you work.
+          </p>
         </div>
       ) : (
         <div className="flow-root">
-          <ul role="list" className="-mb-8">
+          <ul role="list" className="-mb-10">
             {activities.map((activity, idx) => {
-              const Icon = activityIcons[activity.type] || Activity;
+              const Icon = activityIconMap[activity.type] || Activity;
               return (
                 <li key={activity.id}>
-                  <div className="relative pb-8 group">
+                  <div className="relative pb-10 group">
                     {idx !== activities.length - 1 && (
                       <span 
-                        className="absolute left-4 top-4 -ml-px h-full w-0.5 bg-zinc-100 group-hover:bg-primary/20 transition-colors" 
+                        className="absolute left-4 top-4 -ml-px h-full w-[1px] bg-zinc-100 group-hover:bg-zinc-200 transition-colors" 
                         aria-hidden="true" 
                       />
                     )}
-                    <div className="relative flex space-x-4 items-start">
+                    <div className="relative flex space-x-6 items-start">
                       <div>
                         <span className={cn(
-                          "h-8 w-8 rounded-full flex items-center justify-center ring-4 ring-white border border-border shadow-sm transition-transform group-hover:scale-110",
-                          activityColors[activity.type]
+                          "h-8 w-8 rounded-full flex items-center justify-center bg-white border border-border shadow-sm transition-transform group-hover:scale-105",
+                          activityColorMap[activity.type]
                         )}>
-                          <Icon className="h-4 w-4" aria-hidden="true" />
+                          <Icon className="h-3.5 w-3.5" aria-hidden="true" />
                         </span>
                       </div>
-                      <div className="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                      <div className="flex min-w-0 flex-1 justify-between space-x-4 pt-1">
                         <div>
-                          <p className="text-sm text-zinc-600 font-medium">
-                            <span className="font-black text-foreground">{activity.userName}</span>{' '}
+                          <p className="text-[13px] text-zinc-500 font-medium leading-relaxed">
+                            <span className="font-bold text-foreground">{activity.userName}</span>{' '}
                             {activity.title}
                             {activity.description && (
-                              <span className="block text-xs text-zinc-500 mt-1 leading-relaxed font-medium">
+                              <span className="block text-[11.5px] text-zinc-400 mt-0.5 leading-relaxed">
                                 {activity.description}
                               </span>
                             )}
                           </p>
                         </div>
-                        <div className="whitespace-nowrap text-right text-[10px] font-black text-zinc-400 uppercase tracking-widest mt-0.5">
-                          {formatDistanceToNow(new Date(activity.timestamp))} ago
+                        <div className="whitespace-nowrap text-right text-[9px] font-black text-zinc-300 uppercase tracking-widest mt-1">
+                          {formatDistanceToNow(new Date(activity.timestamp), { addSuffix: true })}
                         </div>
                       </div>
                     </div>
@@ -109,3 +113,4 @@ export function ActivityTimeline({ activities, className }: ActivityTimelineProp
     </div>
   );
 }
+

@@ -12,12 +12,20 @@ import {
 interface WorkspaceSettings {
   currency: string;
   timezone: string;
+  theme: 'custom' | 'dark';
+  milestoneAlerts: boolean;
+  financialAlerts: boolean;
+  mfaEnabled: boolean;
   updatedAt?: Date | string | { toDate: () => Date };
 }
 
 const DEFAULT_SETTINGS: WorkspaceSettings = {
   currency: 'INR',
   timezone: '(GMT+05:30) Mumbai, New Delhi',
+  theme: 'custom',
+  milestoneAlerts: true,
+  financialAlerts: false,
+  mfaEnabled: false,
 };
 
 export function useWorkspaceSettings() {
@@ -30,7 +38,15 @@ export function useWorkspaceSettings() {
 
     const unsubscribe = onSnapshot(settingsRef, (docSnap) => {
       if (docSnap.exists()) {
-        setSettings(docSnap.data() as WorkspaceSettings);
+        const data = docSnap.data() as WorkspaceSettings;
+        setSettings(data);
+        if (typeof window !== 'undefined') {
+          if (data.theme === 'dark') {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        }
       } else {
         // Initialize if not exists
         setDoc(settingsRef, DEFAULT_SETTINGS);

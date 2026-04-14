@@ -48,7 +48,7 @@ export default function ProjectDocuments() {
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700">
+    <div className="space-y-8 animate-in fade-in duration-200">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-3xl font-black text-foreground tracking-tight flex items-center gap-2">
@@ -97,7 +97,7 @@ export default function ProjectDocuments() {
                 <CardContent className="p-8">
                   <div className="flex items-start justify-between mb-6">
                     <div className="h-14 w-14 rounded-2xl bg-zinc-100 border border-border flex items-center justify-center group-hover:bg-primary/5 group-hover:border-primary/20 transition-all">
-                      <FileText className="h-6 w-6 text-zinc-400 group-hover:text-primary transition-transform duration-500" />
+                      <FileText className="h-6 w-6 text-zinc-400 group-hover:text-primary transition-transform duration-150" />
                     </div>
                     {doc.isPublic ? (
                       <div className="flex items-center gap-2 px-3 py-1 rounded-xl bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 text-[10px] font-black uppercase tracking-widest shadow-sm shadow-emerald-500/5">

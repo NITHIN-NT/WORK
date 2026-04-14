@@ -11,7 +11,7 @@ interface EmptyStateProps {
 
 export function EmptyState({ icon: Icon, title, description, actionText, onAction }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center p-12 text-center rounded-3xl border-2 border-dashed border-border bg-zinc-50/50 animate-in fade-in zoom-in-95 duration-700">
+    <div className="flex flex-col items-center justify-center p-12 text-center rounded-3xl border-2 border-dashed border-border bg-zinc-50/50 animate-in fade-in zoom-in-95 duration-200">
       <div className="h-20 w-20 rounded-2xl bg-zinc-100 flex items-center justify-center border border-border mb-6 relative">
         <div className="absolute inset-0 bg-primary/5 rounded-2xl animate-pulse" />
         <Icon className="h-10 w-10 text-primary relative z-10" />

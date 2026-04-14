@@ -39,7 +39,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
           <div
             key={t.id}
             className={cn(
-              "pointer-events-auto flex items-center gap-4 px-6 py-4 rounded-[1.5rem] border shadow-[0_20px_40px_-5px_rgba(0,0,0,0.15)] animate-in slide-in-from-right duration-500 min-w-[340px] bg-white border-border group",
+              "pointer-events-auto flex items-center gap-4 px-6 py-4 rounded-[1.5rem] border shadow-[0_20px_40px_-5px_rgba(0,0,0,0.15)] animate-in slide-in-from-right duration-150 min-w-[340px] bg-white border-border group",
             )}
           >
             <div className={cn(

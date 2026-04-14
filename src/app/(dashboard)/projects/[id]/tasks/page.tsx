@@ -1,15 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { TaskBoard } from "@/components/tasks/task-board";
-import { TaskUpsertModal } from "@/components/tasks/task-upsert-modal";
+import { TaskBoard } from "@/features/tasks/components/task-board";
+import { TaskUpsertModal } from "@/features/tasks/components/task-upsert-modal";
 import { useTasks } from "@/hooks/use-tasks";
 import { Task, TaskStatus } from "@/types/task";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Plus } from "lucide-react";
 import { useParams } from "next/navigation";
-import { TaskFilterBar } from "@/components/tasks/task-filter-bar";
+import { TaskFilterBar } from "@/features/tasks/components/task-filter-bar";
 import { useToast } from "@/components/ui/toast";
 
 export default function ProjectTasks() {
@@ -59,7 +59,7 @@ export default function ProjectTasks() {
   });
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700">
+    <div className="space-y-8 animate-in fade-in duration-200">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-3xl font-black text-foreground tracking-tight">Project Board</h2>
@@ -91,8 +91,8 @@ export default function ProjectTasks() {
 
       <TaskBoard 
         tasks={filteredTasks} 
-        onAddTask={handleAddTask} 
-        onEditTask={handleEditTask}
+        initializeTaskCreation={handleAddTask} 
+        dispatchTaskAudit={handleEditTask}
       />
 
       <TaskUpsertModal 

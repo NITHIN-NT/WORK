@@ -16,11 +16,11 @@ const GLOBAL_DOCS = [
 
 export default function GlobalDocuments() {
   return (
-    <div className="space-y-8 animate-in fade-in duration-700">
+    <div className="space-y-8 animate-in fade-in duration-200">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black tracking-tight text-foreground mb-1">Knowledge Base</h1>
-          <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Unified access to all documentation across workspaces.</p>
+          <h1 className="text-3xl font-black tracking-tight text-foreground mb-1">Documents</h1>
+          <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Manage your files and documents across all projects.</p>
         </div>
         
         <div className="flex gap-3">
@@ -30,7 +30,7 @@ export default function GlobalDocuments() {
           </Button>
           <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-8 h-11 rounded-xl shadow-lg shadow-primary/20 transition-all hover:scale-[1.02]">
             <Plus className="w-4 h-4 mr-2" />
-            Template
+            New Document
           </Button>
         </div>
       </div>
@@ -42,7 +42,7 @@ export default function GlobalDocuments() {
               <FileText className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Total Shared</p>
+              <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Shared Files</p>
               <p className="text-2xl font-black text-foreground tracking-tight">42 docs</p>
             </div>
           </CardContent>
@@ -53,7 +53,7 @@ export default function GlobalDocuments() {
               <Globe className="w-6 h-6 text-emerald-500" />
             </div>
             <div>
-              <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Public Links</p>
+              <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Active Links</p>
               <p className="text-2xl font-black text-foreground tracking-tight">12 shared</p>
             </div>
           </CardContent>
@@ -75,7 +75,7 @@ export default function GlobalDocuments() {
         <div className="relative flex-1 max-w-sm group">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
           <Input 
-            placeholder="Search all knowledge base..." 
+            placeholder="Search documents..." 
             className="pl-11 bg-white border-border h-11 rounded-xl text-sm font-bold shadow-xs focus:ring-2 focus:ring-primary/10 transition-all"
           />
         </div>
@@ -104,7 +104,7 @@ export default function GlobalDocuments() {
               </div>
               <div className="flex items-center gap-8">
                 <div className="text-right hidden sm:block">
-                  <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest leading-none">Last Revision</p>
+                  <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest leading-none">Last Updated</p>
                   <p className="text-xs font-black text-foreground mt-2">{doc.updatedAt}</p>
                 </div>
                 {doc.shared && (

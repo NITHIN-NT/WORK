@@ -2,53 +2,25 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { Task } from '@/types/task';
-import { logActivity } from '@/lib/activity-store';
 import { useAuthStore } from '@/store/user';
+import { TaskService } from '@/services/task.service';
 
-// Placeholder for real Firestore logic
-import { db } from "@/lib/firebase";
-import { 
-  collection, 
-  onSnapshot, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc, 
-  doc, 
-  serverTimestamp,
-  query,
-  orderBy
-} from "firebase/firestore";
-
-// Placeholder for real Firestore logic
+/**
+ * Domain-driven hook for orchestration of task states and synchronization.
+ */
 export function useTasks(projectId: string) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuthStore();
 
   useEffect(() => {
-    if (!projectId || projectId === "global") {
-      queueMicrotask(() => {
-        setLoading(false);
-        setTasks([]);
-      });
+    if (!projectId) {
+      queueMicrotask(() => setLoading(false));
       return;
     }
 
-    const tasksRef = collection(db, "projects", projectId, "tasks");
-    const q = query(tasksRef, orderBy("createdAt", "asc"));
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const tasksList = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-        createdAt: doc.data().createdAt?.toDate?.()?.toISOString() || doc.data().createdAt || new Date().toISOString(),
-        updatedAt: doc.data().updatedAt?.toDate?.()?.toISOString() || doc.data().updatedAt || new Date().toISOString(),
-      })) as Task[];
-      
+    const unsubscribe = TaskService.subscribeToTasks(projectId, (tasksList) => {
       setTasks(tasksList);
-      setLoading(false);
-    }, (error) => {
-      console.error("Tasks subscription error:", error);
       setLoading(false);
     });
 
@@ -56,78 +28,33 @@ export function useTasks(projectId: string) {
   }, [projectId]);
 
   const addTask = useCallback(async (taskData: Omit<Task, 'id' | 'createdAt' | 'updatedAt' | 'createdBy'>) => {
+    if (!user) return;
     try {
       setLoading(true);
-      const tasksRef = collection(db, "projects", projectId, "tasks");
-      const docRef = await addDoc(tasksRef, {
-        ...taskData,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-        createdBy: user?.displayName || 'User',
-      });
-
-      if (user) {
-        await logActivity({
-          projectId,
-          type: 'task_created',
-          title: 'New Task Created',
-          description: `Task "${taskData.title}" was added to the board.`,
-          userId: user.uid,
-          userName: user.displayName || 'User',
-          metadata: { taskId: docRef.id }
-        });
-      }
+      const newTask = await TaskService.createTask(projectId, taskData, user as unknown as Record<string, unknown>);
       setLoading(false);
-      return { id: docRef.id, ...taskData };
+      return newTask;
     } catch (error) {
-      console.error("Failed to add task:", error);
       setLoading(false);
       throw error;
     }
   }, [projectId, user]);
 
   const updateTask = useCallback(async (taskId: string, updates: Partial<Task>) => {
+    if (!user) return;
     try {
-      const taskRef = doc(db, "projects", projectId, "tasks", taskId);
-      await updateDoc(taskRef, {
-        ...updates,
-        updatedAt: serverTimestamp(),
-      });
-      
-      if (user && updates.status) {
-        await logActivity({
-          projectId,
-          type: 'task_updated',
-          title: 'Task Status Updated',
-          description: `Task status moved to ${updates.status}.`,
-          userId: user.uid,
-          userName: user.displayName || 'User',
-          metadata: { taskId, status: updates.status }
-        });
-      }
+      await TaskService.updateTask(projectId, taskId, updates, user as unknown as Record<string, unknown>);
     } catch (error) {
-      console.error("Failed to update task:", error);
+      console.error("[useTasks] updateTask failure:", error);
     }
   }, [projectId, user]);
 
   const deleteTask = useCallback(async (taskId: string) => {
+    if (!user) return;
     try {
-      const taskRef = doc(db, "projects", projectId, "tasks", taskId);
-      await deleteDoc(taskRef);
-      
-      if (user) {
-        await logActivity({
-          projectId,
-          type: 'task_updated',
-          title: 'Task Deleted',
-          description: 'A task was permanently removed from the workspace.',
-          userId: user.uid,
-          userName: user.displayName || 'User',
-          metadata: { taskId }
-        });
-      }
+      await TaskService.deleteTask(projectId, taskId, user as unknown as Record<string, unknown>);
     } catch (error) {
-      console.error("Failed to delete task:", error);
+      console.error("[useTasks] deleteTask failure:", error);
     }
   }, [projectId, user]);
 
@@ -140,3 +67,4 @@ export function useTasks(projectId: string) {
     setTasks,
   };
 }
+

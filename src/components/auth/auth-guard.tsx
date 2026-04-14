@@ -36,7 +36,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
       <div className="flex h-screen w-screen items-center justify-center bg-white">
         <div className="flex flex-col items-center gap-4">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent shadow-xl" />
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 animate-pulse">Syncing Relay...</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 animate-pulse">Loading data...</p>
         </div>
       </div>
     );

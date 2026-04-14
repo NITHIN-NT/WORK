@@ -36,13 +36,13 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <div 
-        className="absolute inset-0 bg-zinc-900/20 backdrop-blur-xl animate-in fade-in duration-500" 
+        className="absolute inset-0 bg-zinc-900/20 backdrop-blur-xl animate-in fade-in duration-150" 
         style={{ WebkitBackdropFilter: 'blur(24px)' }}
         onClick={onClose} 
       />
       <div 
         ref={modalRef}
-        className="relative w-full max-w-xl bg-white border border-border rounded-[2.5rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] animate-in zoom-in-95 duration-500 overflow-hidden"
+        className="relative w-full max-w-xl bg-white border border-border rounded-[2.5rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] animate-in zoom-in-95 duration-150 overflow-hidden"
       >
         <div className="flex flex-col p-8 border-b border-border bg-zinc-50/30">
           <div className="flex items-center justify-between">
@@ -56,7 +56,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
               <X className="h-4 w-4" />
             </Button>
           </div>
-          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] mt-2 pl-0.5">System Relay Protocol Overlay</p>
+          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] mt-2 pl-0.5">Details</p>
         </div>
         <div className="p-8">
           {children}

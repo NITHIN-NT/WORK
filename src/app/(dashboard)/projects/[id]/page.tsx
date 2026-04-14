@@ -9,7 +9,7 @@ export default function ProjectDashboard() {
   const projectId = params.id as string;
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700">
+    <div className="space-y-8 animate-in fade-in duration-200">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-3 mb-1">
@@ -32,7 +32,7 @@ export default function ProjectDashboard() {
             <div className="text-2xl font-black text-foreground tracking-tight">18/24</div>
             <div className="mt-4 h-2 w-full bg-zinc-100 rounded-full overflow-hidden border border-border/50">
               <div 
-                className="h-full bg-primary rounded-full transition-all duration-1000" 
+                className="h-full bg-primary rounded-full transition-all duration-300" 
                 style={{ width: "75%" }} 
               />
             </div>

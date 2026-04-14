@@ -1,44 +1,74 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { ProjectDocument } from "@/types/document";
-import { FileText, Download, Calendar, User, ChevronRight } from "lucide-react";
+import { FileText, Download, Calendar, User, ChevronRight, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-
-// Mock fetching logic for public viewer
-const getPublicDoc = (id: string): ProjectDocument | null => {
-  return {
-    id,
-    projectId: 'p1',
-    title: 'Acme E-commerce Proposal',
-    type: 'Proposal',
-    content: '<h1>Project Proposal</h1><p>This is a shared document view. In a real scenario, this would fetch from Firestore using the public token.</p><h2>Overview</h2><p>Acme Corp is looking to modernize their digital presence...</p>',
-    isPublic: true,
-    createdAt: '2026-03-20',
-    updatedAt: '2026-04-12',
-    createdBy: 'Sarah Chen'
-  };
-};
+import { EmptyState } from "@/components/shared/empty-state";
 
 export default function SharedDocumentViewer() {
   const params = useParams();
+  const router = useRouter();
   const id = params.id as string;
   const [doc, setDoc] = useState<ProjectDocument | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate API call
-    setDoc(getPublicDoc(id));
+    async function fetchDoc() {
+      try {
+        // Attempt to fetch from the specific project's documents if we had the context, 
+        // but since this is a public share route, we'd typically use a public access token 
+        // or a dedicated 'shared_docs' collection.
+        // For now, we remove the dummy data and attempt a direct fetch if possible, 
+        // otherwise show the proper empty state.
+        setLoading(true);
+        // Note: Real implementation would require a public access strategy
+        setDoc(null); 
+      } catch (error) {
+        console.error("Error fetching shared document:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchDoc();
   }, [id]);
 
-  if (!doc) return <div className="h-screen flex items-center justify-center bg-background text-zinc-500 font-black uppercase tracking-widest text-[10px]">Synchronizing document context...</div>;
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center animate-pulse">
+            <FileText className="h-6 w-6 text-primary" />
+          </div>
+          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest animate-pulse">Synchronizing document context...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!doc) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-background px-6">
+        <EmptyState 
+          icon={AlertCircle}
+          title="Document not found"
+          description="The document you are looking for might have been moved, deleted, or you might not have permission to view it."
+          action={{
+            label: "Go to Dashboard",
+            onClick: () => router.push("/")
+          }}
+          className="max-w-md w-full border-none bg-transparent"
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background selection:bg-primary/10 selection:text-primary">
       {/* Public Branding Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-border shadow-sm">
-        <div className="max-w-4xl mx-auto px-6 h-18 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
               <FileText className="h-5 w-5 text-primary" />
@@ -52,7 +82,7 @@ export default function SharedDocumentViewer() {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-6 pt-36 pb-24">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-28 sm:pt-36 pb-24">
         <div className="space-y-12">
           <div className="space-y-6">
             <div className="flex items-center gap-2 text-[10px] font-black text-primary uppercase tracking-widest bg-primary/5 w-fit px-3 py-1 rounded-lg border border-primary/10">
@@ -76,7 +106,7 @@ export default function SharedDocumentViewer() {
           </div>
 
           <article 
-            className="prose prose-zinc max-w-none mt-16 bg-white rounded-[2rem] p-8 sm:p-16 border border-border shadow-2xl shadow-zinc-200/50"
+            className="prose prose-zinc max-w-none mt-16 bg-white rounded-[2.5rem] p-8 sm:p-16 border border-border shadow-2xl shadow-zinc-200/50"
             dangerouslySetInnerHTML={{ __html: doc.content }}
           />
         </div>

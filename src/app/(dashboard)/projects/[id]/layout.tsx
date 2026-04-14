@@ -36,7 +36,7 @@ export default function ProjectLayout({
   const projectId = params.id as string;
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700">
+    <div className="space-y-8 animate-in fade-in duration-200">
       <div className="border-b border-border pb-2 overflow-x-auto no-scrollbar bg-card/30 backdrop-blur-sm sticky top-0 z-10 -mx-6 px-6">
         <nav className="flex space-x-1 min-w-max">
           {projectNav.map((item) => {

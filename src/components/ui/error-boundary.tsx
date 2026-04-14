@@ -29,7 +29,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-[#FAFAFA] p-6 animate-in fade-in duration-500">
+        <div className="min-h-screen flex items-center justify-center bg-[#FAFAFA] p-6 animate-in fade-in duration-150">
           <div className="max-w-xl w-full space-y-8 text-center">
             <div className="relative mx-auto w-32 h-32">
               <div className="absolute inset-0 bg-red-500/10 rounded-[2.5rem] animate-ping" />

@@ -5,8 +5,13 @@ import { NoteEditor } from "@/components/notes/note-editor";
 import { Button } from "@/components/ui/button";
 import { Download, Save, History, FileText, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import dynamic from 'next/dynamic';
 import { NotePDF } from "@/lib/pdf/note-pdf";
+
+const PDFDownloadLink = dynamic(
+  () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
+  { ssr: false }
+);
 
 type NoteType = 'internal' | 'requirements';
 
@@ -20,7 +25,7 @@ export default function ProjectNotes() {
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700">
+    <div className="space-y-8 animate-in fade-in duration-200">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-3xl font-black text-foreground tracking-tight">Workspace Notes</h2>

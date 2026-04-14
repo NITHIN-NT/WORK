@@ -18,7 +18,7 @@ export default function DashboardError({
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center p-6">
-      <div className="max-w-md w-full text-center space-y-8 animate-in zoom-in-95 duration-500">
+      <div className="max-w-md w-full text-center space-y-8 animate-in zoom-in-95 duration-150">
         <div className="relative mx-auto w-24 h-24 flex items-center justify-center">
           <div className="absolute inset-x-0 inset-y-0 bg-rose-500/10 rounded-full blur-2xl animate-pulse" />
           <div className="relative z-10 h-20 w-20 bg-white shadow-2xl shadow-rose-500/10 rounded-3xl border border-rose-100 flex items-center justify-center">

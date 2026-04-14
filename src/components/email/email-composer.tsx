@@ -36,7 +36,7 @@ export function EmailComposer({ onSend, onClose, defaultRecipient, defaultSubjec
 
   return (
     <div 
-      className="flex flex-col h-full bg-white/98 backdrop-blur-3xl border border-border rounded-3xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-8 duration-500"
+      className="flex flex-col h-full bg-white/98 backdrop-blur-3xl border border-border rounded-3xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-8 duration-150"
       style={{ WebkitBackdropFilter: 'blur(60px)' }}
     >
       {/* Header */}

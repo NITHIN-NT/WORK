@@ -6,41 +6,40 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
-  const { signInWithGoogle } = useAuth();
+  const { authenticateIdentityGoogle } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleGoogleLogin = async () => {
+  const handleLogin = async () => {
     setIsLoading(true);
     try {
-      await signInWithGoogle();
+      await authenticateIdentityGoogle();
     } catch {
-      // Error is handled in hook
+      // Login error handled in hook
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background">
-      {/* Refined Studio Light Gradients */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-secondary/5 blur-[120px] pointer-events-none" />
-      <div className="absolute top-[20%] right-[20%] w-[30%] h-[30%] rounded-full bg-purple-500/5 blur-[80px] pointer-events-none" />
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-white">
+      {/* Forensic Background Gradients */}
+      <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-zinc-100 blur-[160px] pointer-events-none" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-zinc-50 blur-[160px] pointer-events-none" />
 
-      <Card className="w-full max-w-sm mx-4 relative z-10 border-border shadow-2xl bg-card/80 backdrop-blur-2xl rounded-[3rem] overflow-hidden">
-        <CardHeader className="space-y-4 pt-12 pb-10">
-          <div className="space-y-2">
-            <CardTitle className="text-3xl text-center font-black tracking-tighter text-foreground uppercase">Workspace Relay</CardTitle>
-            <CardDescription className="text-center text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">
-              Authentication Protocol Required
+      <Card className="w-full max-w-sm mx-4 relative z-10 border-border/50 shadow-none bg-white rounded-[3rem] overflow-hidden border">
+        <CardHeader className="space-y-6 pt-16 pb-12">
+          <div className="space-y-3">
+            <CardTitle className="text-5xl text-center font-black tracking-tighter text-foreground uppercase">WORK</CardTitle>
+            <CardDescription className="text-center text-[10px] font-black uppercase tracking-[0.4em] text-zinc-400 pl-1">
+              Please Log In
             </CardDescription>
           </div>
         </CardHeader>
-        <CardContent className="px-10 pb-12">
+        <CardContent className="px-12 pb-16">
           <Button
-            onClick={handleGoogleLogin}
+            onClick={handleLogin}
             disabled={isLoading}
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-black h-16 rounded-[1.5rem] shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-4 text-sm"
+            className="w-full bg-zinc-900 hover:bg-black text-white font-black h-16 rounded-2xl transition-all active:scale-[0.98] flex items-center justify-center gap-4 text-sm shadow-none"
           >
             {isLoading ? (
               <div className="h-5 w-5 rounded-full border-2 border-white/20 border-r-white animate-spin" />
@@ -66,19 +65,19 @@ export default function LoginPage() {
                     />
                   </svg>
                 </div>
-                Continue with Google
+                Sign in with Google
               </>
             )}
           </Button>
           
-          <div className="mt-8 text-center">
-            <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400">
-              Access Restricted to Verified Staff Only
+          <div className="mt-10 text-center">
+            <p className="text-[10px] font-black uppercase tracking-widest text-zinc-300">
+              Secure Login Process
             </p>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-center text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 border-t border-border/50 py-8 bg-zinc-50/50">
-          System Relay Status: <span className="text-emerald-500 ml-2 animate-pulse">Online</span>
+        <CardFooter className="flex justify-center text-[10px] font-black uppercase tracking-[0.25em] text-zinc-300 border-t border-border/30 py-10 bg-zinc-50/50">
+          Version: <span className="text-zinc-600 ml-2 font-black">v0.1.0</span>
         </CardFooter>
       </Card>
     </div>

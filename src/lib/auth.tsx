@@ -35,23 +35,23 @@ export function useAuth() {
   const router = useRouter();
   const { user, isLoading } = useAuthStore();
 
-  const signInWithGoogle = async () => {
+  const authenticateIdentityGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
-      router.push("/"); // Redirect to dashboard
+      router.push("/"); // Transition to primary dashboard
     } catch (error) {
-      console.error("Error signing in with Google:", error);
+      console.error("[Auth] Identity handshake failed:", error);
       throw error;
     }
   };
 
-  const signOut = async () => {
+  const revokeIdentitySession = async () => {
     try {
       await firebaseSignOut(auth);
       router.push("/login");
     } catch (error) {
-      console.error("Error signing out:", error);
+      console.error("[Auth] Session revocation error:", error);
       throw error;
     }
   };
@@ -59,7 +59,7 @@ export function useAuth() {
   return {
     user,
     isLoading,
-    signInWithGoogle,
-    signOut,
+    authenticateIdentityGoogle,
+    revokeIdentitySession,
   };
 }

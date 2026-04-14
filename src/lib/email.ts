@@ -19,7 +19,7 @@ export async function sendEmail({ to, subject, html, cc, bcc, attachments }: Sen
 
   try {
     const { data, error } = await resend.emails.send({
-      from: 'Workspace OS <notifications@workspace-os.platform>', // Should be a verified domain
+      from: process.env.RESEND_FROM_EMAIL || 'WORK <onboarding@resend.dev>',
       to,
       subject,
       html,

@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import SettingsClient from "./settings-client";
 
 export const metadata: Metadata = {
-  title: "Settings | Project Workspace OS",
-  description: "Configure your workspace preferences, localization settings, and visual themes.",
+  title: "Settings | WORK",
+  description: "Configure your global workspace preferences and security.",
 };
 
 export default function SettingsPage() {

@@ -14,7 +14,7 @@ const MOCK_EVENTS = [
 
 export default function ProjectCalendar() {
   return (
-    <div className="space-y-8 animate-in fade-in duration-700">
+    <div className="space-y-8 animate-in fade-in duration-200">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="space-y-1">
           <h2 className="text-3xl font-black text-foreground tracking-tight">Project Calendar</h2>

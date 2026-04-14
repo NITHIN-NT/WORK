@@ -8,9 +8,12 @@ import {
   updateDoc, 
   doc, 
   query,
-  orderBy
+  orderBy,
+  deleteDoc,
+  addDoc
 } from "firebase/firestore";
 import { WorkspaceUser, UserRole } from "@/types/user";
+import { sendInviteEmailAction } from "@/actions/send-invite";
 
 export function useWorkspaceUsers() {
   const [users, setUsers] = useState<WorkspaceUser[]>([]);
@@ -55,5 +58,39 @@ export function useWorkspaceUsers() {
     }
   }, []);
 
-  return { users, loading, updateUserRole, updateUserStatus };
+  const removeUser = useCallback(async (userId: string) => {
+    try {
+      const userRef = doc(db, "users", userId);
+      await deleteDoc(userRef);
+    } catch (error) {
+      console.error("Failed to remove user:", error);
+    }
+  }, []);
+
+  const inviteUser = useCallback(async (email: string, role: string) => {
+    try {
+      const emailResult = await sendInviteEmailAction(email, role);
+      if (!emailResult.success) {
+        throw new Error("Failed to dispatch email");
+      }
+
+      const usersRef = collection(db, "users");
+      const newUser = {
+        name: email.split('@')[0],
+        email: email,
+        role: role,
+        status: 'Pending',
+        lastSeen: new Date(),
+      };
+      
+      // Fire-and-forget to prevent Firestore hanging on offline/dev mode
+      addDoc(usersRef, newUser).catch(err => console.error("Firebase write error:", err));
+      
+    } catch (error) {
+      console.error("Failed to invite user:", error);
+      throw error; // Rethrow to let UI catch it
+    }
+  }, []);
+
+  return { users, loading, updateUserRole, updateUserStatus, removeUser, inviteUser };
 }

@@ -7,12 +7,15 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 import { useCalendarEvents } from "@/hooks/use-calendar-events";
+import { useProjects } from "@/hooks/use-projects";
 import { EventModal } from "@/components/calendar/event-modal";
 import { useToast } from "@/components/ui/toast";
 
 export default function GlobalCalendar() {
   const [view, setView] = useState<'calendar' | 'agenda'>('calendar');
-  const { events, loading, addEvent } = useCalendarEvents();
+  const { events, loading: eventsLoading, addEvent } = useCalendarEvents();
+  const { projects, loading: projectsLoading } = useProjects();
+  const loading = eventsLoading || projectsLoading;
   const [activeFilter, setActiveFilter] = useState("All Projects");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
@@ -46,11 +49,11 @@ export default function GlobalCalendar() {
   }
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700">
+    <div className="space-y-8 animate-in fade-in duration-200">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="space-y-1">
           <h1 className="text-3xl font-black tracking-tight text-foreground mb-1">Global Calendar</h1>
-          <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Master schedule across all project workspaces.</p>
+          <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Master schedule across all projects.</p>
         </div>
         
         <div className="flex gap-3">
@@ -92,7 +95,7 @@ export default function GlobalCalendar() {
 
       <div className="flex items-center gap-4 bg-card p-5 rounded-2xl border border-border shadow-sm">
         <div className="flex-1 flex gap-3 overflow-x-auto no-scrollbar">
-          {["All Projects", "Acme Corp", "Nexus Tech", "Innova", "Startup Inc"].map((proj) => (
+          {["All Projects", ...projects.map(p => p.name)].map((proj) => (
             <Button 
               key={proj} 
               variant="outline" 

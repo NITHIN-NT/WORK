@@ -37,54 +37,54 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 0 0% 98%;
+    --foreground: 0 0% 7%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
-  }
-
-  /* Forced Universal Light Theme for Studio Aesthetic */
-  :root, .dark {
-    --background: 0 0% 98%;    /* #FAFAFA - Warm Off-White */
-    --foreground: 0 0% 7%;     /* #121212 - Master Obsidian Typography */
-    --card: 0 0% 100%;        /* Pure White for card pop */
     --card-foreground: 0 0% 7%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 7%;
-    --primary: 216 39% 48%;    /* #4A70A9 - Remains Blue */
+    --primary: 216 39% 48%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 216 44% 70%;  /* #8FABD4 - Remains Light Blue */
+    --secondary: 216 44% 70%;
     --secondary-foreground: 216 40% 5%;
-    --muted: 216 20% 96%;      /* Very soft gray for muted elements */
+    --muted: 216 20% 96%;
     --muted-foreground: 216 10% 45%; 
-    --accent: 216 39% 48%;     /* Indigo accents */
+    --accent: 216 39% 48%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
-    --border: 0 0% 94%;        /* #F1F1F1 - Subtle division lines */
+    --border: 0 0% 94%;
     --input: 0 0% 94%;
-    --ring: 216 39% 48%;       /* Match Primary */
+    --ring: 216 39% 48%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 240 10% 4%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 6%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 6%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 216 39% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 10% 15%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 10% 12%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 216 39% 58%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 40.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 10% 15%;
+    --input: 240 10% 15%;
+    --ring: 216 39% 58%;
   }
 
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
     font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
   }
 }

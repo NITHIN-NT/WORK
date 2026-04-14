@@ -9,8 +9,8 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Project Workspace Platform",
-  description: "Internal Project Operations Platform for comprehensive workflow management.",
+  title: "WORK",
+  description: "Unified Project Workspace Operating System",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,

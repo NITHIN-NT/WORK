@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import ClientsClient from "./clients-client";
 
 export const metadata: Metadata = {
-  title: "Client Directory | Project Workspace OS",
-  description: "Centralized CRM for managing client accounts, lifetime values, and active project distributions.",
+  title: "Clients | WORK",
+  description: "External stakeholder coordination and profile management.",
 };
 
 export default function ClientsPage() {

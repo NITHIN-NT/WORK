@@ -50,65 +50,70 @@ export default function ProjectsPage() {
   }
 
   return (
-    <div className="space-y-12">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-        <div>
-          <h1 className="text-4xl font-bold tracking-tight text-foreground mb-2">Projects</h1>
-          <p className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400">View and manage all your active projects.</p>
+    <div className="space-y-12 animate-reveal-up">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-8 border-b border-white/5 pb-12">
+        <div className="space-y-4">
+          <h1 className="text-6xl font-black text-white tracking-tighter italic">
+            Projects
+            <span className="text-primary drop-shadow-[0_0_15px_rgba(var(--primary),0.5)]">.</span>
+          </h1>
+          <p className="text-zinc-500 font-bold tracking-tight text-[11px] uppercase tracking-[0.4em]">Strategic Operations Manifest</p>
         </div>
         <Button 
           onClick={() => setIsModalOpen(true)}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground font-black px-10 h-14 rounded-sm shadow-none"
+          className="px-12 h-16 rounded-2xl shadow-2xl"
         >
           <Plus className="h-5 w-5 mr-3" />
-          New Project
+          Initialize Project
         </Button>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-6 bg-white p-6 rounded-sm border border-border/60">
+      <div className="flex flex-col sm:flex-row gap-6 glass p-8 rounded-[2.5rem] border-white/5">
         <div className="relative flex-1 max-w-md group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-500 group-focus-within:text-white transition-colors" />
           <Input
-            placeholder="Search projects..."
+            placeholder="Query operational nodes..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="pl-12 h-12 bg-zinc-50/50 border-border rounded-sm text-sm font-bold shadow-none focus:bg-white focus:ring-4 focus:ring-primary/5 transition-all"
+            className="pl-14 font-black text-white"
           />
         </div>
       </div>
 
       {filteredProjects.length === 0 ? (
-        <div className="py-24 flex flex-col items-center justify-center border border-dashed border-border rounded-sm bg-white/50">
-          <FolderKanban className="h-12 w-12 text-zinc-200 mb-6" />
-          <p className="text-[11px] font-black text-zinc-400 uppercase tracking-[0.2em]">
-            {query ? "No projects match your search" : "No projects yet"}
+        <div className="py-32 flex flex-col items-center justify-center border border-dashed border-white/10 rounded-[2.5rem] bg-white/5">
+          <FolderKanban className="h-16 w-16 text-zinc-700 mb-8 animate-pulse" />
+          <p className="text-[11px] font-black text-zinc-500 uppercase tracking-[0.4em]">
+            {query ? "Zero matching records found" : "No Project Instances Detected"}
           </p>
         </div>
       ) : (
         <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
           {filteredProjects.map((project) => (
             <Link href={`/projects/${project.id}`} key={project.id}>
-              <Card className="group h-full bg-white border-border/60 hover:border-primary/30 transition-all cursor-pointer shadow-none hover:shadow-sm relative overflow-hidden rounded-sm">
-                <CardHeader className="flex flex-row items-start justify-between space-y-0 p-8 pb-4">
-                  <div className="space-y-2">
+              <Card className="group h-full p-6 border-white/5 hover:border-primary/30 transition-all duration-500 cursor-pointer relative overflow-hidden">
+                <CardHeader className="flex flex-row items-start justify-between space-y-0 p-6 pb-4">
+                  <div className="space-y-3">
                     <div className="flex items-center gap-2 mb-2">
                       <span className={cn(
-                        "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border transition-colors",
-                        project.status === 'In Progress' ? "bg-primary text-white border-primary" : "bg-zinc-50 text-zinc-400 border-border"
+                        "px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.3em] border transition-all duration-500",
+                        project.status === 'In Progress' 
+                          ? "bg-primary/20 text-primary border-primary/30 shadow-[0_0_15px_rgba(var(--primary),0.1)]" 
+                          : "bg-white/5 text-zinc-500 border-white/10"
                       )}>
-                        {project.status === 'In Progress' ? 'In Progress' : project.status}
+                        {project.status}
                       </span>
                     </div>
-                    <CardTitle className="text-xl font-bold text-foreground group-hover:text-primary transition-colors tracking-tight">
+                    <CardTitle className="text-2xl font-black text-white group-hover:text-primary transition-colors tracking-tighter italic">
                       {project.name}
                     </CardTitle>
-                    <CardDescription className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">
+                    <CardDescription className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] group-hover:text-zinc-400 transition-colors">
                       {project.client}
                     </CardDescription>
                   </div>
                   <DropdownMenu 
                     trigger={
-                      <Button variant="ghost" size="icon" className="h-10 w-10 text-zinc-400 hover:text-foreground">
+                      <Button variant="ghost" size="icon" className="h-10 w-10 text-zinc-500 hover:text-white hover:bg-white/5 rounded-xl transition-all">
                         <MoreVertical className="h-5 w-5" />
                       </Button>
                     }
@@ -126,28 +131,28 @@ export default function ProjectsPage() {
                     </DropdownMenuItem>
                   </DropdownMenu>
                 </CardHeader>
-                <CardContent className="p-8 pt-4">
-                  <div className="space-y-6">
-                    <div className="space-y-2.5">
-                      <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
-                        <span className="text-zinc-400">Progress</span>
-                        <span className="text-foreground">{project.progress}%</span>
+                <CardContent className="p-6 pt-4">
+                  <div className="space-y-8">
+                    <div className="space-y-3">
+                      <div className="flex justify-between text-[9px] font-black uppercase tracking-widest">
+                        <span className="text-zinc-500">Operation Status</span>
+                        <span className="text-white">{project.progress}%</span>
                       </div>
-                      <div className="h-1.5 w-full bg-zinc-100 rounded-full overflow-hidden border border-border/50">
+                      <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
                         <div 
-                          className="h-full bg-primary rounded-full transition-all duration-300" 
+                          className="h-full bg-gradient-to-r from-primary to-indigo-500 rounded-full transition-all duration-1000 ease-out" 
                           style={{ width: `${project.progress}%` }} 
                         />
                       </div>
                     </div>
-                    <div className="flex items-center justify-between text-[10px] font-black text-zinc-400 pt-3 border-t border-border/50 uppercase tracking-widest">
-                      <div className="flex items-center gap-2">
-                        <FolderKanban className="h-4 w-4 text-zinc-300" />
-                        <span>{project.tasksCount} Tasks</span>
+                    <div className="flex items-center justify-between text-[10px] font-black text-zinc-500 pt-6 border-t border-white/5 uppercase tracking-widest">
+                      <div className="flex items-center gap-2 group-hover:text-white transition-colors">
+                        <FolderKanban className="h-4 w-4" />
+                        <span>{project.tasksCount} Objectives</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-zinc-300" />
-                        <span>Deadline: {new Date(project.deadline).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
+                      <div className="flex items-center gap-2 group-hover:text-white transition-colors">
+                        <Calendar className="h-4 w-4" />
+                        <span>{new Date(project.deadline).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
                       </div>
                     </div>
                   </div>

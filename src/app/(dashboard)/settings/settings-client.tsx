@@ -132,11 +132,14 @@ export default function SettingsClient() {
   }
 
   return (
-    <div className="space-y-12 pb-24">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-        <div>
-          <h1 className="text-4xl font-bold tracking-tight text-foreground mb-2">Settings</h1>
-          <p className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400">Manage your account and workspace preferences.</p>
+    <div className="space-y-12 animate-reveal-up pb-24">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-8 border-b border-white/5 pb-12">
+        <div className="space-y-4">
+          <h1 className="text-6xl font-black text-white tracking-tighter italic">
+            Settings
+            <span className="text-primary drop-shadow-[0_0_15px_rgba(var(--primary),0.5)]">.</span>
+          </h1>
+          <p className="text-zinc-500 font-bold tracking-tight text-[11px] uppercase tracking-[0.4em]">Integrated Core Configuration</p>
         </div>
       </div>
 
@@ -147,65 +150,68 @@ export default function SettingsClient() {
               key={tab.id}
               onClick={() => setActiveTab(tab.id as SettingsTab)}
               className={cn(
-                "w-full flex items-center gap-4 px-6 py-4 rounded-2xl text-[12px] font-bold transition-all border",
+                "w-full flex items-center gap-5 px-8 py-5 rounded-[2rem] text-[12px] font-black uppercase tracking-[0.2em] transition-all duration-500 border",
                 activeTab === tab.id
-                  ? "bg-primary text-white border-primary shadow-none"
-                  : "bg-white text-zinc-500 border-border/60 hover:bg-zinc-50 hover:text-foreground"
+                  ? "bg-primary text-white border-primary shadow-[0_0_20px_rgba(var(--primary),0.2)] scale-105"
+                  : "glass text-zinc-500 border-white/5 hover:bg-white/5 hover:text-white"
               )}
             >
-              <tab.icon className={cn("w-5 h-5", activeTab === tab.id ? "text-white" : "text-zinc-400")} />
+              <tab.icon className={cn("w-5 h-5 transition-transform duration-500", activeTab === tab.id ? "text-white scale-110" : "text-zinc-600")} />
               <span className="flex-1 text-left">{tab.label}</span>
-              {activeTab === tab.id && <ChevronRight className="w-4 h-4 ml-auto" />}
+              {activeTab === tab.id && <ChevronRight className="w-4 h-4 ml-auto animate-pulse" />}
             </button>
           ))}
         </div>
 
         <div className="flex-1 space-y-10">
           {activeTab === 'profile' && (
-            <Card className="bg-white border-border/60 shadow-none rounded-3xl overflow-hidden">
-              <CardHeader className="p-10 border-b border-border/40">
-                <CardTitle className="text-2xl font-bold text-foreground tracking-tight">Profile</CardTitle>
-                <CardDescription className="text-[11px] font-black text-zinc-400 uppercase tracking-widest pt-1">Manage your personal information.</CardDescription>
+            <Card className="glass border-white/5 rounded-[2.5rem] overflow-hidden">
+              <CardHeader className="p-12 border-b border-white/5">
+                <CardTitle className="text-3xl font-black text-white tracking-tighter italic">Identity Management</CardTitle>
+                <CardDescription className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] pt-2">Synchronization profile parameters</CardDescription>
               </CardHeader>
-              <CardContent className="p-10">
-                <form onSubmit={synchronizeProfileIdentity} className="space-y-10">
+              <CardContent className="p-12">
+                <form onSubmit={synchronizeProfileIdentity} className="space-y-12">
                   <div className="flex items-center gap-10">
-                    <div className="h-24 w-24 rounded-3xl bg-zinc-50 border border-border flex items-center justify-center text-3xl font-bold text-foreground shadow-none relative overflow-hidden group">
+                    <div className="h-32 w-32 rounded-[2rem] bg-white/5 border border-white/5 flex items-center justify-center text-4xl font-black text-white shadow-2xl relative overflow-hidden group">
                       {user?.photoURL ? (
                         <Image 
                           src={user.photoURL} 
                           alt="ID" 
                           fill
                           priority
-                          className="object-cover" 
+                          className="object-cover group-hover:scale-110 transition-transform duration-1000" 
                         />
                       ) : (
                         user?.displayName?.charAt(0) || 'U'
                       )}
+                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                        <Palette className="w-8 h-8 text-white" />
+                      </div>
                     </div>
-                    <div className="space-y-3">
-                      <Button type="button" variant="outline" className="border-border bg-white h-11 px-6 font-bold text-xs rounded-xl shadow-none">
-                        Upload Photo
+                    <div className="space-y-4">
+                      <Button type="button" variant="outline" className="border-white/5 glass h-14 px-10 font-black text-xs uppercase tracking-widest hover:bg-white/5 transition-all">
+                        Update Core Avatar
                       </Button>
-                      <p className="text-[10px] text-zinc-300 font-black uppercase tracking-widest">Supports JPG, PNG or GIF.</p>
+                      <p className="text-[9px] text-zinc-600 font-black uppercase tracking-[0.3em]">Handshake supports JPG, PNG, GIF</p>
                     </div>
                   </div>
-                  <div className="grid sm:grid-cols-2 gap-8">
-                    <div className="space-y-3">
-                      <label className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Full Name</label>
-                      <Input name="name" defaultValue={user?.displayName || ""} className="h-14 bg-zinc-50/50 border-border text-foreground font-bold rounded-xl shadow-none focus:bg-white" />
+                  <div className="grid sm:grid-cols-2 gap-10">
+                    <div className="space-y-4">
+                      <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em]">Operator Name</label>
+                      <Input name="name" defaultValue={user?.displayName || ""} className="h-16 text-white font-black" />
                     </div>
-                    <div className="space-y-3">
-                      <label className="text-[10px] font-black text-zinc-300 uppercase tracking-widest">Email Address</label>
-                      <Input disabled value={user?.email || ""} className="h-14 bg-zinc-100 border-border text-zinc-400 font-bold rounded-xl shadow-none cursor-not-allowed" />
+                    <div className="space-y-4">
+                      <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em]">Endpoint Identity</label>
+                      <Input disabled value={user?.email || ""} className="h-16 bg-white/5 border-white/5 text-zinc-600 font-bold italic" />
                     </div>
                   </div>
                   <Button 
                     type="submit"
                     disabled={isSaving}
-                    className="bg-primary hover:bg-primary/90 text-white font-black h-14 px-12 rounded-2xl shadow-none transition-all"
+                    className="h-16 px-16 rounded-2xl shadow-none active:scale-95 transition-all"
                   >
-                    {isSaving ? "Saving..." : "Save Changes"}
+                    {isSaving ? "Syncing..." : "Push Updates"}
                   </Button>
                 </form>
               </CardContent>
@@ -213,70 +219,72 @@ export default function SettingsClient() {
           )}
 
           {activeTab === 'team' && (
-            <Card className="bg-white border-border/60 shadow-none rounded-3xl overflow-hidden">
-              <CardHeader className="flex flex-row items-center justify-between p-10 border-b border-border/40">
-                <div className="space-y-1">
-                  <CardTitle className="text-2xl font-bold text-foreground tracking-tight">Team Members</CardTitle>
-                  <CardDescription className="text-[11px] font-black text-zinc-400 uppercase tracking-widest pt-1">Manage who has access to your workspace.</CardDescription>
+            <Card className="glass border-white/5 rounded-[2.5rem] overflow-hidden">
+              <CardHeader className="flex flex-row items-center justify-between p-12 border-b border-white/5 bg-white/[0.02]">
+                <div className="space-y-2">
+                  <CardTitle className="text-3xl font-black text-white tracking-tighter italic">Operational Unit</CardTitle>
+                  <CardDescription className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] pt-1">Authorized workspace access ledger</CardDescription>
                 </div>
-                <Button onClick={handleGrantAccess} className="bg-primary hover:bg-primary/90 text-white font-black px-8 h-12 rounded-xl shadow-none">
-                  <UserPlus className="w-4 h-4 mr-3" />
-                  Invite User
+                <Button onClick={handleGrantAccess} className="px-10 h-14 rounded-xl">
+                  <UserPlus className="w-5 h-5 mr-3" />
+                  Grant Access
                 </Button>
               </CardHeader>
               <CardContent className="p-0">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left">
                     <thead>
-                      <tr className="border-b border-border bg-zinc-50/30">
-                        <th className="px-10 py-5 text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em]">User</th>
-                        <th className="px-10 py-5 text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em]">Role</th>
-                        <th className="px-10 py-5 text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em]">Status</th>
-                        <th className="px-10 py-5 text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em]">Last Active</th>
-                        <th className="px-10 py-5"></th>
+                      <tr className="border-b border-white/5 bg-white/[0.01]">
+                        <th className="px-12 py-6 text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em]">Operator</th>
+                        <th className="px-12 py-6 text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em]">Clearance</th>
+                        <th className="px-12 py-6 text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em]">Status</th>
+                        <th className="px-12 py-6 text-[10px] font-black text-zinc-600 uppercase tracking-[0.4em]">Last Heartbeat</th>
+                        <th className="px-12 py-6"></th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-border/40">
+                    <tbody className="divide-y divide-white/5">
                       {users.map((u) => (
-                        <tr key={u.id} className="group hover:bg-zinc-50/50 transition-colors">
-                          <td className="px-10 py-6">
-                            <div className="flex items-center gap-4">
-                              <div className="h-10 w-10 rounded-xl bg-zinc-100 flex items-center justify-center font-bold text-zinc-400 border border-border group-hover:bg-white transition-all">
+                        <tr key={u.id} className="group hover:bg-white/[0.03] transition-colors">
+                          <td className="px-12 py-8">
+                            <div className="flex items-center gap-5">
+                              <div className="h-14 w-14 rounded-2xl bg-white/5 flex items-center justify-center font-black text-white border border-white/10 group-hover:bg-primary group-hover:border-primary transition-all duration-500">
                                 {u.name?.charAt(0) || 'U'}
                               </div>
                               <div>
-                                <p className="text-[14px] font-bold text-foreground tracking-tight leading-none mb-1.5">{u.name}</p>
-                                <p className="text-[10px] text-zinc-300 font-black uppercase tracking-widest">{u.email}</p>
+                                <p className="text-lg font-black text-white tracking-tight italic mb-1.5">{u.name}</p>
+                                <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">{u.email}</p>
                               </div>
                             </div>
                           </td>
-                          <td className="px-10 py-6">
+                          <td className="px-12 py-8">
                             <select 
                               defaultValue={u.role}
                               onChange={(e) => updateUserRole(u.id, e.target.value as UserRole)}
-                              className="bg-white border border-border rounded-xl px-4 py-2 text-[10px] font-black uppercase tracking-widest text-zinc-600 outline-none hover:border-primary/50 transition-all cursor-pointer shadow-none"
+                              className="bg-white/5 border border-white/5 rounded-xl px-4 py-2 text-[10px] font-black uppercase tracking-widest text-white outline-none hover:border-primary/50 transition-all cursor-pointer"
                             >
                               {Object.values(UserRole).map(role => (
-                                <option key={role} value={role}>{role}</option>
+                                <option key={role} value={role} className="bg-zinc-900">{role}</option>
                               ))}
                             </select>
                           </td>
-                          <td className="px-10 py-6">
+                          <td className="px-12 py-8">
                             <span className={cn(
-                              "text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-full border inline-flex items-center gap-2",
-                              u.status === 'Active' ? "text-white bg-primary border-primary" : "text-zinc-400 bg-zinc-50 border-border"
+                              "text-[9px] font-black uppercase tracking-[0.3em] px-4 py-1.5 rounded-full border inline-flex items-center gap-2",
+                              u.status === 'Active' 
+                                ? "text-primary bg-primary/20 border-primary/30 shadow-[0_0_10px_rgba(var(--primary),0.1)]" 
+                                : "text-zinc-600 bg-white/5 border-white/10"
                             )}>
                               {u.status}
                             </span>
                           </td>
-                          <td className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-zinc-400 tabular-nums">
+                          <td className="px-12 py-8 text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 tabular-nums italic">
                             {u.lastSeen}
                           </td>
-                          <td className="px-10 py-6 text-right">
+                          <td className="px-12 py-8 text-right">
                             <DropdownMenu 
                               trigger={
-                                <Button variant="ghost" size="icon" className="h-10 w-10 text-zinc-300 hover:text-foreground hover:bg-white transition-all">
-                                  <MoreHorizontal className="w-5 h-5" />
+                                <Button variant="ghost" size="icon" className="h-12 w-12 text-zinc-600 hover:text-white hover:bg-white/5 transition-all">
+                                  <MoreHorizontal className="w-6 h-6" />
                                 </Button>
                               }
                             >
@@ -284,7 +292,7 @@ export default function SettingsClient() {
                                 variant="destructive" 
                                 onClick={() => handleRemoveUser(u.id, u.name)}
                               >
-                                <UserMinus className="w-4 h-4 mr-2" /> Revoke Access
+                                <UserMinus className="w-4 h-4 mr-2" /> Revoke Keys
                               </DropdownMenuItem>
                             </DropdownMenu>
                           </td>
@@ -298,84 +306,89 @@ export default function SettingsClient() {
           )}
 
           {activeTab === 'workspace' && (
-            <Card className="bg-white border-border/60 shadow-none rounded-3xl overflow-hidden">
-              <CardHeader className="p-10 border-b border-border/40">
-                <CardTitle className="text-2xl font-bold text-foreground tracking-tight">Workspace Preferences</CardTitle>
-                <CardDescription className="text-[11px] font-black text-zinc-400 uppercase tracking-widest pt-1">Set your default currency and timezone.</CardDescription>
+            <Card className="glass border-white/5 rounded-[2.5rem] overflow-hidden">
+              <CardHeader className="p-12 border-b border-white/5">
+                <CardTitle className="text-3xl font-black text-white tracking-tighter italic">Workspace Protocol</CardTitle>
+                <CardDescription className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] pt-2">Global transaction and temporal standards</CardDescription>
               </CardHeader>
-              <CardContent className="p-10 space-y-12">
-                <div className="space-y-6">
-                  <label className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] block">Currency</label>
-                  <div className="grid grid-cols-3 gap-6">
+              <CardContent className="p-12 space-y-12">
+                <div className="space-y-8">
+                  <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] block">Financial Manifest Relay</label>
+                  <div className="grid grid-cols-3 gap-8">
                     {['INR', 'USD', 'EUR'].map((curr) => (
                       <button
                         key={curr}
                         onClick={() => updateCurrencyRelay(curr)}
                         className={cn(
-                          "px-8 py-8 rounded-3xl border text-[14px] font-bold transition-all flex flex-col items-center justify-center gap-3",
+                          "px-10 py-12 rounded-[2rem] border text-[14px] font-black uppercase tracking-[0.2em] transition-all duration-500 flex flex-col items-center justify-center gap-4",
                           settings.currency === curr 
-                            ? "bg-primary text-white border-primary" 
-                            : "bg-zinc-50/50 text-zinc-400 border-border hover:bg-white hover:border-primary/30"
+                            ? "bg-primary text-white border-primary shadow-[0_0_30px_rgba(var(--primary),0.2)] scale-105" 
+                            : "bg-white/5 text-zinc-600 border-white/5 hover:bg-white/10 hover:border-primary/30"
                         )}
                       >
-                        <span className="text-xl">{curr}</span>
+                        <span className="text-3xl font-black italic tracking-tighter">{curr}</span>
                         <p className={cn(
-                          "text-[9px] font-black uppercase tracking-[0.3em]",
-                          settings.currency === curr ? "text-white/60" : "text-zinc-300"
+                          "text-[9px] font-black uppercase tracking-[0.4em]",
+                          settings.currency === curr ? "text-white/60" : "text-zinc-600"
                         )}>
-                          {curr === 'INR' ? 'Rupee' : curr === 'USD' ? 'Dollar' : 'Euro'}
+                          {curr === 'INR' ? 'Indian Rupee' : curr === 'USD' ? 'US Dollar' : 'Euro Unit'}
                         </p>
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className="space-y-6 pt-10 border-t border-border/30">
-                  <label className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] block">Timezone</label>
-                  <select 
-                    value={settings.timezone}
-                    onChange={(e) => synchronizeTemporalZone(e.target.value)}
-                    className="w-full bg-zinc-50 border border-border focus:border-primary/50 text-foreground h-14 rounded-xl px-6 text-sm font-bold outline-none transition-all cursor-pointer appearance-none hover:bg-white"
-                  >
-                    <option value="(GMT+05:30) Mumbai, New Delhi">(GMT+05:30) Mumbai, New Delhi</option>
-                    <option value="(GMT-08:00) Pacific Time Zone">(GMT-08:00) Pacific Time Zone</option>
-                    <option value="(GMT+01:00) Central European Relay">(GMT+01:00) Central European Relay</option>
-                  </select>
+                <div className="space-y-8 pt-12 border-t border-white/5">
+                  <label className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] block">Temporal Synchronization</label>
+                  <div className="relative group">
+                    <Globe className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-600 group-hover:text-primary transition-colors duration-500" />
+                    <select 
+                      value={settings.timezone}
+                      onChange={(e) => synchronizeTemporalZone(e.target.value)}
+                      className="w-full h-16 bg-white/5 border border-white/5 text-white font-black pl-16 pr-8 rounded-2xl appearance-none cursor-pointer hover:bg-white/10 transition-all outline-none"
+                    >
+                      <option value="(GMT+05:30) Mumbai, New Delhi" className="bg-zinc-900">UTC+05:30 • IST Zone</option>
+                      <option value="(GMT-08:00) Pacific Time Zone" className="bg-zinc-900">UTC-08:00 • PST Node</option>
+                      <option value="(GMT+01:00) Central European Relay" className="bg-zinc-900">UTC+01:00 • CE Relay</option>
+                    </select>
+                  </div>
                 </div>
               </CardContent>
             </Card>
           )}
 
           {activeTab === 'appearance' && (
-            <Card className="bg-white border-border/60 shadow-none rounded-3xl overflow-hidden">
-              <CardHeader className="p-10 border-b border-border/40">
-                <CardTitle className="text-2xl font-bold text-foreground tracking-tight">Appearance</CardTitle>
-                <CardDescription className="text-[11px] font-black text-zinc-400 uppercase tracking-widest pt-1">Customize how your workspace looks.</CardDescription>
+            <Card className="glass border-white/5 rounded-[2.5rem] overflow-hidden">
+              <CardHeader className="p-12 border-b border-white/5">
+                <CardTitle className="text-3xl font-black text-white tracking-tighter italic">Visual Synthesis</CardTitle>
+                <CardDescription className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] pt-2">Interface matrix configuration</CardDescription>
               </CardHeader>
-              <CardContent className="p-10 grid gap-8">
+              <CardContent className="p-12 grid gap-10">
                 {[
-                  { id: 'custom', name: 'Light Mode', desc: 'Default light theme', primary: 'bg-white border-border' },
-                  { id: 'dark', name: 'Dark Mode', desc: 'Dark theme for low light environments', primary: 'bg-zinc-900' },
+                  { id: 'custom', name: 'Legacy Light', desc: 'High luminance industrial relay', primary: 'bg-white border-zinc-200' },
+                  { id: 'dark', name: 'Titanium Dark', desc: 'Deep-void premium synthesis', primary: 'bg-zinc-900 border-white/10 shadow-[inner_0_0_20px_rgba(0,0,0,0.5)]' },
                 ].map((theme) => (
                   <div 
                     key={theme.id}
                     onClick={() => updateSettings({ theme: theme.id as 'custom' | 'dark' })}
                     className={cn(
-                      "flex items-center justify-between p-8 rounded-3xl transition-all cursor-pointer border-2",
+                      "flex items-center justify-between p-10 rounded-[2.5rem] transition-all duration-700 cursor-pointer border-2",
                       settings.theme === theme.id 
-                        ? "bg-zinc-50 border-primary" 
-                        : "bg-white border-border/60 hover:bg-zinc-50"
+                        ? "bg-white/5 border-primary shadow-[0_0_30px_rgba(var(--primary),0.1)]" 
+                        : "bg-transparent border-white/5 hover:bg-white/[0.02]"
                     )}
                   >
-                    <div className="flex items-center gap-8">
-                      <div className={cn("h-12 w-24 rounded-xl border", theme.primary)} />
+                    <div className="flex items-center gap-10">
+                      <div className={cn("h-16 w-32 rounded-2xl border flex items-center justify-center relative overflow-hidden", theme.primary)}>
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
+                      </div>
                       <div>
-                        <p className="text-lg font-bold text-foreground tracking-tight">{theme.name}</p>
-                        <p className="text-[10px] text-zinc-400 font-black uppercase tracking-widest mt-1">{theme.desc}</p>
+                        <p className="text-2xl font-black text-white tracking-tighter italic">{theme.name}</p>
+                        <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em] mt-2 italic">{theme.desc}</p>
                       </div>
                     </div>
                     {settings.theme === theme.id && (
-                      <div className="flex items-center gap-3 px-5 py-2 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em]">
+                      <div className="flex items-center gap-3 px-6 py-2.5 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-[0.3em] shadow-[0_0_15px_rgba(var(--primary),0.3)]">
                         <CheckCircle2 className="w-4 h-4" />
                         Active
                       </div>
@@ -387,46 +400,46 @@ export default function SettingsClient() {
           )}
 
           {activeTab === 'notifications' && (
-            <Card className="bg-white border-border/60 shadow-none rounded-3xl overflow-hidden">
-              <CardHeader className="p-10 border-b border-border/40 bg-zinc-50/20">
-                <CardTitle className="text-2xl font-bold text-foreground tracking-tight">Notifications</CardTitle>
-                <CardDescription className="text-[11px] font-black text-zinc-400 uppercase tracking-widest pt-1">Choose what you want to be notified about.</CardDescription>
+            <Card className="glass border-white/5 rounded-[2.5rem] overflow-hidden">
+              <CardHeader className="p-12 border-b border-white/5 bg-white/[0.01]">
+                <CardTitle className="text-3xl font-black text-white tracking-tighter italic">Alert Relay</CardTitle>
+                <CardDescription className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] pt-2">Objective notification stream logic</CardDescription>
               </CardHeader>
-              <CardContent className="p-10 space-y-10">
-                <div className="flex items-center justify-between p-6 bg-zinc-50 border border-border/60 rounded-2xl">
-                  <div className="space-y-1">
-                    <p className="text-[12px] font-bold text-foreground">Test Notifications</p>
-                    <p className="text-[10px] text-zinc-400 font-medium uppercase tracking-tight">Send a test notification to verify your settings.</p>
+              <CardContent className="p-12 space-y-12">
+                <div className="flex items-center justify-between p-10 glass border-primary/20 bg-primary/5 rounded-[2rem]">
+                  <div className="space-y-2">
+                    <p className="text-lg font-black text-white tracking-tight italic leading-none">Diagnostic Pulse</p>
+                    <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-[0.2em]">Verify cryptographic relay handshake</p>
                   </div>
                   <Button 
-                    variant="outline" 
+                    variant="ghost" 
                     onClick={dispatchSystemVerification}
-                    className="border-primary/30 text-primary text-[10px] font-black uppercase tracking-widest h-10 px-6 rounded-xl hover:bg-primary hover:text-white transition-all shadow-none"
+                    className="border-white/10 glass text-primary text-[10px] font-black uppercase tracking-[0.4em] h-14 px-10 rounded-2xl hover:bg-primary hover:text-white transition-all shadow-none"
                   >
-                    Send Test
+                    Send Pulse
                   </Button>
                 </div>
 
                 <div className="space-y-6">
                   {[
-                    { id: 'milestone', label: 'Project Milestones', desc: 'Get notified when projects reach their goals.', active: settings.milestone_alerts, toggle: toggleMilestoneAlerts },
-                    { id: 'financial', label: 'Financial Alerts', desc: 'Get notified about invoices and payments.', active: settings.financial_alerts, toggle: toggleFinancialAlerts },
+                    { id: 'milestone', label: 'Milestone Thresholds', desc: 'Critical operational completion alerts', active: settings.milestone_alerts, toggle: toggleMilestoneAlerts },
+                    { id: 'financial', label: 'Financial Liquidity', desc: 'Monetary event and invoice notifications', active: settings.financial_alerts, toggle: toggleFinancialAlerts },
                   ].map((notif) => (
-                    <div key={notif.id} className="flex items-center justify-between p-6 rounded-2xl border border-border/40 hover:bg-zinc-50 transition-colors">
-                      <div className="space-y-1">
-                        <p className="text-sm font-bold text-foreground tracking-tight">{notif.label}</p>
-                        <p className="text-[10px] text-zinc-300 font-black uppercase tracking-widest">{notif.desc}</p>
+                    <div key={notif.id} className="flex items-center justify-between p-10 rounded-[2rem] border border-white/5 hover:bg-white/[0.02] transition-colors group">
+                      <div className="space-y-2">
+                        <p className="text-lg font-black text-white group-hover:text-primary transition-colors tracking-tight italic leading-none">{notif.label}</p>
+                        <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-[0.3em]">{notif.desc}</p>
                       </div>
                       <div 
                         onClick={notif.toggle}
                         className={cn(
-                          "h-6 w-11 rounded-full relative cursor-pointer border transition-colors",
-                          notif.active ? "bg-primary border-primary/20" : "bg-zinc-200 border-zinc-300"
+                          "h-8 w-14 rounded-full relative cursor-pointer border transition-all duration-500",
+                          notif.active ? "bg-primary border-primary/30 shadow-[0_0_15px_rgba(var(--primary),0.2)]" : "bg-white/5 border-white/10"
                         )}
                       >
                         <div className={cn(
-                          "absolute top-1 h-3.5 w-3.5 bg-white rounded-full transition-all",
-                          notif.active ? "right-1" : "left-1"
+                          "absolute top-1.5 h-4 w-4 bg-white rounded-full transition-all duration-500 shadow-xl",
+                          notif.active ? "right-1.5 scale-110" : "left-1.5"
                         )} />
                       </div>
                     </div>
@@ -437,55 +450,60 @@ export default function SettingsClient() {
           )}
 
           {activeTab === 'security' && (
-            <Card className="bg-white border-border/60 shadow-none rounded-3xl overflow-hidden">
-              <CardHeader className="p-10 border-b border-border/40 bg-zinc-50/20">
-                <CardTitle className="text-2xl font-bold text-foreground tracking-tight">Security</CardTitle>
-                <CardDescription className="text-[11px] font-black text-zinc-400 uppercase tracking-widest pt-1">Manage your account security and active sessions.</CardDescription>
+            <Card className="glass border-white/5 rounded-[2.5rem] overflow-hidden">
+              <CardHeader className="p-12 border-b border-white/5 bg-white/[0.01]">
+                <CardTitle className="text-3xl font-black text-white tracking-tighter italic">Hardened Security</CardTitle>
+                <CardDescription className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] pt-2">Cryptographic integrity and session control</CardDescription>
               </CardHeader>
-              <CardContent className="p-10 space-y-12">
-                <div className="p-8 bg-zinc-900 rounded-[2.5rem] border border-zinc-900 shadow-none relative overflow-hidden group">
-                  <div className="relative z-10 space-y-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <Shield className="w-5 h-5 text-white" />
-                        <h4 className="text-[12px] font-black text-white uppercase tracking-[0.3em]">Two-Factor Authentication</h4>
+              <CardContent className="p-12 space-y-12">
+                <div className="p-12 bg-white/5 rounded-[3rem] border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.3)] relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 p-10 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <Shield className="w-32 h-32 text-primary" />
+                  </div>
+                  <div className="relative z-10 space-y-8">
+                    <div className="flex items-center gap-5">
+                      <div className="h-14 w-14 rounded-2xl bg-primary flex items-center justify-center shadow-[0_0_20px_rgba(var(--primary),0.3)]">
+                        <Shield className="w-7 h-7 text-white" />
                       </div>
+                      <h4 className="text-2xl font-black text-white italic tracking-tighter">Two-Factor Authentication</h4>
                     </div>
-                    <p className="text-xs text-zinc-400 font-medium leading-relaxed max-w-sm">Add an extra layer of security to your account.</p>
+                    <p className="text-sm text-zinc-400 font-bold leading-relaxed max-w-sm italic">Multi-layer defense protocol for identity verification.</p>
                     <Button 
                       onClick={toggleMFA}
                       className={cn(
-                        "font-black h-12 px-10 rounded-xl shadow-none transition-all active:scale-95",
+                        "h-16 px-16 rounded-[1.5rem] shadow-none active:scale-95 transition-all font-black text-xs uppercase tracking-[0.3em]",
                         settings.mfa_enabled 
                           ? "bg-rose-500 hover:bg-rose-600 text-white" 
-                          : "bg-white hover:bg-zinc-100 text-zinc-900"
+                          : "bg-white hover:bg-zinc-100 text-black"
                       )}
                     >
-                      {settings.mfa_enabled ? 'Disable 2FA' : 'Enable 2FA'}
+                      {settings.mfa_enabled ? 'Disable Defense' : 'Initialize Defense'}
                     </Button>
                   </div>
                 </div>
 
-                <div className="space-y-6">
-                  <h4 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest block">Active Sessions</h4>
-                  <div className="divide-y divide-border/40 border border-border/60 rounded-2xl overflow-hidden shadow-none">
+                <div className="space-y-10">
+                  <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.4em] block italic">Active Terminal Nodes</h4>
+                  <div className="divide-y divide-white/5 border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl">
                     {[
-                      { city: 'Mumbai', device: 'System Workstation', status: 'Active', ip: '192.168.1.1' },
-                      { city: 'Delhi', device: 'Mobile Endpoint', status: 'Idle', ip: '192.168.1.42' }
+                      { city: 'Mumbai Node', device: 'Strategic Workstation', status: 'Primary', ip: '10.x.x.102' },
+                      { city: 'Delhi Relay', device: 'Mobile Endpoint', status: 'Idle', ip: '10.x.x.214' }
                     ].map((session, i) => (
-                      <div key={i} className="flex items-center justify-between p-6 bg-white hover:bg-zinc-50 transition-colors">
-                        <div className="flex items-center gap-6">
-                          <div className="h-10 w-10 rounded-xl bg-zinc-50 border border-border flex items-center justify-center">
-                            <Globe className="w-5 h-5 text-zinc-300" />
+                      <div key={i} className="flex items-center justify-between p-10 bg-transparent hover:bg-white/[0.02] transition-colors">
+                        <div className="flex items-center gap-8">
+                          <div className="h-14 w-14 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center shadow-xl group hover:bg-primary transition-all duration-500">
+                            <Globe className="w-6 h-6 text-zinc-600 group-hover:text-white transition-colors" />
                           </div>
                           <div>
-                            <p className="text-sm font-bold text-foreground tracking-tight">{session.device}</p>
-                            <p className="text-[10px] text-zinc-300 font-bold uppercase tracking-widest">{session.city} • {session.ip}</p>
+                            <p className="text-lg font-black text-white tracking-tight italic">{session.device}</p>
+                            <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-[0.3em]">{session.city} • {session.ip}</p>
                           </div>
                         </div>
                         <span className={cn(
-                          "text-[9px] font-black uppercase tracking-[0.2em]",
-                          session.status === 'Active' ? "text-primary italic animate-pulse" : "text-zinc-300"
+                          "text-[9px] font-black uppercase tracking-[0.4em] px-4 py-1.5 rounded-full border",
+                          session.status === 'Primary' 
+                            ? "text-primary border-primary/30 bg-primary/10 italic animate-pulse" 
+                            : "text-zinc-600 border-white/5 bg-white/5"
                         )}>
                           {session.status}
                         </span>

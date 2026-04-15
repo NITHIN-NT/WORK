@@ -120,6 +120,25 @@ export const SystemService = {
       .subscribe();
 
     return () => { supabase.removeChannel(channel) };
+  },
+
+  /**
+   * Subscribe to real-time notification alerts for a specific user
+   */
+  subscribeToNotifications(userId: string, callback: (notification: NotificationPayload) => void) {
+    const channelId = `user_notifications_${userId}`;
+    const channel = supabase.channel(channelId)
+      .on('postgres_changes', { 
+        event: 'INSERT', 
+        schema: 'public', 
+        table: 'notifications',
+        filter: `user_id=eq.${userId}`
+      }, (payload) => {
+        callback(payload.new as unknown as NotificationPayload);
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel) };
   }
 };
 

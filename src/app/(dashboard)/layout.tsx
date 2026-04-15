@@ -8,6 +8,7 @@ import { ToastProvider } from "@/components/ui/toast";
 import { useAuthStore } from "@/store/user";
 import { WorkspaceLockdown } from "@/components/auth/workspace-lockdown";
 import { AccessRequested } from "@/components/auth/access-requested";
+import { useRealtimeAlerts } from "@/hooks/use-realtime-alerts";
 
 
 export default function DashboardLayout({
@@ -15,6 +16,7 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  useRealtimeAlerts();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { isRevoked, isAuthorized, user } = useAuthStore();
 

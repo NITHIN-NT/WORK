@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/toast";
+import { PostgrestError } from "@supabase/supabase-js";
 
 const CATEGORIES = [
   { id: 'project_status', label: 'Project Statuses', desc: 'Define lifecycle stages for projects.' },
@@ -131,7 +132,7 @@ export default function MiscellaneousClient() {
                   <div className="p-10 text-center animate-pulse text-[10px] font-black uppercase tracking-widest text-zinc-300">
                     Synchronizing Registry...
                   </div>
-                ) : (error as any)?.code === '42P01' ? (
+                ) : (error as PostgrestError)?.code === '42P01' ? (
                   <div className="p-12 text-center space-y-4 bg-rose-50/30">
                     <p className="text-sm font-bold text-rose-500">Database Migration Required</p>
                     <p className="text-[10px] text-zinc-500 uppercase tracking-widest leading-relaxed max-w-sm mx-auto">

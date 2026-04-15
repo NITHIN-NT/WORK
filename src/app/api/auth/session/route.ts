@@ -42,9 +42,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const jwtSecret = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    if (!jwtSecret) {
-      console.error("[API/Auth/Session] SUPABASE_SERVICE_ROLE_KEY is missing");
+    const jwtSecret = process.env.SUPABASE_JWT_SECRET;
+    if (!jwtSecret || jwtSecret.includes("PLEASE_REPLACE")) {
+      console.error("[API/Auth/Session] SUPABASE_JWT_SECRET is missing or using placeholder");
       return NextResponse.json({ error: "Server Configuration Error" }, { status: 500 });
     }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,14 +8,6 @@ import { Task, TaskStatus, TaskPriority } from "@/types/task";
 
 import { useToast } from "@/components/ui/toast";
 import { isInputPopulated } from "@/lib/validation";
-
-interface TaskModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSave: (task: Partial<Task>) => void;
-  initialData?: Partial<Task>;
-}
-
 import { useOptions } from "@/hooks/use-options";
 
 interface TaskModalProps {

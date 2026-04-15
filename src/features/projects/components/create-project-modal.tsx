@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,12 +32,7 @@ export function CreateProjectModal({ isOpen, onClose, onSuccess }: CreateProject
 
   const statuses = getByCategory('project_status');
 
-  // Set default status once options are loaded
-  useEffect(() => {
-    if (statuses.length > 0 && !formData.status) {
-      setFormData(prev => ({ ...prev, status: statuses[0].value as ProjectStatus }));
-    }
-  }, [statuses, formData.status]);
+  // No longer using synchronous useEffect for defaulting to avoid cascading renders
 
   const handleCreateProject = (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,12 +49,12 @@ export function CreateProjectModal({ isOpen, onClose, onSuccess }: CreateProject
       toast("Please set a project deadline", "error");
       return;
     }
-    if (!formData.status) {
-      toast("Please select a status", "error");
-      return;
-    }
+    const finalData = {
+      ...formData,
+      status: formData.status || (statuses[0]?.value as ProjectStatus) || "Planning"
+    };
 
-    onSuccess(formData);
+    onSuccess(finalData);
     onClose();
     // Default back to first status
     setFormData({ 
@@ -132,7 +127,7 @@ export function CreateProjectModal({ isOpen, onClose, onSuccess }: CreateProject
               </label>
               <select 
                 className="w-full bg-zinc-50 border border-border focus:bg-white text-foreground h-12 rounded-sm px-4 text-sm font-bold outline-none transition-all shadow-none appearance-none cursor-pointer disabled:opacity-50"
-                value={formData.status}
+                value={formData.status || (statuses[0]?.value as ProjectStatus) || ""}
                 onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value as ProjectStatus }))}
                 disabled={loadingOptions}
               >

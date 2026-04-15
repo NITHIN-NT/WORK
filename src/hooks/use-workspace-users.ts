@@ -16,12 +16,20 @@ export function useWorkspaceUsers() {
       .order('name', { ascending: true });
 
     if (!error && data) {
-      const mappedUsers = (data as any[]).map(u => ({
+      const mappedUsers = (data as Array<{
+        id: string;
+        name: string;
+        email: string;
+        role: UserRole;
+        status: string;
+        last_seen: string | null;
+        avatar_url: string | null;
+      }>).map(u => ({
         ...u,
         lastSeen: u.last_seen,
         avatarUrl: u.avatar_url,
-      }));
-      setUsers(mappedUsers as WorkspaceUser[]);
+      })) as WorkspaceUser[];
+      setUsers(mappedUsers);
     }
     setLoading(false);
   }, []);

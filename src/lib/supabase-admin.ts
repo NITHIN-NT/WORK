@@ -1,6 +1,6 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-let supabaseAdminInstance: any = null;
+let supabaseAdminInstance: SupabaseClient | null = null;
 
 export function getSupabaseAdmin() {
   if (supabaseAdminInstance) return supabaseAdminInstance;

@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth";
 import { useAuthStore } from "@/store/user";
-import { LayoutDashboard, Folder, Users, Calendar, Settings, FileText, Activity, Users2, LogOut } from "lucide-react";
+import { Users2, LayoutDashboard, Calendar, Settings, Activity, LogOut, Folder, FileText } from "lucide-react";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -22,7 +22,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
   // Base navigation for everyone
   const navItems = [
     { name: "Dashboard", href: "/", icon: LayoutDashboard },
-    { name: "Clients", href: "/clients", icon: Users },
+    { name: "Clients", href: "/clients", icon: Users2 },
     { name: "Projects", href: "/projects", icon: Folder },
     { name: "Tasks", href: "/tasks", icon: Activity },
     { name: "Invoices", href: "/invoices", icon: FileText },

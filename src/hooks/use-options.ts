@@ -11,14 +11,15 @@ export function useOptions() {
       setLoading(true);
       const data = await OptionService.fetchOptions();
       setAllOptions(data);
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const error = err as Error & { code?: string; details?: string; hint?: string };
       console.error("[useOptions] Fetch error:", {
-        message: err.message,
-        code: err.code,
-        details: err.details,
-        hint: err.hint
+        message: error.message,
+        code: error.code,
+        details: error.details,
+        hint: error.hint
       });
-      setError(err as Error);
+      setError(error);
     } finally {
       setLoading(false);
     }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,15 +34,7 @@ export function TaskUpsertModal({ isOpen, onClose, onSuccess, projectId, initial
   const statuses = getByCategory('task_status');
   const priorities = getByCategory('task_priority');
 
-  // Set default status/priority once options are loaded for NEW tasks
-  useEffect(() => {
-    if (!initialData?.id && statuses.length > 0 && !formData.status) {
-      setFormData(prev => ({ ...prev, status: statuses[0].value as TaskStatus }));
-    }
-    if (!initialData?.id && priorities.length > 0 && !formData.priority) {
-      setFormData(prev => ({ ...prev, priority: (priorities.find(p => p.value === 'Medium')?.value || priorities[0].value) as TaskPriority }));
-    }
-  }, [statuses, priorities, formData.status, formData.priority, initialData?.id]);
+  // Removed synchronous effect for defaulting to prevent performance warnings and cascading renders
 
   const handleTaskSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,8 +43,15 @@ export function TaskUpsertModal({ isOpen, onClose, onSuccess, projectId, initial
       toast("A task name is required", "error");
       return;
     }
+    
+    const finalData = {
+      ...formData,
+      projectId,
+      status: formData.status || (statuses[0]?.value as TaskStatus) || "Todo",
+      priority: formData.priority || (priorities.find(p => p.value === 'Medium')?.value || priorities[0]?.value) as TaskPriority || "Medium"
+    };
 
-    onSuccess({ ...formData, projectId });
+    onSuccess(finalData);
     onClose();
   };
 
@@ -92,7 +91,7 @@ export function TaskUpsertModal({ isOpen, onClose, onSuccess, projectId, initial
               </label>
               <select 
                 className="w-full bg-zinc-50 border border-border focus:bg-white text-foreground h-12 rounded-sm px-4 text-sm font-bold outline-none transition-all shadow-none appearance-none cursor-pointer disabled:opacity-50"
-                value={formData.priority}
+                value={formData.priority || (!initialData?.id ? (priorities.find(p => p.value === 'Medium')?.value || priorities[0]?.value) : "") || ""}
                 onChange={(e) => setFormData(prev => ({ ...prev, priority: e.target.value as TaskPriority }))}
                 disabled={loadingOptions}
               >
@@ -124,7 +123,7 @@ export function TaskUpsertModal({ isOpen, onClose, onSuccess, projectId, initial
               </label>
               <select 
                 className="w-full bg-zinc-50 border border-border focus:bg-white text-foreground h-12 rounded-sm px-4 text-sm font-bold outline-none transition-all shadow-none appearance-none cursor-pointer disabled:opacity-50"
-                value={formData.status}
+                value={formData.status || (!initialData?.id ? statuses[0]?.value : "") || ""}
                 onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value as TaskStatus }))}
                 disabled={loadingOptions}
               >

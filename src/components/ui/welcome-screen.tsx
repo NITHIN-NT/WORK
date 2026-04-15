@@ -49,57 +49,50 @@ export function WelcomeScreen({ onAnimationComplete, isDataReady = true }: Welco
   return (
     <div 
       className={cn(
-        "fixed inset-0 z-[9999] flex items-center justify-center bg-background overflow-hidden",
-        isExiting && "animate-welcome-exit"
+        "fixed inset-0 z-[9999] flex items-center justify-center bg-[#09090b] overflow-hidden transition-all duration-1000",
+        isExiting && "opacity-0 scale-105 blur-3xl pointer-events-none"
       )}
     >
-      {/* Background radial glow - using primary color with low opacity */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,hsl(var(--primary)/0.08)_0%,transparent_70%)] animate-slow-zoom" />
+      {/* Dynamic Background Glows */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full animate-float" />
+      <div className="absolute top-1/4 left-1/4 w-[300px] h-[300px] bg-indigo-600/5 blur-[100px] rounded-full animate-float" style={{ animationDelay: '-2s' }} />
 
-
-      <div className="relative flex flex-col items-center gap-6">
+      <div className="relative flex flex-col items-center gap-10">
         {/* Logo Container */}
-        <div className="relative">
-          <h1 className="text-7xl md:text-8xl font-black tracking-tighter text-foreground/5 select-none">
+        <div className="relative group">
+          <h1 className="text-8xl md:text-9xl font-black tracking-tighter text-white/5 select-none transition-transform duration-700 group-hover:scale-110 italic">
             WORK
-            <span className="text-primary/30">.</span>
           </h1>
           
           {/* Animated Overlay Text */}
-          <h1 className="absolute inset-0 text-7xl md:text-8xl font-black tracking-tighter text-foreground animate-reveal-up select-none">
+          <h1 className="absolute inset-0 text-8xl md:text-9xl font-black tracking-tighter text-white animate-reveal-up select-none italic">
             WORK
-            <span className="text-primary">.</span>
+            <span className="text-primary drop-shadow-[0_0_20px_rgba(var(--primary),0.5)]">.</span>
             
-            {/* Shimmer Effect - subtle adjustment for theme awareness */}
-            <span className="absolute inset-0 animate-shimmer pointer-events-none bg-clip-text text-transparent bg-gradient-to-r from-transparent via-foreground/10 to-transparent" 
+            {/* Shimmer Effect */}
+            <span className="absolute inset-0 animate-shimmer pointer-events-none bg-clip-text text-transparent bg-gradient-to-r from-transparent via-white/20 to-transparent" 
                   style={{ WebkitBackgroundClip: 'text', backgroundSize: '200% 100%' }}>
               WORK.
             </span>
           </h1>
         </div>
 
-        {/* Tagline */}
-        <div className="overflow-hidden">
-          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-muted-foreground animate-[reveal-up_1.5s_cubic-bezier(0.16,1,0.3,1)_forwards]">
-            The Unified Workspace OS
-          </p>
-        </div>
+        {/* Tagline & Progress Container */}
+        <div className="flex flex-col items-center gap-6">
+          <div className="overflow-hidden">
+            <p className="text-[11px] font-black uppercase tracking-[0.6em] text-zinc-500 animate-[reveal-up_1.5s_cubic-bezier(0.16,1,0.3,1)_forwards]">
+              Unified Digital Operating System
+            </p>
+          </div>
 
-        {/* Loading bar */}
-        <div className="mt-4 w-48 h-[2px] bg-muted rounded-full overflow-hidden relative">
-          <div className="absolute inset-0 bg-primary w-full origin-left animate-[shimmer_2s_infinite_linear]" 
-               style={{ transform: 'translateX(-100%)', animation: 'loading-progress 1.5s cubic-bezier(0.65, 0, 0.35, 1) forwards' }} 
-          />
+          {/* Premium Loading bar */}
+          <div className="w-64 h-[2px] bg-white/5 rounded-full overflow-hidden relative border border-white/5">
+            <div className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-indigo-500 w-full origin-left transition-transform duration-[1800ms] ease-[cubic-bezier(0.65,0,0.35,1)]" 
+                 style={{ transform: minTimeElapsed ? 'translateX(0%)' : 'translateX(-100%)' }} 
+            />
+          </div>
         </div>
       </div>
-
-
-      <style jsx global>{`
-        @keyframes loading-progress {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(0%); }
-        }
-      `}</style>
     </div>
   );
 }

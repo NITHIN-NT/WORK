@@ -78,7 +78,7 @@ export function CreateProjectModal({ isOpen, onClose, onSuccess }: CreateProject
             <Input 
               required
               placeholder="e.g. Website Redesign" 
-              className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-sm shadow-none font-bold transition-all"
+              className="font-black"
               value={formData.name}
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
             />
@@ -90,7 +90,7 @@ export function CreateProjectModal({ isOpen, onClose, onSuccess }: CreateProject
             </label>
             <select 
               required
-              className="w-full bg-zinc-50 border border-border focus:bg-white text-foreground h-12 rounded-sm px-4 text-sm font-bold outline-none transition-all shadow-none appearance-none cursor-pointer"
+              className="w-full glass rounded-xl px-6 h-14 text-sm font-black text-white hover:bg-white/5 outline-none transition-all appearance-none cursor-pointer"
               value={formData.clientId}
               onChange={(e) => {
                 const client = clients.find(c => c.id === e.target.value);
@@ -116,7 +116,7 @@ export function CreateProjectModal({ isOpen, onClose, onSuccess }: CreateProject
               <Input 
                 type="date"
                 required
-                className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-sm shadow-none font-bold transition-all"
+                className="font-black"
                 value={formData.deadline}
                 onChange={(e) => setFormData(prev => ({ ...prev, deadline: e.target.value }))}
               />
@@ -126,7 +126,7 @@ export function CreateProjectModal({ isOpen, onClose, onSuccess }: CreateProject
                 <Briefcase className="w-4 h-4 text-zinc-300" /> Status
               </label>
               <select 
-                className="w-full bg-zinc-50 border border-border focus:bg-white text-foreground h-12 rounded-sm px-4 text-sm font-bold outline-none transition-all shadow-none appearance-none cursor-pointer disabled:opacity-50"
+                className="w-full glass rounded-xl px-6 h-14 text-sm font-black text-white hover:bg-white/5 outline-none transition-all appearance-none cursor-pointer disabled:opacity-50"
                 value={formData.status || (statuses[0]?.value as ProjectStatus) || ""}
                 onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value as ProjectStatus }))}
                 disabled={loadingOptions}

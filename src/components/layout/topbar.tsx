@@ -12,31 +12,29 @@ export function Topbar({ onMenuClick }: TopbarProps) {
 
   return (
     <header 
-      className="fixed top-0 right-0 left-0 md:left-64 z-40 bg-background/80 backdrop-blur-xl border-b border-border h-16 transition-all"
-      style={{ WebkitBackdropFilter: 'blur(20px)' }}
+      className="fixed top-2 right-4 left-4 md:left-72 z-40 glass rounded-2xl h-16 transition-all duration-500 shadow-lg border-white/5"
     >
-      <div className="flex items-center justify-between h-full px-4 sm:px-6">
+      <div className="flex items-center justify-between h-full px-6">
         <div className="flex-1 flex items-center pr-4 gap-4">
           <Button 
             variant="ghost" 
             size="icon" 
             onClick={onMenuClick}
-            className="md:hidden text-zinc-500 hover:text-foreground hover:bg-zinc-100 h-9 w-9"
+            className="md:hidden text-zinc-400 hover:text-white hover:bg-white/5 h-10 w-10 rounded-xl"
           >
             <Menu className="h-5 w-5" />
           </Button>
-          <div className="hidden lg:flex items-center gap-4 min-w-0">
+          <div className="hidden lg:flex items-center gap-6 min-w-0">
             <Breadcrumbs />
-            <div className="h-4 w-[1px] bg-border mx-2" />
           </div>
-          <div className="flex-1 max-w-sm min-w-0">
+          <div className="flex-1 max-w-sm min-w-0 ml-4">
             <GlobalSearch />
           </div>
         </div>
         
-        <div className="flex items-center gap-1 sm:gap-2">
+        <div className="flex items-center gap-4">
+          <div className="h-8 w-[1px] bg-white/5 mx-2 hidden sm:block" />
           <NotificationPanel />
-          
         </div>
       </div>
     </header>

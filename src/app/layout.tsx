@@ -36,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${jakarta.variable} min-h-screen bg-background antialiased selection:bg-primary/30`}>
+    <html lang="en" className={`${jakarta.variable} min-h-screen bg-[#09090b] dark antialiased selection:bg-primary/20 selection:text-primary`}>
       <body className="min-h-screen flex flex-col">
         <ErrorBoundary>
           <AuthProvider>

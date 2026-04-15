@@ -66,7 +66,7 @@ export function TaskUpsertModal({ isOpen, onClose, onSuccess, projectId, initial
             <Input 
               required
               placeholder="e.g. Design Review" 
-              className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-sm shadow-none font-bold transition-all"
+              className="font-black"
               value={formData.title}
               onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
             />
@@ -77,7 +77,7 @@ export function TaskUpsertModal({ isOpen, onClose, onSuccess, projectId, initial
               <AlignLeft className="w-3.5 h-3.5 text-zinc-300" /> Description
             </label>
             <textarea 
-              className="w-full bg-zinc-50 border border-border focus:bg-white text-foreground min-h-[120px] rounded-sm p-4 text-sm font-bold outline-none transition-all shadow-none placeholder:text-zinc-300"
+              className="w-full glass rounded-xl p-6 text-sm font-black text-white hover:bg-white/5 outline-none transition-all placeholder:text-zinc-500 min-h-[140px]"
               placeholder="Summarize the work to be done..."
               value={formData.description}
               onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
@@ -90,7 +90,7 @@ export function TaskUpsertModal({ isOpen, onClose, onSuccess, projectId, initial
                 <BarChart2 className="w-3.5 h-3.5 text-zinc-300" /> Priority
               </label>
               <select 
-                className="w-full bg-zinc-50 border border-border focus:bg-white text-foreground h-12 rounded-sm px-4 text-sm font-bold outline-none transition-all shadow-none appearance-none cursor-pointer disabled:opacity-50"
+                className="w-full glass rounded-xl px-6 h-14 text-sm font-black text-white hover:bg-white/5 outline-none transition-all appearance-none cursor-pointer disabled:opacity-50"
                 value={formData.priority || (!initialData?.id ? (priorities.find(p => p.value === 'Medium')?.value || priorities[0]?.value) : "") || ""}
                 onChange={(e) => setFormData(prev => ({ ...prev, priority: e.target.value as TaskPriority }))}
                 disabled={loadingOptions}
@@ -110,7 +110,7 @@ export function TaskUpsertModal({ isOpen, onClose, onSuccess, projectId, initial
               </label>
               <Input 
                 type="date"
-                className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-sm shadow-none font-bold transition-all"
+                className="font-black"
                 value={formData.deadline}
                 onChange={(e) => setFormData(prev => ({ ...prev, deadline: e.target.value }))}
               />
@@ -122,7 +122,7 @@ export function TaskUpsertModal({ isOpen, onClose, onSuccess, projectId, initial
                 <BarChart2 className="w-3.5 h-3.5 text-zinc-300" /> Status
               </label>
               <select 
-                className="w-full bg-zinc-50 border border-border focus:bg-white text-foreground h-12 rounded-sm px-4 text-sm font-bold outline-none transition-all shadow-none appearance-none cursor-pointer disabled:opacity-50"
+                className="w-full glass rounded-xl px-6 h-14 text-sm font-black text-white hover:bg-white/5 outline-none transition-all appearance-none cursor-pointer disabled:opacity-50"
                 value={formData.status || (!initialData?.id ? statuses[0]?.value : "") || ""}
                 onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value as TaskStatus }))}
                 disabled={loadingOptions}
@@ -143,7 +143,7 @@ export function TaskUpsertModal({ isOpen, onClose, onSuccess, projectId, initial
             </label>
             <Input 
               placeholder="e.g. design, development" 
-              className="bg-zinc-50 border-border focus:bg-white text-foreground h-12 rounded-sm shadow-none font-bold transition-all"
+              className="font-black"
               onChange={(e) => setFormData(prev => ({ ...prev, tags: e.target.value.split(',').map(t => t.trim()).filter(t => t) }))}
             />
           </div>

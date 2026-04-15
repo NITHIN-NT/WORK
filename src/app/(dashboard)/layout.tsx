@@ -27,18 +27,20 @@ export default function DashboardLayout({
   return (
     <AuthGuard>
       <ToastProvider>
-        <div className="relative min-h-screen bg-background">
+        <div className="relative min-h-screen">
           <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-          <div className="md:pl-64 flex flex-col min-h-screen">
+          <div className="md:pl-72 flex flex-col min-h-screen transition-all duration-500">
             <Topbar onMenuClick={() => setIsSidebarOpen(true)} />
-            <main className="flex-1 px-8 py-10 pt-24">
-              <div className="mx-auto max-w-7xl h-full">
+            <main className="flex-1 px-8 py-10 pt-28">
+              <div className="mx-auto max-w-[1400px] h-full">
                 {isRevoked ? (
                   <WorkspaceLockdown />
                 ) : isPending ? (
                   <AccessRequested />
                 ) : (
-                  children
+                  <div className="animate-reveal-up">
+                    {children}
+                  </div>
                 )}
               </div>
             </main>

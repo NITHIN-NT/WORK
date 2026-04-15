@@ -20,7 +20,7 @@ export function useRealtimeAlerts() {
     const unsubscribeDb = SystemService.subscribeToNotifications(user.uid, (payload) => {
       // Map 'warning' (from NotificationPayload) to 'info' (from ToastType)
       const toastType = (payload.type === 'warning' ? 'info' : payload.type) as 'info' | 'success' | 'error';
-      toast(payload.message || payload.body, toastType);
+      toast(payload.body, toastType);
     });
 
     return () => {
